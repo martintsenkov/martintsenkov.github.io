@@ -1,133 +1,123 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Martin Tsenkov | Red Team</title>
+  <title>Martin Tsenkov | Red Teamer & Pentester</title>
   <style>
     body {
-      background-color: #000;
-      color: #00ff00;
-      font-family: 'Courier New', Courier, monospace;
       margin: 0;
-      padding: 2rem;
+      padding: 0;
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      font-family: 'Courier New', Courier, monospace;
     }
-
-    .terminal {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-      background-color: #111;
-      border: 2px solid #0f0;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #0f0;
+    header {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: linear-gradient(to right, #0f0f0f, #1a1a1a);
+      border-bottom: 2px solid #0ff;
     }
-
     h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+      margin: 0;
+      font-size: 2.8rem;
+      color: #00ffff;
+      letter-spacing: 1px;
     }
-
-    .typing {
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 0.15em solid #00ff00;
-      animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
+    p.subtitle {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      color: #ccc;
     }
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
+    main {
+      max-width: 850px;
+      margin: 2rem auto;
+      padding: 0 1rem;
     }
-
-    @keyframes blink-caret {
-      from, to { border-color: transparent }
-      50% { border-color: #00ff00 }
+    section {
+      margin-bottom: 2.5rem;
     }
-
+    h2 {
+      color: #00ffaa;
+      border-bottom: 1px solid #333;
+      padding-bottom: 0.4rem;
+    }
     a {
-      color: #0ff;
+      color: #00ffff;
       text-decoration: none;
     }
-
     a:hover {
       text-decoration: underline;
     }
-
     ul {
-      list-style-type: '>';
-      padding-left: 1em;
+      padding-left: 1.2rem;
     }
-
-    section {
-      margin-bottom: 2rem;
+    li {
+      margin-bottom: 0.7rem;
     }
-
-    .ascii {
-      color: #0ff;
-      font-size: 0.8rem;
-      line-height: 1;
-      margin-bottom: 2rem;
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+      p.subtitle {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="terminal">
-    <div class="ascii">
-<pre>
- __  __           _   _       _______                      
-|  \/  |         | | (_)     |__   __|                     
-| \  / | ___  ___| |_ _  ___ ___| | ___ _ __ ___  ___  ___ 
-| |\/| |/ _ \/ __| __| |/ __/ __| |/ _ \ '__/ __|/ _ \/ __|
-| |  | |  __/\__ \ |_| | (__\__ \ |  __/ |  \__ \  __/\__ \
-|_|  |_|\___||___/\__|_|\___|___/_|\___|_|  |___/\___||___/
-</pre>
-    </div>
-
-    <div class="typing">> Welcome to my digital lab... Access granted</div>
-
+  <header>
+    <h1>Martin Tsenkov</h1>
+    <p class="subtitle">Red Teamer • Pentester • Embedded Systems Hacker</p>
+  </header>
+  <main>
     <section>
-      <h1>> About Me</h1>
+      <h2>About Me</h2>
       <p>
-        I’m Martin Tsenkov – Red Teamer & Embedded Systems Hacker. With a degree in Cybersecurity from the Bulgarian Naval Academy and a strong foundation in electronics, I go deep into the systems most avoid. Nothing is off-limits. If it runs code, I’ll find its flaw. If it’s secure, I’ll challenge it.
+        I'm from one of Bulgaria’s major cities and hold a degree in Cybersecurity from the Bulgarian Naval Academy.
+        I have a solid background in electronics – from microchips and SMD components to real-world circuit analysis.
+        I’m drawn to challenges most people avoid — the harder it gets, the more focused I become. Life taught me that nothing is truly impossible — you just need to find the right angle, the hidden door, the weakness in the system.
+        I believe every problem has a workaround. You just have to look harder, try again, and press the right spot.
+        Offensive security fascinates me because it's full of backdoors — both in code and in mindset.
+        Outside the lab, I lift heavy, study history, and keep pushing when most stop.
       </p>
-    </section>
+    </section><section>
+  <h2>Projects & Labs</h2>
+  <ul>
+    <li>Created full-stack pentest labs using VulnHub, Hack The Box, Metasploitable and GNS3</li>
+    <li>Tested wired and wireless network security – including WPA/WPA2/WPA3 protocols and their cryptographic implementations</li>
+    <li>Performed internal network attacks against Active Directory – enumeration, exploitation, and persistence techniques</li>
+    <li>Discovered and tested web vulnerabilities – CVEs, XSS, SQLi, IDOR, custom payloads and exploit chains</li>
+    <li>Built custom ESP32-based tools – RF jammers, signal manipulation devices, WiFi Pineapple and WiFi Turtle clones</li>
+  </ul>
+</section>
 
-    <section>
-      <h1>> Projects & Labs</h1>
-      <ul>
-        <li>Created full-stack pentest labs with VulnHub, Hack The Box, Metasploitable and GNS3</li>
-        <li>Tested wired/wireless networks: WPA/WPA2/WPA3 & crypto analysis</li>
-        <li>Internal network attacks: Active Directory enumeration & persistence</li>
-        <li>Web exploits: CVEs, XSS, SQLi, IDOR, payload chaining</li>
-        <li>Built ESP32-based tools – RF jammers, signal spoofers, Pineapple & Turtle clones</li>
-      </ul>
-    </section>
+<section>
+  <h2>Interests</h2>
+  <ul>
+    <li>Red teaming and offensive operations</li>
+    <li>Industrial systems security (ICS/SCADA)</li>
+    <li>Advanced exploits and vulnerabilities – e.g., EternalBlue, CVEs</li>
+    <li>Applied cryptography and protocol analysis</li>
+    <li>Active Directory attacks and privilege escalation</li>
+    <li>Network-based attacks – wired and wireless</li>
+    <li>Cybersecurity certifications – OSCP, CEH, OWASP, Cisco Networking</li>
+    <li>Creating cybersecurity content – YouTube videos and writeups</li>
+    <li>Bulgarian history and national identity</li>
+    <li>Heavy lifting and strength training</li>
+  </ul>
+</section>
 
-    <section>
-      <h1>> Interests</h1>
-      <ul>
-        <li>Red teaming & advanced offensive tactics</li>
-        <li>ICS/SCADA security & protocol fuzzing</li>
-        <li>Reverse engineering & 0-day hunting</li>
-        <li>Active Directory abuse & lateral movement</li>
-        <li>Content creation: YouTube, writeups, demos</li>
-        <li>Bulgarian history, identity, heavy lifting</li>
-      </ul>
-    </section>
+<section>
+  <h2>Contact</h2>
+  <ul>
+    <li><a href="https://t.me/azsumbeee" target="_blank">Telegram: @azsumbeee</a></li>
+    <li><a href="https://www.youtube.com/@martintsennkov" target="_blank">YouTube: @martintsennkov</a></li>
+    <li>Email: <a href="mailto:martintsennkov[at]gmail[dot]com">martintsennkov[at]gmail[dot]com</a></li>
+    <li><a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" target="_blank">LinkedIn</a></li>
+    <li><a href="https://github.com/martintsenkov" target="_blank">GitHub</a></li>
+  </ul>
+</section>
 
-    <section>
-      <h1>> Contact</h1>
-      <ul>
-        <li><a href="https://t.me/azsumbeee" target="_blank">Telegram: @azsumbeee</a></li>
-        <li><a href="https://www.youtube.com/@martintsennkov" target="_blank">YouTube: @martintsennkov</a></li>
-        <li>Email: <a href="mailto:martintsennkov@gmail.com">martintsennkov@gmail.com</a></li>
-        <li><a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" target="_blank">LinkedIn</a></li>
-        <li><a href="https://github.com/martintsenkov" target="_blank">GitHub</a></li>
-      </ul>
-    </section>
-  </div>
+  </main>
 </body>
 </html>
