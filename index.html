@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,6 +17,17 @@
       padding: 3rem 1rem;
       background: linear-gradient(to right, #0f0f0f, #1a1a1a);
       border-bottom: 2px solid #0ff;
+      position: relative;
+    }
+    header img.profile-pic {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 130px;
+      height: auto;
+      border-radius: 10px;
+      border: 2px solid #00ffff;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
     }
     h1 {
       margin: 0;
@@ -61,12 +73,18 @@
       p.subtitle {
         font-size: 1rem;
       }
+      header img.profile-pic {
+        position: static;
+        display: block;
+        margin: 1rem auto;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Martin Tsenkov</h1>
+    <img src="assets/pic.png" alt="Martin Tsenkov" class="profile-pic" />
     <p class="subtitle">Red Teamer • Penetration tester • Embedded Systems Hacker</p>
   </header>
   <main>
@@ -80,44 +98,42 @@
         Offensive security fascinates me because it's full of backdoors — both in code and in mindset.
         Outside the lab, I lift heavy, study history, and keep pushing when most stop.
       </p>
-    </section><section>
-  <h2>Projects & Labs</h2>
-  <ul>
-    <li>Created full-stack pentest labs using VulnHub, Hack The Box, Metasploitable and GNS3</li>
-    <li>Tested wired and wireless network security – including WPA/WPA2/WPA3 protocols and their cryptographic implementations</li>
-    <li>Performed internal network attacks against Active Directory – enumeration, exploitation, and persistence techniques</li>
-    <li>Discovered and tested web vulnerabilities – CVEs, XSS, SQLi, IDOR, custom payloads and exploit chains</li>
-    <li>Built custom ESP32-based tools – RF jammers, signal manipulation devices, WiFi Pineapple and WiFi Turtle clones</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Interests</h2>
-  <ul>
-    <li>Red teaming and offensive operations</li>
-    <li>Industrial systems security (ICS/SCADA)</li>
-    <li>Advanced exploits and vulnerabilities – e.g., EternalBlue, CVEs</li>
-    <li>Applied cryptography and protocol analysis</li>
-    <li>Active Directory attacks and privilege escalation</li>
-    <li>Network-based attacks – wired and wireless</li>
-    <li>Cybersecurity certifications in progress / goal – OSCP, CEH, OWASP, Cisco Networking</li>
-    <li>Creating cybersecurity content – YouTube videos and writeups</li>
-    <li>Bulgarian history and national identity</li>
-    <li>Heavy lifting and strength training</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Contact</h2>
-  <ul>
-    <li><a href="https://t.me/azsumbeee" target="_blank">Telegram: @azsumbeee</a></li>
-    <li><a href="https://www.youtube.com/@martintsennkov" target="_blank">YouTube: @martintsennkov</a></li>
-    <li>Email: <a href="mailto:martintsennkov[at]gmail[dot]com">martintsennkov[at]gmail[dot]com</a></li>
-    <li><a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" target="_blank">LinkedIn</a></li>
-    <li><a href="https://github.com/martintsennkov" target="_blank">GitHub</a></li>
-  </ul>
-</section>
-
+    </section>
+    <section>
+      <h2>Projects & Labs</h2>
+      <ul>
+        <li>Created full-stack pentest labs using VulnHub, Hack The Box, Metasploitable and GNS3</li>
+        <li>Tested wired and wireless network security – including WPA/WPA2/WPA3 protocols and their cryptographic implementations</li>
+        <li>Performed internal network attacks against Active Directory – enumeration, exploitation, and persistence techniques</li>
+        <li>Discovered and tested web vulnerabilities – CVEs, XSS, SQLi, IDOR, custom payloads and exploit chains</li>
+        <li>Built custom ESP32-based tools – RF jammers, signal manipulation devices, WiFi Pineapple and WiFi Turtle clones</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Interests</h2>
+      <ul>
+        <li>Red teaming and offensive operations</li>
+        <li>Industrial systems security (ICS/SCADA)</li>
+        <li>Advanced exploits and vulnerabilities – e.g., EternalBlue, CVEs</li>
+        <li>Applied cryptography and protocol analysis</li>
+        <li>Active Directory attacks and privilege escalation</li>
+        <li>Network-based attacks – wired and wireless</li>
+        <li>Cybersecurity certifications in progress / goal – OSCP, CEH, OWASP, Cisco Networking</li>
+        <li>Creating cybersecurity content – YouTube videos and writeups</li>
+        <li>Bulgarian history and national identity</li>
+        <li>Heavy lifting and strength training</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Contact</h2>
+      <ul>
+        <li><a href="https://t.me/azsumbeee" target="_blank">Telegram: @azsumbeee</a></li>
+        <li><a href="https://www.youtube.com/@martintsennkov" target="_blank">YouTube: @martintsennkov</a></li>
+        <li>Email: <a href="mailto:martintsennkov[at]gmail[dot]com">martintsennkov[at]gmail[dot]com</a></li>
+        <li><a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" target="_blank">LinkedIn</a></li>
+        <li><a href="https://github.com/martintsennkov" target="_blank">GitHub</a></li>
+      </ul>
+    </section>
   </main>
 </body>
 </html>
