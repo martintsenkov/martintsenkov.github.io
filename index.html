@@ -7,17 +7,15 @@
   <meta name="description" content="Red Teamer & Penetration Tester – projects, labs, and contact information." />
   <style>
     :root{
-      --bg:#0b0b0c;         /* page background */
-      --bg2:#0f0f11;        /* card background */
-      --fg:#e8f1ef;         /* primary text */
-      --muted:#a8b3b0;      /* secondary text */
-      --acc:#00f5c8;        /* accent (mint) */
-      --acc2:#4df1b8;       /* accent lighter */
-      --line:#0e3d36;       /* divider */
+      --bg:#0b0b0c;
+      --bg2:#0f0f11;
+      --fg:#e8f1ef;
+      --muted:#a8b3b0;
+      --acc:#00f5c8;
+      --acc2:#4df1b8;
+      --line:#0e3d36;
       --shadow:0 10px 30px rgba(0,0,0,.35);
     }
-
-    /* global */
     html,body{height:100%;}
     body{
       margin:0; background: linear-gradient(-45deg, #0a0a0a, #0c0c0e, #0a0a0a, #0c0c0e);
@@ -27,65 +25,36 @@
       line-height:1.6; letter-spacing:.2px;
     }
     @keyframes ambient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-
     a{color:var(--acc); text-decoration:none}
     a:hover{color:var(--acc2); text-decoration:underline}
-
     .wrap{max-width:1150px; margin:0 auto; padding:40px 22px 80px;}
-
-    /* header */
     header{display:flex; align-items:flex-start; gap:32px; padding-top:8px;}
-
     .brand{flex:1}
     h1{font-size:56px; margin:0 0 8px; color:var(--acc); position:relative; display:inline-block}
-    /* subtle terminal cursor */
     h1::after{content:"|"; margin-left:6px; animation:blink 1.1s steps(1) infinite; opacity:.9}
     @keyframes blink{50%{opacity:0}}
-    /* tiny glitch on hover for hacker vibe */
-    h1:hover{ text-shadow: 1px 0 var(--acc2), -1px 0 #ff3df0; }
-
+    h1:hover{text-shadow:1px 0 var(--acc2), -1px 0 #ff3df0;}
     .subtitle{color:var(--muted); font-size:20px}
-
-    /* sidebar (photo + contacts) */
     .sidebar{width:260px; flex:0 0 260px; text-align:center}
     .card{background:var(--bg2); border:1px solid #13161a; border-radius:14px; box-shadow:var(--shadow)}
     .photo{width:100%; border-radius:14px 14px 0 0; display:block;}
     .contact{padding:14px 16px 18px}
     .contact h3{margin:6px 0 10px; font-size:20px; color:var(--acc)}
-
     .icons{display:flex; justify-content:center; flex-wrap:wrap; gap:10px;}
     .icons a{width:36px; height:36px; display:grid; place-items:center; background:#0e1416; border:1px solid #152022; border-radius:8px; transition:transform .12s ease;}
     .icons a:hover{transform:translateY(-2px)}
     .icons svg{width:20px; height:20px; fill:var(--acc)}
-
-    /* main content */
     .grid{display:grid; grid-template-columns: 1fr 280px; gap:34px}
     main{grid-column:1 / 2}
-
     section{margin:34px 0; padding-bottom:16px; border-bottom:1px solid var(--line)}
     section:last-child{border-bottom:none}
     h2{color:var(--acc); margin:0 0 12px; font-size:30px}
-
     ul{margin:8px 0 0 0; padding-left:20px}
-
-    .btn{
-      display:inline-block; margin-top:14px; padding:10px 16px; border-radius:8px;
-      background:var(--acc); color:#0a0a0a; font-weight:700; text-decoration:none; border:1px solid #0df0c2
-    }
+    .btn{display:inline-block; margin-top:14px; padding:10px 16px; border-radius:8px; background:var(--acc); color:#0a0a0a; font-weight:700; text-decoration:none; border:1px solid #0df0c2}
     .btn:hover{background:var(--acc2);}
-
-    /* project bullets look tighter */
     li{margin:8px 0}
-
-    /* footer */
     footer{margin-top:40px; color:#829692; font-size:14px}
-
-    /* responsive */
-    @media (max-width:980px){
-      .grid{grid-template-columns:1fr}
-      .sidebar{order:-1; width:auto}
-      header{flex-direction:column}
-    }
+    @media (max-width:980px){.grid{grid-template-columns:1fr}.sidebar{order:-1;width:auto}header{flex-direction:column}}
   </style>
 </head>
 <body>
@@ -97,82 +66,54 @@
       </div>
       <aside class="sidebar">
         <div class="card">
-          <img class="photo" src="assets/pic.jpg" alt="Martin Tsenkov profile" />
+          <img class="photo" src="assets/pic.png" alt="Martin Tsenkov profile" />
           <div class="contact">
             <h3>Contact</h3>
             <div class="icons" aria-label="social links">
-              <a href="https://t.me/azsumbeee" title="Telegram" target="_blank" rel="noopener">
-                <!-- telegram -->
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.964 15.569l-.395 5.58c.564 0 .81-.243 1.103-.535l2.649-2.544 5.487 3.994c1.006.554 1.722.262 2.002-.93l3.626-16.991v-.001c.321-1.49-.537-2.07-1.52-1.708L1.14 9.388c-1.464.566-1.442 1.38-.248 1.737l5.59 1.741 12.987-8.186c.611-.372 1.167-.166.709.206"/></svg>
-              </a>
-              <a href="https://www.youtube.com/@martintsennkov" title="YouTube" target="_blank" rel="noopener">
-                <!-- youtube -->
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-5.8 31 31 0 0 0-.5-5.8zM9.6 15.5v-7L16 12l-6.4 3.5z"/></svg>
-              </a>
-              <a href="mailto:martintsennkov@gmail.com" title="Email">
-                <!-- email -->
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-              </a>
-              <a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" title="LinkedIn" target="_blank" rel="noopener">
-                <!-- linkedin -->
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v15H0V8zm7.5 0h4.8v2.2h.1c.7-1.2 2.3-2.5 4.7-2.5 5 0 5.9 3.3 5.9 7.6V23H18V16.2c0-1.6 0-3.6-2.2-3.6-2.2 0-2.6 1.7-2.6 3.5V23H7.5V8z"/></svg>
-              </a>
-              <a href="https://github.com/martintsenkov" title="GitHub" target="_blank" rel="noopener">
-                <!-- github -->
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.2.8-.5v-1.8c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.7-1.4-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.9 1.3 3.6 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.4-1.3-5.4-5.8 0-1.3.5-2.4 1.2-3.3-.1-.3-.5-1.6.1-3.3 0 0 1-.3 3.4 1.2a11.8 11.8 0 0 1 6.2 0C16 5.8 17 6.1 17 6.1c.6 1.7.2 3 .1 3.3.8.9 1.2 2 1.2 3.3 0 4.5-2.8 5.5-5.4 5.8.5.4.8 1 .8 2v3c0 .3.2.6.8.5A12 12 0 0 0 12 .5z"/></svg>
-              </a>
+              <a href="https://t.me/azsumbeee" title="Telegram" target="_blank" rel="noopener"> ... </a>
+              <a href="https://www.youtube.com/@martintsennkov" title="YouTube" target="_blank" rel="noopener"> ... </a>
+              <a id="mail-link" title="Email"> ... </a>
+              <a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" title="LinkedIn" target="_blank" rel="noopener"> ... </a>
+              <a href="https://github.com/martintsenkov" title="GitHub" target="_blank" rel="noopener"> ... </a>
             </div>
             <a class="btn" href="Martin_Tsenkov_CV.pdf" download>Download CV</a>
           </div>
         </div>
       </aside>
     </header>
-
     <div class="grid">
       <main>
         <section id="about">
           <h2>About Me</h2>
-          <p>I'm from one of Bulgaria’s major cities and hold a degree in Cybersecurity from the Bulgarian Naval Academy. I have a solid background in electronics – from microchips and SMD components to real-world circuit analysis. I’m drawn to challenges most people avoid – the harder it gets, the more focused I become. Life taught me that nothing is truly impossible — you just need to find the right angle, the hidden door, the weakness in the system. I believe every problem has a workaround. You just have to look harder, try again, and press the right spot. Offensive security fascinates me because it's full of backdoors — both in code and in mindset. Outside the lab, I lift heavy, study history, and keep pushing when most stop.</p>
+          <p>I'm from one of Bulgaria’s major cities and hold a degree in Cybersecurity from the Bulgarian Naval Academy... </p>
         </section>
-
         <section id="projects">
           <h2>Projects & Labs</h2>
           <ul>
             <li>Created full-stack pentest labs using VulnHub, Hack The Box, Metasploitable, Oracle VirtualBox and GNS3</li>
-            <li>Tested wired and wireless network security – including WPA/WPA2/WPA3 protocols and their cryptographic implementations</li>
-            <li>Performed internal network attacks against Active Directory – enumeration, exploitation, and persistence techniques</li>
-            <li>Discovered and tested web vulnerabilities – CVEs, XSS, SQLi, IDOR, custom payloads and exploit chains</li>
-            <li>Built custom ESP32-based tools – RF jammers, signal manipulation devices, WiFi Pineapple and WiFi Turtle clones</li>
-            <li>Hands-on experience with offensive security toolsets – Metasploit, Shellter, Armitage, Nmap, Wireshark, Dirb, DirBuster, Nikto, Burp Suite, BeEF, SQLmap, aircrack-ng, airodump-ng, Hydra, JohnTheRipper, Mimikatz and others.</li>
+            ...
           </ul>
         </section>
-
         <section id="interests">
           <h2>Interests</h2>
           <ul>
             <li>Red teaming and offensive operations</li>
-            <li>Industrial systems security (ICS/SCADA)</li>
-            <li>Advanced exploits and vulnerabilities – e.g., real-world CVEs, Active Directory privilege escalation, post-exploitation techniques</li>
-            <li>Applied cryptography and protocol analysis</li>
-            <li>Active Directory attacks and privilege escalation</li>
-            <li>Network-based attacks – wired and wireless</li>
-            <li>Cybersecurity certifications in progress / goal – OSCP, OSEP, CRTO, PNPT, CRTE, CEH.</li>
-            <li>Creating cybersecurity content – YouTube videos and writeups</li>
-            <li>Bulgarian history and national identity</li>
-            <li>Heavy lifting and strength training</li>
+            ...
           </ul>
         </section>
-
         <footer>
           <div>© <span id="y"></span> Martin Tsenkov. Built with pure HTML/CSS. No frameworks, no trackers.</div>
         </footer>
       </main>
     </div>
   </div>
-
   <script>
-    // year helper
     document.getElementById('y').textContent = new Date().getFullYear();
+    // Obfuscated email link
+    const user = "martintsennkov";
+    const domain = "gmail.com";
+    const link = document.getElementById("mail-link");
+    link.href = "mailto:" + user + "@" + domain;
   </script>
 </body>
 </html>
