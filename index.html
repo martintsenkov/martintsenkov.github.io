@@ -21,7 +21,7 @@
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
   <meta name="robots" content="index, follow">
 
-  <!-- Open Graph (LinkedIn / Facebook / Discord) -->
+  <!-- Open Graph -->
   <meta property="og:title" content="Martin Tsenkov — Red Teaming & Offensive Security">
   <meta property="og:description" content="Red Team / Pentest labs, IoT security, AD attacks, Wi-Fi, and custom ESP32 tooling.">
   <meta property="og:type" content="website">
@@ -31,7 +31,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
-  <!-- Twitter Card -->
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Martin Tsenkov — Red Teaming & Offensive Security">
   <meta name="twitter:description" content="Red Team / Pentest labs, IoT security, AD attacks, Wi-Fi, and custom ESP32 tooling.">
@@ -125,12 +125,107 @@
   </nav>
 
   <div class="wrap">
-    <!-- Твоето съдържание (About, Interests, Projects, Labs, Contact) остава непроменено -->
-    <!-- ... -->
+    <header>
+      <div class="brand">
+        <h1>Martin Tsenkov</h1>
+        <div class="subtitle">Red Teamer • Penetration tester</div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="card">
+          <img class="photo" src="/assets/pic.png" alt="Martin Tsenkov profile" />
+          <div class="contact">
+            <h3>Contact</h3>
+            <div class="icons" aria-label="social links">
+              <a href="https://t.me/azsumbeee" title="Telegram" target="_blank" rel="noopener">TG</a>
+              <a href="https://www.youtube.com/@martintsennkov" title="YouTube" target="_blank" rel="noopener">YT</a>
+              <a id="mail-link" title="Email" href="#">@</a>
+              <a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" title="LinkedIn" target="_blank" rel="noopener">in</a>
+              <a href="https://github.com/martintsenkov" title="GitHub" target="_blank" rel="noopener">GH</a>
+            </div>
+            <a class="btn" href="Martin_Tsenkov_CV.pdf" download>Download CV</a>
+          </div>
+        </div>
+      </aside>
+    </header>
+
+    <div class="grid">
+      <main>
+        <section id="about">
+          <h2>About Me</h2>
+          <p>
+            I'm from one of Bulgaria’s major cities and hold a degree in Cybersecurity from the Bulgarian Naval Academy.
+            I have a solid background in electronics – from microchips and SMD components to real-world circuit analysis.
+            I’m drawn to challenges most people avoid – the harder it gets, the more focused I become.
+            Life taught me that nothing is truly impossible — you just need to find the right angle, the hidden door, the weakness in the system.
+            I believe every problem has a workaround. You just have to look harder, try again, and press the right spot.
+            Offensive security fascinates me because it's full of backdoors — both in code and in mindset.
+            Outside the lab, I lift heavy, study history, and keep pushing when most stop.
+          </p>
+        </section>
+
+        <section id="interests">
+          <h2>Interests</h2>
+          <ul>
+            <li>Red teaming and offensive operations</li>
+            <li>Industrial systems security (ICS/SCADA)</li>
+            <li>Advanced exploits and vulnerabilities – real-world CVEs, AD privilege escalation, post-exploitation</li>
+            <li>Applied cryptography and protocol analysis</li>
+            <li>Active Directory attacks and persistence</li>
+            <li>Network-based attacks – wired and wireless</li>
+            <li>Cybersecurity cert goals – OSCP, OSEP, CRTO, PNPT, CRTE, CEH</li>
+            <li>Creating security content – YouTube & writeups</li>
+            <li>Bulgarian history and national identity</li>
+            <li>Heavy lifting and strength training</li>
+          </ul>
+        </section>
+
+        <section id="projects">
+          <h2>Projects</h2>
+          <ul>
+            <li>AD internal attacks – enumeration → exploitation → persistence</li>
+            <li>Web vulns – CVEs, XSS, SQLi, IDOR, custom payloads & exploit chains</li>
+            <li>Custom ESP32 tools – RF jammers, signal manipulation, WiFi Pineapple/Turtle clones</li>
+            <li>Toolstack – Metasploit, Shellter, Armitage, Nmap, Wireshark, Dirb/DirBuster, Nikto, Burp, BeEF, SQLmap, aircrack-ng, Hydra, John, Mimikatz…</li>
+          </ul>
+        </section>
+
+        <section id="labs">
+          <h2>Labs</h2>
+          <ul>
+            <li>Full-stack labs: VulnHub, HTB, Metasploitable, VirtualBox & GNS3</li>
+            <li>Wi-Fi lab: WPA2/WPA3, EAP, rogue AP, evil-twin, PMKID capture</li>
+            <li>AD lab: Kerberoasting, AS-REP roast, constrained delegation, DCSync</li>
+            <li>Web lab: SSTI, XSS, SQLi, IDOR (PoCs)</li>
+            <li>ESP32 playground: deauth / beacon spam / sniffing</li>
+          </ul>
+        </section>
+
+        <section id="contact">
+          <h2>Contact</h2>
+          <p>
+            Best way to reach me: <a id="mail-link-inline" href="#">email</a> or Telegram
+            <a href="https://t.me/azsumbeee" target="_blank" rel="noopener">@azsumbeee</a>.
+            Also on <a href="https://github.com/martintsenkov" target="_blank" rel="noopener">GitHub</a> and
+            <a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" target="_blank" rel="noopener">LinkedIn</a>.
+          </p>
+        </section>
+
+        <footer>
+          <div>© <span id="y"></span> Martin Tsenkov. No frameworks. No trackers. No excuses.</div>
+        </footer>
+      </main>
+    </div>
   </div>
 
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+    // year (guard за елемента)
+    (function(){
+      const y = document.getElementById('y');
+      if (y) y.textContent = new Date().getFullYear();
+    })();
+
+    // Email link
     (function(){
       const user="martintsennkov", domain="gmail.com";
       const mail="mailto:"+user+"@"+domain;
@@ -139,28 +234,46 @@
       if(a1) a1.setAttribute("href",mail);
       if(a2) a2.setAttribute("href",mail);
     })();
+
+    // Show/hide nav on scroll + active tab
     (function(){
       const nav=document.getElementById('topnav');
       const show=()=>nav.classList.remove('hide');
       const hide=()=>{if((window.pageYOffset||document.documentElement.scrollTop)>0)nav.classList.add('hide');};
       const updateShadow=()=>nav.classList.toggle('scrolled',(window.pageYOffset||document.documentElement.scrollTop)>10);
-      let lastY=window.pageYOffset||document.documentElement.scrollTop,stopTimer=null;
+      let lastY=window.pageYOffset||document.documentElement.scrollTop, stopTimer=null;
+
       function onScroll(){
-        const y=window.pageYOffset||document.documentElement.scrollTop,dy=y-lastY;
+        const y=window.pageYOffset||document.documentElement.scrollTop, dy=y-lastY;
         updateShadow();
-        if(dy<0)show();else if(dy>0)hide();
+        if(dy<0)show(); else if(dy>0)hide();
         if(stopTimer)clearTimeout(stopTimer);
         stopTimer=setTimeout(show,120);
         lastY=y;
       }
+
       window.addEventListener('scroll',onScroll,{passive:true});
-      window.addEventListener('wheel',e=>{if(e.deltaY<0)show();else if(e.deltaY>0)hide();},{passive:true});
+      window.addEventListener('wheel',e=>{if(e.deltaY<0)show(); else if(e.deltaY>0)hide();},{passive:true});
       let ty=null;
       window.addEventListener('touchstart',e=>{if(e.touches&&e.touches.length)ty=e.touches[0].clientY;},{passive:true});
-      window.addEventListener('touchmove',e=>{if(!e.touches||!e.touches.length||ty==null)return;const cy=e.touches[0].clientY;if(cy>ty)show();else if(cy<ty)hide();ty=cy;},{passive:true});
+      window.addEventListener('touchmove',e=>{if(!e.touches||!e.touches.length||ty==null)return;const cy=e.touches[0].clientY;if(cy>ty)show(); else if(cy<ty)hide();ty=cy;},{passive:true});
       window.addEventListener('touchend',()=>{ty=null;},{passive:true});
-      window.addEventListener('keydown',e=>{if(['ArrowUp','PageUp','Home'].includes(e.key))show();if(['ArrowDown','PageDown','End',' '].includes(e.key))hide();});
+      window.addEventListener('keydown',e=>{if(['ArrowUp','PageUp','Home'].includes(e.key))show(); if(['ArrowDown','PageDown','End',' '].includes(e.key))hide();});
       window.addEventListener('pointermove',e=>{if(e.clientY<=80)show();},{passive:true});
+
+      // active tab by IntersectionObserver
+      const links=[...document.querySelectorAll('#topnav a')];
+      const setActive=(hash)=>links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===hash));
+      links.forEach(a=>a.addEventListener('click',()=>{show(); setActive(a.getAttribute('href'));}));
+
+      const io=new IntersectionObserver((entries)=>{
+        const v=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+        if(!v) return; setActive('#'+v.target.id);
+      },{root:null, rootMargin:'-10% 0px -60% 0px', threshold:[0.25,0.5,0.75]});
+      document.querySelectorAll('main section[id]').forEach(sec=>io.observe(sec));
+
+      if(location.hash) setActive(location.hash);
+      updateShadow();
     })();
   </script>
 </body>
