@@ -72,7 +72,11 @@
     nav a:hover{color:var(--acc)}
     nav a.active{color:var(--acc);text-shadow:0 0 5px var(--acc2)}
 
-    header{display:flex;align-items:flex-start;gap:32px;padding-top:8px;}
+    header{  display:flex;
+  align-items:flex-start;
+  gap:32px;
+  padding-top:0;     /* махаме празното място над About */
+  margin-top:-20px;  /* компенсираме за nav височината */}
     .brand{flex:1}
     h1{font-size:56px;margin:0 0 8px;color:var(--acc);position:relative;display:inline-block}
     h1::after{content:"|";margin-left:6px;animation:blink 1.1s steps(1) infinite;opacity:.9}
