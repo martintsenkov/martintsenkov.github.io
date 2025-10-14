@@ -73,7 +73,7 @@
     nav a:hover{color:var(--acc)}
     nav a.active{color:var(--acc);text-shadow:0 0 5px var(--acc2)}
 
-    /* header - вече само заглавие и подзаглавие */
+    /* header - само заглавие и подзаглавие */
     header{
       display:flex; align-items:flex-start; gap:32px;
       padding-top:0; margin-top:0;
@@ -84,12 +84,30 @@
     @keyframes blink{50%{opacity:0}}
     .subtitle{color:var(--muted);font-size:20px}
 
-    /* grid: main + sidebar */
-    .grid{display:grid;grid-template-columns:1fr 280px;gap:34px}
+    /* grid: main + sidebar (по-широка и по-нагоре) */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 300px; /* беше 1fr 280px */
+      gap:34px;
+    }
     main{grid-column:1 / 2}
-    .sidebar{width:260px;flex:0 0 260px;text-align:center}
-    .card{background:var(--bg2);border:1px solid #13161a;border-radius:14px;box-shadow:var(--shadow)}
-    .photo{width:100%;border-radius:14px 14px 0 0;display:block;}
+    .sidebar{
+      align-self:start;   /* залепи горе */
+      margin-top:-14px;   /* вдига картата */
+      width:auto;         /* не фиксирай ширина тук */
+      text-align:center;
+    }
+    .card{
+      background:var(--bg2);
+      border:1px solid #13161a;
+      border-radius:16px; /* +2px */
+      box-shadow:var(--shadow);
+    }
+    .photo{
+      width:100%;
+      display:block;
+      border-radius:16px 16px 0 0; /* синхрон с картата */
+    }
     .contact{padding:14px 16px 18px}
     .contact h3{margin:6px 0 10px;font-size:20px;color:var(--acc)}
     .icons{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;}
@@ -112,7 +130,7 @@
 
     @media (max-width:980px){
       .grid{grid-template-columns:1fr}
-      .sidebar{order:-1;width:auto}
+      .sidebar{order:-1;width:auto;margin-top:0;} /* на мобилно без повдигане */
       header{flex-direction:column}
       nav{flex-wrap:wrap;gap:18px}
     }
@@ -206,7 +224,7 @@
         </footer>
       </main>
 
-      <!-- SIDEBAR преместен в grid като 2-ра колона -->
+      <!-- SIDEBAR: 2-ра колона -->
       <aside class="sidebar">
         <div class="card">
           <img class="photo" src="assets/pic.png" alt="Martin Tsenkov profile" />
