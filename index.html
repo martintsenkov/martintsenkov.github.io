@@ -52,13 +52,14 @@
       background-size:400% 400%; animation:ambient 22s ease infinite;
       color:var(--fg); font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace;
       line-height:1.6; letter-spacing:.2px;
-      padding-top:58px;
+      padding-top:58px; /* височина за fixed нав */
     }
     @keyframes ambient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
     a{color:var(--acc);text-decoration:none}
     a:hover{color:var(--acc2);text-decoration:underline}
     .wrap{max-width:1150px;margin:0 auto;padding:40px 22px 80px;}
 
+    /* nav */
     nav#topnav{
       position:fixed; left:0; top:0; right:0; z-index:1000;
       display:flex; justify-content:center; gap:32px;
@@ -72,17 +73,20 @@
     nav a:hover{color:var(--acc)}
     nav a.active{color:var(--acc);text-shadow:0 0 5px var(--acc2)}
 
-    header{  display:flex;
-  align-items:flex-start;
-  gap:32px;
-  padding-top:0;     /* махаме празното място над About */
-  margin-top:-20px;  /* компенсираме за nav височината */}
+    /* header - вече само заглавие и подзаглавие */
+    header{
+      display:flex; align-items:flex-start; gap:32px;
+      padding-top:0; margin-top:0;
+    }
     .brand{flex:1}
     h1{font-size:56px;margin:0 0 8px;color:var(--acc);position:relative;display:inline-block}
     h1::after{content:"|";margin-left:6px;animation:blink 1.1s steps(1) infinite;opacity:.9}
     @keyframes blink{50%{opacity:0}}
     .subtitle{color:var(--muted);font-size:20px}
 
+    /* grid: main + sidebar */
+    .grid{display:grid;grid-template-columns:1fr 280px;gap:34px}
+    main{grid-column:1 / 2}
     .sidebar{width:260px;flex:0 0 260px;text-align:center}
     .card{background:var(--bg2);border:1px solid #13161a;border-radius:14px;box-shadow:var(--shadow)}
     .photo{width:100%;border-radius:14px 14px 0 0;display:block;}
@@ -92,9 +96,6 @@
     .icons a{width:36px;height:36px;display:grid;place-items:center;background:#0e1416;border:1px solid #152022;border-radius:8px;transition:transform .12s ease;}
     .icons a:hover{transform:translateY(-2px)}
     .icons svg{width:20px;height:20px;fill:var(--acc)}
-
-    .grid{display:grid;grid-template-columns:1fr 280px;gap:34px}
-    main{grid-column:1 / 2}
 
     section{
       margin:34px 0; padding-bottom:16px; border-bottom:1px solid var(--line);
@@ -129,30 +130,15 @@
   </nav>
 
   <div class="wrap">
+    <!-- HEADER: само бранд/заглавие -->
     <header>
       <div class="brand">
         <h1>Martin Tsenkov</h1>
         <div class="subtitle">Red Teamer • Penetration tester</div>
       </div>
-
-      <aside class="sidebar">
-        <div class="card">
-          <img class="photo" src="assets/pic.png" alt="Martin Tsenkov profile" />
-          <div class="contact">
-            <h3>Contact</h3>
-            <div class="icons" aria-label="social links">
-              <a href="https://t.me/azsumbeee" title="Telegram" target="_blank" rel="noopener">TG</a>
-              <a href="https://www.youtube.com/@martintsennkov" title="YouTube" target="_blank" rel="noopener">YT</a>
-              <a id="mail-link" title="Email" href="#">@</a>
-              <a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" title="LinkedIn" target="_blank" rel="noopener">in</a>
-              <a href="https://github.com/martintsenkov" title="GitHub" target="_blank" rel="noopener">GH</a>
-            </div>
-            <a class="btn" href="Martin_Tsenkov_CV.pdf" download>Download CV</a>
-          </div>
-        </div>
-      </aside>
     </header>
 
+    <!-- GRID: main + sidebar една до друга -->
     <div class="grid">
       <main>
         <section id="about">
@@ -219,6 +205,24 @@
           <div>© <span id="y"></span> Martin Tsenkov. No frameworks. No trackers. No excuses.</div>
         </footer>
       </main>
+
+      <!-- SIDEBAR преместен в grid като 2-ра колона -->
+      <aside class="sidebar">
+        <div class="card">
+          <img class="photo" src="assets/pic.png" alt="Martin Tsenkov profile" />
+          <div class="contact">
+            <h3>Contact</h3>
+            <div class="icons" aria-label="social links">
+              <a href="https://t.me/azsumbeee" title="Telegram" target="_blank" rel="noopener">TG</a>
+              <a href="https://www.youtube.com/@martintsennkov" title="YouTube" target="_blank" rel="noopener">YT</a>
+              <a id="mail-link" title="Email" href="#">@</a>
+              <a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" title="LinkedIn" target="_blank" rel="noopener">in</a>
+              <a href="https://github.com/martintsenkov" title="GitHub" target="_blank" rel="noopener">GH</a>
+            </div>
+            <a class="btn" href="Martin_Tsenkov_CV.pdf" download>Download CV</a>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 
