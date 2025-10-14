@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://martintsenkov.github.io/sitemap.xml
