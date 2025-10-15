@@ -98,6 +98,15 @@
     .grid{display:grid;grid-template-columns:1fr 300px;gap:34px}
     main{grid-column:1/2}
     .sidebar{align-self:start;margin-top:-14px;width:auto;text-align:center}
+
+    /* повдигане на картата със снимката при десктоп */
+    @media (min-width:981px){
+      .sidebar{ margin-top:-60px; }
+    }
+    @media (max-width:980px){
+      .sidebar{ margin-top:0; }
+    }
+
     .card{background:linear-gradient(180deg,var(--surface),#0e0e10);border:1px solid #1f1f22;border-radius:var(--rad);box-shadow:var(--shadow);position:relative;transition:transform var(--dur) var(--e),box-shadow var(--dur) var(--e),border-color var(--dur) var(--e);will-change:transform}
     .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.35),var(--accent-glow);border-color:#2a2a2f}
     section{margin:34px 0;padding-bottom:16px;border-bottom:1px solid var(--line);scroll-margin-top:80px}
@@ -118,7 +127,16 @@
     .btn:hover::before{transform:translateX(250%) rotate(20deg)}
     .arrow{transition:transform var(--dur) var(--e)}
     .btn:hover .arrow{transform:translateX(3px)}
-    footer{margin-top:40px;color:#8b9299;font-size:14px;text-align:center}
+
+    /* нова секция за футъра */
+    .site-footer{
+      margin-top:40px;
+      padding:16px 0;
+      text-align:center;
+      color:#8b9299;
+      font-size:14px;
+      border-top:1px solid var(--line);
+    }
 
     /* focus styles */
     a:focus-visible, button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
@@ -132,6 +150,15 @@
     .icons a{width:36px;height:36px;display:grid;place-items:center;background:#0e1416;border:1px solid #152022;border-radius:8px;transition:transform var(--dur) var(--e),box-shadow var(--dur) var(--e),border-color var(--dur) var(--e);color:#cfd3d8}
     .icons a:hover{transform:translateY(-2px);box-shadow:var(--accent-glow);border-color:#273036;color:#fff}
     .icons a svg{width:18px;height:18px;display:block}
+
+    /* разстояние между иконките и бутона в картата за контакти */
+    .contact{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      padding:16px;
+    }
+
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
     /* Scanlines + CRT */
@@ -158,8 +185,8 @@
     .glitch-text{font-family:ui-monospace,Menlo,monospace; font-size:56px; color:var(--accent); letter-spacing:1px; display:inline-block; position:relative; text-shadow:0 0 12px rgba(225,29,72,.15)}
     .glitch-dup{position:absolute; left:0; top:0; color:var(--accent); mix-blend-mode:screen; clip-path: inset(0 0 0 0); animation:glitch-vert 420ms linear 0s 6, glitch-horiz 720ms linear 0s 3; opacity:.92; filter: drop-shadow(0 0 8px rgba(225,29,72,.2))}
     @keyframes glitch-vert{0%{transform:translate(0,0);clip-path:inset(0 0 0 0)}20%{transform:translate(0,-6px);clip-path:inset(4% 0 60% 0)}40%{transform:translate(0,4px);clip-path:inset(60% 0 6% 0)}60%{transform:translate(0,-3px);clip-path:inset(10% 0 50% 0)}100%{transform:translate(0,0);clip-path:inset(0 0 0 0)}}
-    @keyframes glitch-horiz{0%{transform:translateX(0)}25%{transform:translateX(-6px) skewX(-2deg)}50%{transform:translateX(6px) skewX(2deg)}75%{transform:translateX(-3px) skewX(-1deg)}100%{transform:translateX(0)}}
-    #glitch-overlay.hidden{opacity:0; pointer-events:none; transition:opacity .45s ease}
+    @keyframes glitch-horiz{0%{transform:translateX(0)}25%{transform:translateX(-6px) skewX(-2deg)}50%{transform:translateX(6px) skewX(2deg)}75%{transform:translateX(-3px) skewX(-1deg)}100%{transform:translateX(0)}
+    }
 
     @media (max-width:640px){
       .grid{grid-template-columns:1fr}
@@ -283,10 +310,6 @@
             <a class="link" href="https://www.linkedin.com/in/martin-tsenkov-18688123a" target="_blank" rel="noopener">LinkedIn</a>.
           </p>
         </section>
-
-        <footer>
-          <div>© <span id="y"></span> Martin Tsenkov. No frameworks. No trackers. No excuses.</div>
-        </footer>
       </main>
 
       <aside class="sidebar">
@@ -328,6 +351,11 @@
         </div>
       </aside>
     </div>
+
+    <!-- нова секция: футър по средата -->
+    <footer class="site-footer">
+      <div>© <span id="y"></span> Martin Tsenkov. No frameworks. No trackers. No excuses.</div>
+    </footer>
   </div>
 
   <script>
@@ -374,7 +402,6 @@
       };
       links.forEach(a=>a.addEventListener('click',()=>{
         show(); setActive(a.getAttribute('href'));
-        // затваря мобилното меню, ако е отворено
         if(window.closeMenu) window.closeMenu();
       }));
 
