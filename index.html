@@ -22,7 +22,7 @@
       --acc:#00f5c8; --acc2:#4df1b8; --line:#0e3d36; --shadow:0 10px 30px rgba(0,0,0,.35);
 
       /* стабилен scanlines overlay */
-      --scanlines-opacity: 0.10;
+      --scanlines-opacity: 0.12;          /* +малко по-видимо */
       --scanlines-blend: soft-light;
 
       /* CRT burst vars (JS ги клати) */
@@ -97,34 +97,34 @@
     /* стабилен scanlines */
     #scanlines{
       position:fixed; inset:0; z-index:90000; pointer-events:none;
-      opacity:var(--scanlines-opacity,0.10); mix-blend-mode:var(--scanlines-blend,soft-light);
+      opacity:var(--scanlines-opacity,0.12); mix-blend-mode:var(--scanlines-blend,soft-light);
       background-image:
-        repeating-linear-gradient(to bottom, rgba(255,255,255,0.06) 0 1px, rgba(0,0,0,0) 1px 4px),
-        radial-gradient(1px 1px at 25% 20%, rgba(255,255,255,0.05), transparent 60%),
-        radial-gradient(1px 1px at 60% 60%, rgba(255,255,255,0.03), transparent 60%),
-        radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.04), transparent 60%);
+        repeating-linear-gradient(to bottom, rgba(255,255,255,0.08) 0 1px, rgba(0,0,0,0) 1px 4px),
+        radial-gradient(1px 1px at 25% 20%, rgba(255,255,255,0.06), transparent 60%),
+        radial-gradient(1px 1px at 60% 60%, rgba(255,255,255,0.04), transparent 60%),
+        radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.05), transparent 60%);
       background-size:100% 4px, 200px 200px, 240px 240px, 180px 180px;
       animation:scan-flicker 6s infinite steps(2,end)
     }
-    @keyframes scan-flicker{0%{opacity:calc(var(--scanlines-opacity,.10)*1)}50%{opacity:calc(var(--scanlines-opacity,.10)*.92)}100%{opacity:calc(var(--scanlines-opacity,.10)*1)}}
+    @keyframes scan-flicker{0%{opacity:calc(var(--scanlines-opacity,.12)*1)}50%{opacity:calc(var(--scanlines-opacity,.12)*.9)}100%{opacity:calc(var(--scanlines-opacity,.12)*1)}}
 
     /* CRT/TV noise burst (взриви, хаотични) */
     #crt-burst{
       position:fixed; inset:0; z-index:90500; pointer-events:none;
       opacity:var(--burst-alpha); mix-blend-mode:screen;
       background-image:
-        repeating-linear-gradient(to bottom, rgba(255,255,255,0.22) 0 1px, rgba(0,0,0,0) 1px 3px),
+        repeating-linear-gradient(to bottom, rgba(255,255,255,0.30) 0 1px, rgba(0,0,0,0) 1px 3px), /* по-ярки хор. линии */
         conic-gradient(from 0deg at 50% 50%,
-          rgba(255,255,255,0.08),
+          rgba(255,255,255,0.12),
           rgba(0,0,0,0) 22%,
-          rgba(255,255,255,0.06) 45%,
+          rgba(255,255,255,0.09) 45%,
           rgba(0,0,0,0) 65%,
-          rgba(255,255,255,0.05) 82%,
+          rgba(255,255,255,0.08) 82%,
           rgba(0,0,0,0) 100%);
       background-size:100% 3px, 140% 140%;
       background-position:0 var(--burst-y), 50% 50%;
-      filter:contrast(115%) saturate(120%);
-      box-shadow:inset 0 0 120px rgba(0,0,0,.25);
+      filter:contrast(130%) saturate(135%); /* +малко контраст/наситеност */
+      box-shadow:inset 0 0 140px rgba(0,0,0,.28);
       transition:opacity .06s linear;
     }
     #crt-burst::before,
@@ -134,8 +134,8 @@
       mix-blend-mode:screen; opacity:calc(var(--burst-alpha)*0.95);
       filter:blur(.25px);
     }
-    #crt-burst::before{ transform: translateX(var(--burst-rgb));  filter:hue-rotate(340deg) saturate(140%) }
-    #crt-burst::after { transform: translateX(calc(var(--burst-rgb)*-1)); filter:hue-rotate(200deg) saturate(140%) }
+    #crt-burst::before{ transform: translateX(var(--burst-rgb));  filter:hue-rotate(340deg) saturate(150%) }
+    #crt-burst::after { transform: translateX(calc(var(--burst-rgb)*-1)); filter:hue-rotate(200deg) saturate(150%) }
 
     @media (max-width:980px){
       .grid{grid-template-columns:1fr}
@@ -146,7 +146,6 @@
     @media (prefers-reduced-motion: reduce){
       .glitch-dup, #glitch-overlay::before { animation:none !important }
       #scanlines{ animation:none !important }
-      /* намаляваме сила при взривите, но не ги спираме */
     }
   </style>
 </head>
@@ -346,48 +345,49 @@
       requestAnimationFrame(()=>{ setTimeout(()=>{ overlay.classList.add('hidden'); setTimeout(()=> overlay.remove(), 500); }, showTime); });
     })();
 
-    // CRT/TV NOISE BURST (по-силен + гарантирана видимост)
+    // CRT/TV NOISE BURST — по-ярък
     (function(){
       const el = document.getElementById('crt-burst');
       if(!el) return;
 
       const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Диапазони (по-силни; при reduced – омекотени)
       const PAUSE_MIN_MS = 3000,  PAUSE_MAX_MS = 9000;
       const BURST_MIN_MS = 900,   BURST_MAX_MS = 1600;
-      const ALPHA_MIN = reduced ? 0.06 : 0.14;
-      const ALPHA_MAX = reduced ? 0.12 : 0.26;
-      const RGB_MAX   = reduced ? 1.2  : 2.4;   // px
-      const JITTER_Y  = reduced ? 8    : 18;    // px
+
+      // ↑ амплитуда/цветово отместване
+      const ALPHA_MIN = reduced ? 0.08 : 0.18;
+      const ALPHA_MAX = reduced ? 0.16 : 0.32;
+      const RGB_MAX   = reduced ? 1.6  : 3.2;    // px
+      const JITTER_Y  = reduced ? 10   : 20;     // px
 
       let rafId = null;
-
       const rand = (a,b)=> a + Math.random()*(b-a);
       const sign = ()=> Math.random() < .5 ? -1 : 1;
 
       const setVar = (name, val)=> el.style.setProperty(name, typeof val==='number' ? String(val) : val);
-      const setAlpha = (v)=>{ setVar('--burst-alpha', v); el.style.opacity = String(v); }; // дублираме и директно opacity
+      const setAlpha = (v)=>{ setVar('--burst-alpha', v); el.style.opacity = String(v); };
 
       function burstOnce(){
         const t0 = performance.now();
         const dur = rand(BURST_MIN_MS, BURST_MAX_MS);
         const base = rand(ALPHA_MIN, ALPHA_MAX);
-
         cancelAnimationFrame(rafId);
+
         function frame(t){
           const p = Math.min(1, (t - t0) / dur);
           const easeOut = 1 - Math.pow(1 - p, 3);
 
-          // хаотично „подръпване“ по Y
+          // Y jitter
           if(Math.random() < 0.9){
             setVar('--burst-y', Math.round(rand(-JITTER_Y, JITTER_Y)) + 'px');
           }
-          // RGB отместване
-          setVar('--burst-rgb', (rand(0, RGB_MAX) * sign()) * (1 - easeOut*0.6) + 'px');
+          // RGB shift
+          setVar('--burst-rgb', (rand(0, RGB_MAX) * sign()) * (1 - easeOut*0.55) + 'px');
 
-          // трептене на амплитуда
-          const a = base * (0.85 + Math.random()*0.35) * (1 - easeOut*0.15);
+          // амплитуда + случайни micro-flash шипове
+          let a = base * (0.85 + Math.random()*0.4) * (1 - easeOut*0.12);
+          if(Math.random() < 0.12) a *= 1.25;   // кратък “flash”
           setAlpha(a);
 
           if(p < 1){
@@ -404,14 +404,10 @@
         const wait = first ? rand(800, 1800) : rand(PAUSE_MIN_MS, PAUSE_MAX_MS);
         setTimeout(burstOnce, wait);
       }
-
       schedule(true);
 
       document.addEventListener('visibilitychange', () => {
-        if(document.hidden){
-          cancelAnimationFrame(rafId);
-          setAlpha(0);
-        }
+        if(document.hidden){ cancelAnimationFrame(rafId); setAlpha(0); }
       });
     })();
 
@@ -426,3 +422,4 @@
   </script>
 </body>
 </html>
+//az sum go prail we
