@@ -26,9 +26,12 @@
     }
     html,body{height:100%}
     html{scroll-behavior:smooth}
-    body{margin:0;background:linear-gradient(-45deg,#0a0a0a,#0c0c0e,#0a0a0a,#0c0c0e);
+    body{
+      margin:0;
+      background:linear-gradient(-45deg,#0a0a0a,#0c0c0e,#0a0a0a,#0c0c0e);
       background-size:400% 400%;animation:ambient 22s ease infinite;color:var(--text);
-      font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace;line-height:1.6;letter-spacing:.2px;padding-top:66px}
+      font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace;line-height:1.6;letter-spacing:.2px;padding-top:66px
+    }
     @keyframes ambient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
     a{color:inherit;text-decoration:none}
     .wrap{max-width:1150px;margin:0 auto;padding:40px 22px 80px}
@@ -54,7 +57,7 @@
     .menu-btn:active{transform:scale(.98)}
     .menu-btn svg{width:20px;height:20px;display:block}
     .navpanel{
-      position:fixed;left:0;right:0;top:58px;z-index:1100; /* над навбара */
+      position:fixed;left:0;right:0;top:58px;z-index:1100;
       background:rgba(12,12,12,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);
       transform:translateY(-12px);opacity:0;pointer-events:none;transition:opacity 160ms var(--e),transform 160ms var(--e);
     }
@@ -102,6 +105,9 @@
     .btn:hover .arrow{transform:translateX(3px)}
     footer{margin-top:40px;color:#8b9299;font-size:14px;text-align:center}
 
+    /* focus styles */
+    a:focus-visible, button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+
     /* photo */
     .photo-wrap{position:relative;border-radius:16px 16px 0 0;overflow:visible}
     .photo{width:100%;height:auto;display:block;border-radius:16px 16px 0 0;box-shadow:0 0 0 1px #1f1f22 inset,0 18px 40px rgba(0,0,0,.45)}
@@ -126,9 +132,9 @@
       conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.12), rgba(0,0,0,0) 22%, rgba(255,255,255,0.09) 45%, rgba(0,0,0,0) 65%, rgba(255,255,255,0.08) 82%, rgba(0,0,0,0) 100%);
       background-size:100% 3px,140% 140%;background-position:0 var(--burst-y),50% 50%;filter:contrast(130%) saturate(135%);box-shadow:inset 0 0 140px rgba(0,0,0,.28);transition:opacity .06s linear}
 
-    /* === Glitch intro (върнато) === */
+    /* === Glitch intro === */
     #glitch-overlay{
-      position:fixed; inset:0; z-index:1200; /* над всичко, включ. меню панела */
+      position:fixed; inset:0; z-index:1200;
       display:grid; place-items:center;
       background:linear-gradient(180deg,#050505 0%, rgba(0,0,0,.6) 70%);
       backdrop-filter: blur(2px)
@@ -150,7 +156,7 @@
   </style>
 </head>
 <body>
-  <!-- Glitch intro (върнато) -->
+  <!-- Glitch intro -->
   <div id="glitch-overlay" aria-hidden="true">
     <div class="glitch-wrap">
       <span class="glitch-text">Martin Tsenkov</span>
@@ -165,11 +171,13 @@
   <!-- NAV -->
   <nav id="topnav">
     <a href="#" class="brandbar" aria-label="Home">
-      <img class="logo" src="assets/favicon.svg" onerror="this.onerror=null;this.src='assets/favicon-32.png';" alt="Martin Tsenkov logo">
+      <img class="logo" src="assets/favicon.svg" width="28" height="28"
+           onerror="this.onerror=null;this.src='assets/favicon-32.png';"
+           alt="Martin Tsenkov logo">
       <strong>martintsenkov</strong>
     </a>
     <div class="navlinks">
-      <a href="#about" class="active">About me</a>
+      <a href="#about" class="active" aria-current="page">About me</a>
       <a href="#interests">Interests</a>
       <a href="#projects">Projects</a>
       <a href="#labs">Labs</a>
@@ -269,27 +277,32 @@
       <aside class="sidebar">
         <div class="card">
           <div class="photo-wrap">
-            <img class="photo" src="assets/pic.png" alt="Martin Tsenkov profile" />
+            <img class="photo" src="assets/pic.png" alt="Martin Tsenkov profile" loading="lazy" decoding="async" />
           </div>
           <div class="contact">
             <h3>Contact</h3>
             <div class="icons" aria-label="social links">
+              <!-- Telegram -->
               <a href="https://t.me/azsumbeee" title="Telegram: @azsumbeee" target="_blank" rel="noopener" aria-label="Telegram: @azsumbeee">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 3.24L2.9 10.32c-.83.32-.82 1.53.02 1.82l4.57 1.63 2.02 6.45c.26.84 1.32 1.01 1.82.3l2.9-4.06 4.95 3.63c.68.5 1.65.12 1.84-.71l3.1-13.54c.2-.87-.64-1.6-1.52-1.27z" fill="currentColor"/></svg>
                 <span class="sr-only">@azsumbeee</span>
               </a>
+              <!-- YouTube -->
               <a href="https://www.youtube.com/@martintsennkov" title="YouTube: @martintsennkov" target="_blank" rel="noopener" aria-label="YouTube: @martintsennkov">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.8 3.5 12 3.5 12 3.5s-7.8 0-9.4.6A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.6.6 9.4.6 9.4.6s7.8 0 9.4-.6a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.8 15.6V8.4L16 12l-6.2 3.6z" fill="currentColor"/></svg>
                 <span class="sr-only">YouTube</span>
               </a>
+              <!-- Email -->
               <a id="mail-link" title="Email" href="#" aria-label="Email">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm0 2l9 6 9-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span class="sr-only">email</span>
               </a>
+              <!-- LinkedIn -->
               <a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" title="LinkedIn" target="_blank" rel="noopener" aria-label="LinkedIn">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM3 9h4v12H3V9zm7 0h3.8v1.7h.1c.5-.9 1.8-1.8 3.6-1.8C21 8.9 22 11 22 14.1V21h-4v-6.1c0-1.5-.03-3.4-2.1-3.4-2.1 0-2.4 1.6-2.4 3.3V21h-4V9z" fill="currentColor"/></svg>
                 <span class="sr-only">LinkedIn</span>
               </a>
+              <!-- GitHub -->
               <a href="https://github.com/martintsenkov" title="GitHub" target="_blank" rel="noopener" aria-label="GitHub">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 .5a12 12 0 00-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.4-4-1.4-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.8-1 .8-1-.9-.2-1.8-.5-1.8-2.3 0-.5.2-1 .5-1.4-1 0-2.1-.5-2.1-2.5 0-.5.2-1 .6-1.4 0-.1-.2-.6.1-1.3 0 0 .8-.2 2.5 1a8.8 8.8 0 014.6 0c1.7-1.2 2.5-1 2.5-1 .3.7.1 1.2.1 1.3.4.4.6.9.6 1.4 0 2-1.1 2.5-2.1 2.5.4.3.6.8.6 1.6v2.3c0 .3.2.7.8.6A12 12 0 0012 .5z" fill="currentColor"/></svg>
                 <span class="sr-only">GitHub</span>
@@ -304,7 +317,10 @@
 
   <script>
     // year
-    (function(){const y=document.getElementById('y');if(y)y.textContent=new Date().getFullYear();})();
+    (function(){
+      const y=document.getElementById('y');
+      if(y) y.textContent=new Date().getFullYear();
+    })();
 
     // email
     (function(){
@@ -323,6 +339,7 @@
       const hide=()=>{if((window.pageYOffset||document.documentElement.scrollTop)>0)nav.classList.add('hide');};
       const updateShadow=()=>nav.classList.toggle('scrolled',(window.pageYOffset||document.documentElement.scrollTop)>10);
       let lastY=window.pageYOffset||document.documentElement.scrollTop, stopTimer=null;
+
       function onScroll(){
         const y=window.pageYOffset||document.documentElement.scrollTop, dy=y-lastY;
         updateShadow(); if(dy<0)show(); else if(dy>0)hide();
@@ -333,8 +350,18 @@
       window.addEventListener('pointermove',e=>{if(e.clientY<=80)show();},{passive:true});
 
       const links=[...document.querySelectorAll('.navlinks a[href^="#"], .navpanel a[href^="#"]')];
-      const setActive=(hash)=>links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===hash));
-      links.forEach(a=>a.addEventListener('click',()=>{show(); setActive(a.getAttribute('href')); closeMenu();}));
+      const setActive=(hash)=>{
+        links.forEach(a=>{
+          const on=a.getAttribute('href')===hash;
+          a.classList.toggle('active',on);
+          if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+        });
+      };
+      links.forEach(a=>a.addEventListener('click',()=>{
+        show(); setActive(a.getAttribute('href'));
+        // затваря мобилното меню, ако е отворено
+        if(window.closeMenu) window.closeMenu();
+      }));
 
       const io=new IntersectionObserver((entries)=>{
         const v=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
@@ -351,8 +378,20 @@
       const btn=document.getElementById('menuBtn');
       const panel=document.getElementById('navPanel');
       if(!btn||!panel) return;
-      function openMenu(){ panel.classList.add('open'); btn.setAttribute('aria-expanded','true'); panel.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
-      function closeMenu(){ panel.classList.remove('open'); btn.setAttribute('aria-expanded','false'); panel.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+      function openMenu(){
+        panel.classList.add('open');
+        btn.setAttribute('aria-expanded','true');
+        btn.setAttribute('aria-label','Close menu');
+        panel.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+      }
+      function closeMenu(){
+        panel.classList.remove('open');
+        btn.setAttribute('aria-expanded','false');
+        btn.setAttribute('aria-label','Open menu');
+        panel.setAttribute('aria-hidden','true');
+        document.body.style.overflow='';
+      }
       window.closeMenu = closeMenu;
       btn.addEventListener('click', ()=> panel.classList.contains('open') ? closeMenu() : openMenu());
       document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeMenu(); });
@@ -363,14 +402,20 @@
     (function(){
       const el=document.getElementById('name'); if(!el) return;
       const full=(el.dataset.text||el.textContent).trim();
-      function typeOnce(){ el.classList.add('typing'); el.textContent=''; let i=0; const speed=85;
-        const timer=setInterval(()=>{ el.textContent+=full[i++]; if(i>=full.length){ clearInterval(timer); el.classList.remove('typing'); el.textContent=full; schedule(); } }, speed);
+      function typeOnce(){
+        el.classList.add('typing'); el.textContent=''; let i=0; const speed=85;
+        const timer=setInterval(()=>{
+          el.textContent+=full[i++];
+          if(i>=full.length){
+            clearInterval(timer); el.classList.remove('typing'); el.textContent=full; schedule();
+          }
+        }, speed);
       }
       function schedule(){ setTimeout(typeOnce, 12000 + Math.random()*8000); }
       schedule();
     })();
 
-    // Glitch hide (върнато)
+    // Glitch hide
     (function(){
       const overlay=document.getElementById('glitch-overlay'); if(!overlay) return;
       const reduced=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -400,7 +445,13 @@
 
     // toggle scanlines (Ctrl + .)
     (function(){
-      window.addEventListener('keydown',(e)=>{ if(e.ctrlKey && (e.key==='.'||e.code==='Period')){ document.body.classList.toggle('scanlines-off'); const s=document.getElementById('scanlines'); if(s) s.style.display=document.body.classList.contains('scanlines-off')?'none':'block'; }});
+      window.addEventListener('keydown',(e)=>{
+        if(e.ctrlKey && (e.key==='.'||e.code==='Period')){
+          document.body.classList.toggle('scanlines-off');
+          const s=document.getElementById('scanlines');
+          if(s) s.style.display=document.body.classList.contains('scanlines-off')?'none':'block';
+        }
+      });
     })();
   </script>
 </body>
