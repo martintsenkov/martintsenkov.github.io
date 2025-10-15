@@ -16,7 +16,7 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
 
-  <!-- Metadata -->
+  <!-- Metadata for crawlers -->
   <link rel="canonical" href="https://martintsenkov.github.io/">
   <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
   <meta name="robots" content="index, follow">
@@ -45,21 +45,17 @@
       --bg:#0b0b0c; --bg2:#0f0f11; --fg:#e8f1ef; --muted:#a8b3b0;
       --acc:#00f5c8; --acc2:#4df1b8; --line:#0e3d36; --shadow:0 10px 30px rgba(0,0,0,.35);
 
-      /* контрол за линиите */
-      --scan-gap: 3px;           /* разстояние между линиите (2–4px) */
-      --scan-line: 1px;          /* дебелина на линията */
-      --scan-alpha: 0.12;        /* сила на линията (0.08–0.18 е ок) */
-      --scan-noise: 0.03;        /* лек шум върху фона */
+      /* контрол за линии (по-видими по дефоут – после можеш да ги намалиш) */
+      --scan-gap: 4px;      /* период */
+      --scan-line: 2px;     /* дебелина на линията */
+      --scan-alpha: 0.18;   /* сила на линията */
+      --scan-noise: 0.03;   /* фин шум */
     }
 
     html,body{height:100%;}
     html{scroll-behavior:smooth;}
 
-    /* ===== Фонът е комбинация от:
-       1) base градиент (анимиран леко),
-       2) хоризонтални бели линии (repeating-linear-gradient),
-       3) фин шум (radial trick) за CRT вайб.
-       Линиите са част от background-а => винаги се виждат, без overlay. */
+    /* ЛИНИИТЕ СА НАЙ-ГОРНИЯ СЛОЙ (първи в списъка) */
     body{
       margin:0;
       color:var(--fg);
@@ -68,9 +64,7 @@
       padding-top:58px;
 
       background-image:
-        /* base ambient gradient (първи слой – ще се анимира) */
-        linear-gradient(-45deg,#0a0a0a,#0c0c0e,#0a0a0a,#0c0c0e),
-        /* хоризонтални scanlines (втори слой) */
+        /* 1) scanlines – най-отгоре */
         repeating-linear-gradient(
           to bottom,
           rgba(255,255,255,var(--scan-alpha)) 0,
@@ -78,25 +72,26 @@
           rgba(0,0,0,0) var(--scan-line),
           rgba(0,0,0,0) var(--scan-gap)
         ),
-        /* фин „noise“ (трети-четвърти слоеве) */
+        /* 2) фин noise */
         radial-gradient(1px 1px at 25% 20%, rgba(255,255,255,var(--scan-noise)), transparent 60%),
-        radial-gradient(1px 1px at 70% 70%, rgba(255,255,255,calc(var(--scan-noise)*0.8)), transparent 60%);
+        radial-gradient(1px 1px at 70% 70%, rgba(255,255,255,calc(var(--scan-noise)*0.8)), transparent 60%),
+        /* 3) base ambient gradient – най-отдолу */
+        linear-gradient(-45deg,#0a0a0a,#0c0c0e,#0a0a0a,#0c0c0e);
 
-      /* управляваме размерите на слоевете поотделно */
       background-size:
-        400% 400%,   /* base ambient gradient */
         100% var(--scan-gap), /* scanlines период */
-        220px 220px, /* noise 1 */
-        260px 260px; /* noise 2 */
+        220px 220px,          /* noise 1 */
+        260px 260px,          /* noise 2 */
+        400% 400%;            /* ambient */
 
-      background-attachment: fixed,fixed,fixed,fixed; /* стабилни спрямо viewport */
+      background-attachment: fixed,fixed,fixed,fixed;
       animation: ambient 22s ease infinite;
     }
 
     @keyframes ambient{
-      0%   { background-position: 0% 50%, 0 0, 0 0, 0 0; }
-      50%  { background-position: 100% 50%, 0 0, 0 0, 0 0; }
-      100% { background-position: 0% 50%, 0 0, 0 0, 0 0; }
+      0%   { background-position: 0 0, 0 0, 0 0, 0% 50%; }
+      50%  { background-position: 0 0, 0 0, 0 0, 100% 50%; }
+      100% { background-position: 0 0, 0 0, 0 0, 0% 50%; }
     }
 
     a{color:var(--acc);text-decoration:none}
@@ -160,7 +155,6 @@
     .glitch-dup{ position:absolute; left:0; top:0; color:var(--acc); mix-blend-mode:screen; clip-path: inset(0 0 0 0); animation:glitch-vert 420ms linear 0s 6, glitch-horiz 720ms linear 0s 3; opacity:.92; filter: drop-shadow(0 0 8px rgba(0,245,200,.04)); }
     @keyframes glitch-vert{0%{transform:translate(0,0);clip-path:inset(0 0 0 0)}20%{transform:translate(0,-6px);clip-path:inset(4% 0 60% 0)}40%{transform:translate(0,4px);clip-path:inset(60% 0 6% 0)}60%{transform:translate(0,-3px);clip-path:inset(10% 0 50% 0)}100%{transform:translate(0,0);clip-path:inset(0 0 0 0)}}
     @keyframes glitch-horiz{0%{transform:translateX(0)}25%{transform:translateX(-6px) skewX(-2deg)}50%{transform:translateX(6px) skewX(2deg)}75%{transform:translateX(-3px) skewX(-1deg)}100%{transform:translateX(0)}}
-    #glitch-overlay::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.01) 1px, transparent 1px);background-size:100% 4px;mix-blend-mode:overlay;opacity:.05}
     #glitch-overlay.hidden{opacity:0;pointer-events:none;transition:opacity .45s ease;}
 
     @media (max-width:980px){
@@ -170,15 +164,14 @@
       nav{flex-wrap:wrap;gap:18px}
     }
     @media (prefers-reduced-motion: reduce){
-      /* линиите остават статични; спираме само ambient анимацията */
-      body{ animation:none !important; }
-      .glitch-dup, #glitch-overlay::before { animation:none !important; }
+      body{ animation:none !important; } /* оставяме линиите статични */
+      .glitch-dup { animation:none !important; }
     }
   </style>
 </head>
 
 <body>
-  <!-- GLITCH INTRO -->
+  <!-- GLITCH INTRO OVERLAY -->
   <div id="glitch-overlay" aria-hidden="true">
     <div class="glitch-wrap">
       <span class="glitch-text">Martin Tsenkov</span>
@@ -186,7 +179,7 @@
     </div>
   </div>
 
-  <!-- NAV -->
+  <!-- NAVIGATION -->
   <nav id="topnav">
     <a href="#about" class="active">About me</a>
     <a href="#interests">Interests</a>
@@ -196,6 +189,7 @@
   </nav>
 
   <div class="wrap">
+    <!-- HEADER -->
     <header>
       <div class="brand">
         <h1 id="name" data-text="Martin Tsenkov">Martin Tsenkov</h1>
@@ -203,6 +197,7 @@
       </div>
     </header>
 
+    <!-- GRID: main + sidebar -->
     <div class="grid">
       <main>
         <section id="about">
@@ -270,6 +265,7 @@
         </footer>
       </main>
 
+      <!-- SIDEBAR -->
       <aside class="sidebar">
         <div class="card">
           <img class="photo" src="assets/pic.png" alt="Martin Tsenkov profile" />
@@ -303,15 +299,15 @@
       if(a2) a2.setAttribute("href",mail);
     })();
 
-    // Show/hide nav on scroll + active tab
+    // Show/hide nav + active tab
     (function(){
       const nav=document.getElementById('topnav');
       const show=()=>nav.classList.remove('hide');
-      const hide=()=>{if((window.pageYOffset||document.documentElement.scrollTop)>0)nav.classList.add('hide');};
-      const update=()=>nav.classList.toggle('scrolled',(window.pageYOffset||document.documentElement.scrollTop)>10);
-      let lastY=window.pageYOffset||document.documentElement.scrollTop, stopTimer=null;
+      const hide=()=>{if((pageYOffset||document.documentElement.scrollTop)>0)nav.classList.add('hide');};
+      const update=()=>nav.classList.toggle('scrolled',(pageYOffset||document.documentElement.scrollTop)>10);
+      let lastY=pageYOffset||document.documentElement.scrollTop, stopTimer=null;
       function onScroll(){
-        const y=window.pageYOffset||document.documentElement.scrollTop, dy=y-lastY;
+        const y=pageYOffset||document.documentElement.scrollTop, dy=y-lastY;
         update(); if(dy<0)show(); else if(dy>0)hide();
         if(stopTimer)clearTimeout(stopTimer); stopTimer=setTimeout(show,120);
         lastY=y;
