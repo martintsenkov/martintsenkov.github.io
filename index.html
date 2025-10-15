@@ -6,38 +6,14 @@
   <title>Martin Tsenkov | Red Teaming & Pentest Portfolio</title>
   <meta name="description" content="Red Teamer & Penetration Tester – projects, labs, and contact information." />
 
-  <!-- Primary theme colors -->
   <meta name="theme-color" content="#0b0b0c">
   <meta name="color-scheme" content="dark">
 
-  <!-- Favicons / Icons -->
   <link rel="icon" href="assets/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
 
-  <!-- Metadata for crawlers -->
-  <link rel="canonical" href="https://martintsenkov.github.io/">
-  <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
-  <meta name="robots" content="index, follow">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Martin Tsenkov — Red Teaming & Offensive Security">
-  <meta property="og:description" content="Red Team / Pentest labs, IoT security, AD attacks, Wi-Fi, and custom ESP32 tooling.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://martintsenkov.github.io/">
-  <meta property="og:image" content="https://martintsenkov.github.io/assets/og-image.jpg">
-  <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Martin Tsenkov — Red Teaming & Offensive Security">
-  <meta name="twitter:description" content="Red Team / Pentest labs, IoT security, AD attacks, Wi-Fi, and custom ESP32 tooling.">
-  <meta name="twitter:image" content="https://martintsenkov.github.io/assets/og-image.jpg">
-
-  <!-- Preload profile image -->
   <link rel="preload" as="image" href="assets/pic.png">
 
   <style>
@@ -45,30 +21,28 @@
       --bg:#0b0b0c; --bg2:#0f0f11; --fg:#e8f1ef; --muted:#a8b3b0;
       --acc:#00f5c8; --acc2:#4df1b8; --line:#0e3d36; --shadow:0 10px 30px rgba(0,0,0,.35);
 
-      /* Scanlines control */
+      /* стабилен scanlines overlay */
       --scanlines-opacity: 0.10;
       --scanlines-blend: soft-light;
 
-      /* CRT burst vars (управляват се от JS) */
+      /* CRT burst vars (JS ги клати) */
       --burst-alpha: 0;
       --burst-y: 0px;
       --burst-rgb: 0px;
     }
-    html,body{height:100%;}
-    html{scroll-behavior:smooth;}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
     body{
       margin:0; background:linear-gradient(-45deg,#0a0a0a,#0c0c0e,#0a0a0a,#0c0c0e);
       background-size:400% 400%; animation:ambient 22s ease infinite;
       color:var(--fg); font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace;
-      line-height:1.6; letter-spacing:.2px;
-      padding-top:58px;
+      line-height:1.6; letter-spacing:.2px; padding-top:58px;
     }
     @keyframes ambient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
     a{color:var(--acc);text-decoration:none}
     a:hover{color:var(--acc2);text-decoration:underline}
-    .wrap{max-width:1150px;margin:0 auto;padding:40px 22px 80px;}
+    .wrap{max-width:1150px;margin:0 auto;padding:40px 22px 80px}
 
-    /* nav */
     nav#topnav{
       position:fixed; left:0; top:0; right:0; z-index:1000;
       display:flex; justify-content:center; gap:32px;
@@ -76,17 +50,13 @@
       background-color:rgba(10,10,10,0.68); backdrop-filter:blur(4px);
       transition:transform .18s ease, opacity .15s ease, box-shadow .2s ease, background-color .2s ease;
     }
-    nav#topnav.hide{transform:translateY(-110%);opacity:0;}
-    nav#topnav.scrolled{background-color:rgba(10,10,10,.78);box-shadow:0 8px 24px rgba(0,0,0,.35);}
+    nav#topnav.hide{transform:translateY(-110%);opacity:0}
+    nav#topnav.scrolled{background-color:rgba(10,10,10,.78);box-shadow:0 8px 24px rgba(0,0,0,.35)}
     nav a{color:var(--muted);font-weight:600;transition:color .2s ease}
     nav a:hover{color:var(--acc)}
     nav a.active{color:var(--acc);text-shadow:0 0 5px var(--acc2)}
 
-    /* header */
-    header{
-      display:flex; align-items:flex-start; gap:32px;
-      padding-top:0; margin-top:0;
-    }
+    header{display:flex; align-items:flex-start; gap:32px; padding-top:0; margin-top:0}
     .brand{flex:1}
     h1{font-size:56px;margin:0 0 8px;color:var(--acc);position:relative;display:inline-block}
     h1::after{content:"|";margin-left:6px;animation:blink 1.1s steps(1) infinite;opacity:.9}
@@ -94,16 +64,15 @@
     @keyframes blink{50%{opacity:0}}
     .subtitle{color:var(--muted);font-size:20px}
 
-    /* grid: main + sidebar */
-    .grid{display:grid; grid-template-columns: 1fr 300px; gap:34px}
-    main{grid-column:1 / 2}
+    .grid{display:grid; grid-template-columns:1fr 300px; gap:34px}
+    main{grid-column:1/2}
     .sidebar{align-self:start; margin-top:-14px; width:auto; text-align:center}
     .card{background:var(--bg2); border:1px solid #13161a; border-radius:16px; box-shadow:var(--shadow); position:relative}
     .photo{width:100%; display:block; border-radius:16px 16px 0 0; position:relative; z-index:1}
     .contact{padding:14px 16px 18px; position:relative; z-index:3}
     .contact h3{margin:6px 0 10px;font-size:20px;color:var(--acc)}
-    .icons{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;}
-    .icons a{width:36px;height:36px;display:grid;place-items:center;background:#0e1416;border:1px solid #152022;border-radius:8px;transition:transform .12s ease;}
+    .icons{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+    .icons a{width:36px;height:36px;display:grid;place-items:center;background:#0e1416;border:1px solid #152022;border-radius:8px;transition:transform .12s ease}
     .icons a:hover{transform:translateY(-2px)}
 
     section{margin:34px 0; padding-bottom:16px; border-bottom:1px solid var(--line); scroll-margin-top:70px}
@@ -111,130 +80,78 @@
     h2{color:var(--acc);margin:0 0 12px;font-size:30px}
     ul{margin:8px 0 0 0;padding-left:20px}
     li{margin:8px 0}
-
     .btn{display:inline-block;margin-top:14px;padding:10px 16px;border-radius:8px;background:var(--acc);color:#0a0a0a;font-weight:700;text-decoration:none;border:1px solid #0df0c2}
     .btn:hover{background:var(--acc2)}
     footer{margin-top:40px;color:#829692;font-size:14px;text-align:center}
 
-    /* ===== Glitch intro overlay ===== */
-    #glitch-overlay{
-      position:fixed; inset:0; z-index:99999;
-      display:grid; place-items:center;
-      background:linear-gradient(180deg,#050505 0%, rgba(0,0,0,.6) 70%);
-      backdrop-filter: blur(2px);
-    }
-    .glitch-wrap{ position:relative; overflow:visible; }
-    .glitch-text{
-      font-family: ui-monospace, Menlo, monospace;
-      font-size:56px; color:var(--acc);
-      letter-spacing:1px; display:inline-block; position:relative;
-      text-shadow:0 0 12px rgba(0,255,200,.06); transform:translateZ(0);
-    }
-    .glitch-dup{
-      position:absolute; left:0; top:0; color:var(--acc);
-      mix-blend-mode:screen; clip-path: inset(0 0 0 0);
-      animation:glitch-vert 420ms linear 0s 6, glitch-horiz 720ms linear 0s 3;
-      opacity:.92; filter: drop-shadow(0 0 8px rgba(0,245,200,.04));
-    }
-    @keyframes glitch-vert{
-      0%{ transform:translate(0,0); clip-path: inset(0 0 0 0); }
-      20%{ transform:translate(0,-6px); clip-path: inset(4% 0 60% 0); }
-      40%{ transform:translate(0,4px); clip-path: inset(60% 0 6% 0); }
-      60%{ transform:translate(0,-3px); clip-path: inset(10% 0 50% 0); }
-      100%{ transform:translate(0,0); clip-path: inset(0 0 0 0); }
-    }
-    @keyframes glitch-horiz{
-      0%{ transform:translateX(0); }
-      25%{ transform:translateX(-6px) skewX(-2deg); }
-      50%{ transform:translateX(6px) skewX(2deg); }
-      75%{ transform:translateX(-3px) skewX(-1deg); }
-      100%{ transform:translateX(0); }
-    }
-    #glitch-overlay::before{
-      content:""; position:absolute; inset:0; pointer-events:none;
-      background-image: linear-gradient(rgba(255,255,255,.01) 1px, transparent 1px);
-      background-size:100% 4px; mix-blend-mode:overlay; opacity:.05;
-    }
-    #glitch-overlay.hidden{ opacity:0; pointer-events:none; transition:opacity .45s ease; }
+    /* Glitch intro */
+    #glitch-overlay{position:fixed; inset:0; z-index:99999; display:grid; place-items:center; background:linear-gradient(180deg,#050505 0%, rgba(0,0,0,.6) 70%); backdrop-filter: blur(2px)}
+    .glitch-wrap{ position:relative; overflow:visible }
+    .glitch-text{font-family:ui-monospace,Menlo,monospace; font-size:56px; color:var(--acc); letter-spacing:1px; display:inline-block; position:relative; text-shadow:0 0 12px rgba(0,255,200,.06)}
+    .glitch-dup{position:absolute; left:0; top:0; color:var(--acc); mix-blend-mode:screen; clip-path: inset(0 0 0 0); animation:glitch-vert 420ms linear 0s 6, glitch-horiz 720ms linear 0s 3; opacity:.92; filter: drop-shadow(0 0 8px rgba(0,245,200,.04))}
+    @keyframes glitch-vert{0%{transform:translate(0,0);clip-path:inset(0 0 0 0)}20%{transform:translate(0,-6px);clip-path:inset(4% 0 60% 0)}40%{transform:translate(0,4px);clip-path:inset(60% 0 6% 0)}60%{transform:translate(0,-3px);clip-path:inset(10% 0 50% 0)}100%{transform:translate(0,0);clip-path:inset(0 0 0 0)}}
+    @keyframes glitch-horiz{0%{transform:translateX(0)}25%{transform:translateX(-6px) skewX(-2deg)}50%{transform:translateX(6px) skewX(2deg)}75%{transform:translateX(-3px) skewX(-1deg)}100%{transform:translateX(0)}}
+    #glitch-overlay::before{content:""; position:absolute; inset:0; pointer-events:none; background-image:linear-gradient(rgba(255,255,255,.01) 1px, transparent 1px); background-size:100% 4px; mix-blend-mode:overlay; opacity:.05}
+    #glitch-overlay.hidden{opacity:0; pointer-events:none; transition:opacity .45s ease}
 
-    /* ===== Neon Scanlines (стабилен overlay) ===== */
+    /* стабилен scanlines */
     #scanlines{
-      position:fixed; inset:0; z-index:90000;
-      pointer-events:none; opacity:var(--scanlines-opacity, 0.10);
-      mix-blend-mode: var(--scanlines-blend, soft-light);
+      position:fixed; inset:0; z-index:90000; pointer-events:none;
+      opacity:var(--scanlines-opacity,0.10); mix-blend-mode:var(--scanlines-blend,soft-light);
       background-image:
-        repeating-linear-gradient(
-          to bottom,
-          rgba(255,255,255,0.06) 0px,
-          rgba(255,255,255,0.06) 1px,
-          rgba(0,0,0,0.00) 2px,
-          rgba(0,0,0,0.00) 4px
-        ),
+        repeating-linear-gradient(to bottom, rgba(255,255,255,0.06) 0 1px, rgba(0,0,0,0) 1px 4px),
         radial-gradient(1px 1px at 25% 20%, rgba(255,255,255,0.05), transparent 60%),
         radial-gradient(1px 1px at 60% 60%, rgba(255,255,255,0.03), transparent 60%),
         radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.04), transparent 60%);
-      background-size: 100% 4px, 200px 200px, 240px 240px, 180px 180px;
-      animation: scan-flicker 6s infinite steps(2, end);
+      background-size:100% 4px, 200px 200px, 240px 240px, 180px 180px;
+      animation:scan-flicker 6s infinite steps(2,end)
     }
-    @keyframes scan-flicker {
-      0%   { opacity: calc(var(--scanlines-opacity, 0.10) * 1.00); }
-      50%  { opacity: calc(var(--scanlines-opacity, 0.10) * 0.92); }
-      100% { opacity: calc(var(--scanlines-opacity, 0.10) * 1.00); }
-    }
+    @keyframes scan-flicker{0%{opacity:calc(var(--scanlines-opacity,.10)*1)}50%{opacity:calc(var(--scanlines-opacity,.10)*.92)}100%{opacity:calc(var(--scanlines-opacity,.10)*1)}}
 
-    /* ===== CRT/TV noise burst overlay (взриви) ===== */
+    /* CRT/TV noise burst (взриви, хаотични) */
     #crt-burst{
       position:fixed; inset:0; z-index:90500; pointer-events:none;
-      opacity: var(--burst-alpha); /* 0 между взривите */
-      mix-blend-mode: screen; /* по-ярък ефект върху тъмния фон */
-      /* Хаотични хоризонтални линии + шум (няколко слоя) */
+      opacity:var(--burst-alpha); mix-blend-mode:screen;
       background-image:
-        repeating-linear-gradient(
-          to bottom,
-          rgba(255,255,255,0.22) 0 1px,
-          rgba(0,0,0,0) 1px 3px
-        ),
+        repeating-linear-gradient(to bottom, rgba(255,255,255,0.22) 0 1px, rgba(0,0,0,0) 1px 3px),
         conic-gradient(from 0deg at 50% 50%,
-          rgba(255,255,255,0.08), rgba(0,0,0,0) 20%,
-          rgba(255,255,255,0.06) 40%, rgba(0,0,0,0) 60%,
-          rgba(255,255,255,0.05) 80%, rgba(0,0,0,0) 100%
-        );
-      background-size: 100% 3px, 140% 140%;
-      background-position: 0 var(--burst-y), 50% 50%;
-      filter: contrast(115%) saturate(120%);
-      /* малко затъмняване за драматичност */
-      box-shadow: inset 0 0 120px rgba(0,0,0,.25);
-      transition: opacity .08s ease; /* бърз snap */
+          rgba(255,255,255,0.08),
+          rgba(0,0,0,0) 22%,
+          rgba(255,255,255,0.06) 45%,
+          rgba(0,0,0,0) 65%,
+          rgba(255,255,255,0.05) 82%,
+          rgba(0,0,0,0) 100%);
+      background-size:100% 3px, 140% 140%;
+      background-position:0 var(--burst-y), 50% 50%;
+      filter:contrast(115%) saturate(120%);
+      box-shadow:inset 0 0 120px rgba(0,0,0,.25);
+      transition:opacity .06s linear;
     }
-    /* RGB offset слоеве */
     #crt-burst::before,
     #crt-burst::after{
       content:""; position:absolute; inset:0; pointer-events:none;
       background:inherit; background-position:inherit; background-size:inherit;
-      mix-blend-mode:screen; opacity: calc(var(--burst-alpha) * 0.9);
-      filter: blur(.25px);
+      mix-blend-mode:screen; opacity:calc(var(--burst-alpha)*0.95);
+      filter:blur(.25px);
     }
-    #crt-burst::before{ transform: translateX(calc(var(--burst-rgb)));  filter: hue-rotate(340deg) saturate(140%); }
-    #crt-burst::after { transform: translateX(calc(var(--burst-rgb) * -1)); filter: hue-rotate(200deg) saturate(140%); }
-
-    /* accessibility */
-    .scanlines-off #scanlines{ display:none !important; }
+    #crt-burst::before{ transform: translateX(var(--burst-rgb));  filter:hue-rotate(340deg) saturate(140%) }
+    #crt-burst::after { transform: translateX(calc(var(--burst-rgb)*-1)); filter:hue-rotate(200deg) saturate(140%) }
 
     @media (max-width:980px){
       .grid{grid-template-columns:1fr}
-      .sidebar{order:-1;width:auto;margin-top:0;}
+      .sidebar{order:-1;width:auto;margin-top:0}
       header{flex-direction:column}
       nav{flex-wrap:wrap;gap:18px}
     }
     @media (prefers-reduced-motion: reduce){
-      .glitch-dup, #glitch-overlay::before { animation:none !important; }
-      #scanlines{ animation:none !important; }
+      .glitch-dup, #glitch-overlay::before { animation:none !important }
+      #scanlines{ animation:none !important }
+      /* намаляваме сила при взривите, но не ги спираме */
     }
   </style>
 </head>
-
 <body>
-  <!-- GLITCH INTRO OVERLAY -->
+  <!-- Glitch intro -->
   <div id="glitch-overlay" aria-hidden="true">
     <div class="glitch-wrap">
       <span class="glitch-text">Martin Tsenkov</span>
@@ -242,13 +159,11 @@
     </div>
   </div>
 
-  <!-- NEON SCANLINES OVERLAY -->
+  <!-- Overlays -->
   <div id="scanlines" aria-hidden="true"></div>
-
-  <!-- CRT/TV NOISE BURST OVERLAY -->
   <div id="crt-burst" aria-hidden="true"></div>
 
-  <!-- NAVIGATION -->
+  <!-- NAV -->
   <nav id="topnav">
     <a href="#about" class="active">About me</a>
     <a href="#interests">Interests</a>
@@ -258,7 +173,6 @@
   </nav>
 
   <div class="wrap">
-    <!-- HEADER -->
     <header>
       <div class="brand">
         <h1 id="name" data-text="Martin Tsenkov">Martin Tsenkov</h1>
@@ -266,7 +180,6 @@
       </div>
     </header>
 
-    <!-- GRID -->
     <div class="grid">
       <main>
         <section id="about">
@@ -334,7 +247,6 @@
         </footer>
       </main>
 
-      <!-- SIDEBAR -->
       <aside class="sidebar">
         <div class="card">
           <img class="photo" src="assets/pic.png" alt="Martin Tsenkov profile" />
@@ -355,13 +267,13 @@
   </div>
 
   <script>
-    // year (guard)
+    // year
     (function(){
       const y = document.getElementById('y');
       if (y) y.textContent = new Date().getFullYear();
     })();
 
-    // Email link
+    // email
     (function(){
       const user="martintsennkov", domain="gmail.com";
       const mail="mailto:"+user+"@"+domain;
@@ -371,23 +283,18 @@
       if(a2) a2.setAttribute("href",mail);
     })();
 
-    // Show/hide nav on scroll + active tab
+    // nav show/hide + active
     (function(){
       const nav=document.getElementById('topnav');
       const show=()=>nav.classList.remove('hide');
       const hide=()=>{if((window.pageYOffset||document.documentElement.scrollTop)>0)nav.classList.add('hide');};
       const updateShadow=()=>nav.classList.toggle('scrolled',(window.pageYOffset||document.documentElement.scrollTop)>10);
       let lastY=window.pageYOffset||document.documentElement.scrollTop, stopTimer=null;
-
       function onScroll(){
         const y=window.pageYOffset||document.documentElement.scrollTop, dy=y-lastY;
-        updateShadow();
-        if(dy<0)show(); else if(dy>0)hide();
-        if(stopTimer)clearTimeout(stopTimer);
-        stopTimer=setTimeout(show,120);
-        lastY=y;
+        updateShadow(); if(dy<0)show(); else if(dy>0)hide();
+        if(stopTimer)clearTimeout(stopTimer); stopTimer=setTimeout(show,120); lastY=y;
       }
-
       window.addEventListener('scroll',onScroll,{passive:true});
       window.addEventListener('wheel',e=>{if(e.deltaY<0)show(); else if(e.deltaY>0)hide();},{passive:true});
       let ty=null;
@@ -397,7 +304,6 @@
       window.addEventListener('keydown',e=>{if(['ArrowUp','PageUp','Home'].includes(e.key))show(); if(['ArrowDown','PageDown','End',' '].includes(e.key))hide();});
       window.addEventListener('pointermove',e=>{if(e.clientY<=80)show();},{passive:true});
 
-      // active tab by IntersectionObserver
       const links=[...document.querySelectorAll('#topnav a')];
       const setActive=(hash)=>links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===hash));
       links.forEach(a=>a.addEventListener('click',()=>{show(); setActive(a.getAttribute('href'));}));
@@ -412,127 +318,104 @@
       updateShadow();
     })();
 
-    // Typewriter за <h1 id="name"> — периодично
+    // Typewriter
     (function(){
       const el = document.getElementById('name');
       if(!el) return;
       const full = (el.dataset.text || el.textContent).trim();
-
       function typeOnce(){
-        el.classList.add('typing');
-        el.textContent = '';
-        let i = 0;
-        const speed = 85;
-
+        el.classList.add('typing'); el.textContent = '';
+        let i = 0; const speed = 85;
         const timer = setInterval(()=>{
           el.textContent += full[i++];
           if(i >= full.length){
-            clearInterval(timer);
-            el.classList.remove('typing');
-            el.textContent = full;
-            schedule();
+            clearInterval(timer); el.classList.remove('typing'); el.textContent = full; schedule();
           }
         }, speed);
       }
-      function schedule(){
-        const delay = 12000 + Math.random()*8000;
-        setTimeout(typeOnce, delay);
-      }
+      function schedule(){ setTimeout(typeOnce, 12000 + Math.random()*8000); }
       schedule();
     })();
 
-    /* GLITCH INTRO controller */
+    // Glitch hide
     (function(){
       const overlay = document.getElementById('glitch-overlay');
       if(!overlay) return;
       const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const showTime = reduced ? 600 : 1200;
-      requestAnimationFrame(()=>{
-        setTimeout(()=>{
-          overlay.classList.add('hidden');
-          setTimeout(()=> overlay.remove(), 500);
-        }, showTime);
-      });
+      requestAnimationFrame(()=>{ setTimeout(()=>{ overlay.classList.add('hidden'); setTimeout(()=> overlay.remove(), 500); }, showTime); });
     })();
 
-    /* === CRT/TV NOISE BURST: хаотични „взриви“ на сканиращи линии === */
+    // CRT/TV NOISE BURST (по-силен + гарантирана видимост)
     (function(){
       const el = document.getElementById('crt-burst');
       if(!el) return;
 
-      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(prefersReduced) return;
+      const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Настройки – смело променяй по вкус
-      const PAUSE_MIN_MS = 5000,  PAUSE_MAX_MS = 15000; // интервал между взривите
-      const BURST_MIN_MS = 900,   BURST_MAX_MS = 1600;  // продължителност на взрива
-      const ALPHA_MIN = 0.08,     ALPHA_MAX = 0.18;     // сила (прозрачност)
-      const RGB_MAX = 1.6;                               // пиксели странично RGB отместване
-      const JITTER_Y = 10;                               // пиксели вертикално прескачане
+      // Диапазони (по-силни; при reduced – омекотени)
+      const PAUSE_MIN_MS = 3000,  PAUSE_MAX_MS = 9000;
+      const BURST_MIN_MS = 900,   BURST_MAX_MS = 1600;
+      const ALPHA_MIN = reduced ? 0.06 : 0.14;
+      const ALPHA_MAX = reduced ? 0.12 : 0.26;
+      const RGB_MAX   = reduced ? 1.2  : 2.4;   // px
+      const JITTER_Y  = reduced ? 8    : 18;    // px
 
       let rafId = null;
 
-      function rand(min, max){ return min + Math.random()*(max-min); }
-      function sign(){ return Math.random() < .5 ? -1 : 1; }
+      const rand = (a,b)=> a + Math.random()*(b-a);
+      const sign = ()=> Math.random() < .5 ? -1 : 1;
 
-      function setVar(name, value){
-        el.style.setProperty(name, typeof value === 'number' ? value.toString() : value);
-      }
+      const setVar = (name, val)=> el.style.setProperty(name, typeof val==='number' ? String(val) : val);
+      const setAlpha = (v)=>{ setVar('--burst-alpha', v); el.style.opacity = String(v); }; // дублираме и директно opacity
 
       function burstOnce(){
-        const tStart = performance.now();
-        const duration = rand(BURST_MIN_MS, BURST_MAX_MS);
-        const alphaBase = rand(ALPHA_MIN, ALPHA_MAX);
+        const t0 = performance.now();
+        const dur = rand(BURST_MIN_MS, BURST_MAX_MS);
+        const base = rand(ALPHA_MIN, ALPHA_MAX);
 
         cancelAnimationFrame(rafId);
         function frame(t){
-          const p = Math.min(1, (t - tStart) / duration);
-          // Еasing – силно начало, отшумява към края
+          const p = Math.min(1, (t - t0) / dur);
           const easeOut = 1 - Math.pow(1 - p, 3);
 
-          // хаотично прескачане по Y (стъпково, не плавно)
+          // хаотично „подръпване“ по Y
           if(Math.random() < 0.9){
-            setVar('--burst-y', (Math.round(rand(-JITTER_Y, JITTER_Y))) + 'px');
+            setVar('--burst-y', Math.round(rand(-JITTER_Y, JITTER_Y)) + 'px');
           }
-          // малък RGB shift, който също трепти
-          const rgbShift = (rand(0, RGB_MAX) * sign()) * (1 - easeOut*0.6);
-          setVar('--burst-rgb', rgbShift + 'px');
+          // RGB отместване
+          setVar('--burst-rgb', (rand(0, RGB_MAX) * sign()) * (1 - easeOut*0.6) + 'px');
 
-          // „трепти“ в амплитуда
-          const alpha = alphaBase * (0.85 + Math.random()*0.3) * (1 - easeOut*0.15);
-          setVar('--burst-alpha', alpha);
+          // трептене на амплитуда
+          const a = base * (0.85 + Math.random()*0.35) * (1 - easeOut*0.15);
+          setAlpha(a);
 
           if(p < 1){
             rafId = requestAnimationFrame(frame);
           } else {
-            // загасваме бързо
-            setVar('--burst-alpha', 0);
-            setVar('--burst-rgb', '0px');
-            setVar('--burst-y', '0px');
+            setAlpha(0); setVar('--burst-rgb','0px'); setVar('--burst-y','0px');
             schedule();
           }
         }
         rafId = requestAnimationFrame(frame);
       }
 
-      function schedule(){
-        const wait = rand(PAUSE_MIN_MS, PAUSE_MAX_MS);
+      function schedule(first=false){
+        const wait = first ? rand(800, 1800) : rand(PAUSE_MIN_MS, PAUSE_MAX_MS);
         setTimeout(burstOnce, wait);
       }
 
-      // старт
-      schedule();
+      schedule(true);
 
-      // безопасност при смяна на таба
       document.addEventListener('visibilitychange', () => {
         if(document.hidden){
           cancelAnimationFrame(rafId);
-          setVar('--burst-alpha', 0);
+          setAlpha(0);
         }
       });
     })();
 
-    /* Scanlines toggle (Ctrl + .) – ако някога поискаш да ги спираш */
+    // опционален toggle на scanlines (Ctrl + .)
     (function(){
       window.addEventListener('keydown', (e)=>{
         if(e.ctrlKey && (e.key === '.' || e.code === 'Period')){
