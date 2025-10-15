@@ -94,31 +94,24 @@
     }
     main{grid-column:1 / 2}
     .sidebar{
-      align-self:start;   /* залепи горе */
-      margin-top:-14px;   /* вдига картата */
-      width:auto;         /* не фиксирай ширина тук */
+      align-self:start;
+      margin-top:-14px;
+      width:auto;
       text-align:center;
     }
     .card{
       background:var(--bg2);
       border:1px solid #13161a;
-      border-radius:16px; /* +2px */
+      border-radius:16px;
       box-shadow:var(--shadow);
-      position:relative;  /* за canvas overlay */
-      overflow:visible;
+      position:relative;
     }
     .photo{
       width:100%;
       display:block;
-      border-radius:16px 16px 0 0; /* синхрон с картата */
+      border-radius:16px 16px 0 0;
       position:relative;
       z-index:1;
-    }
-    /* sparks canvas покрива картата */
-    #sparks{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      z-index:2; opacity:.92; pointer-events:none;
     }
     .contact{padding:14px 16px 18px; position:relative; z-index:3;}
     .contact h3{margin:6px 0 10px;font-size:20px;color:var(--acc)}
@@ -189,13 +182,12 @@
     /* Respect prefers-reduced-motion */
     @media (max-width:980px){
       .grid{grid-template-columns:1fr}
-      .sidebar{order:-1;width:auto;margin-top:0;} /* на мобилно без повдигане */
+      .sidebar{order:-1;width:auto;margin-top:0;}
       header{flex-direction:column}
       nav{flex-wrap:wrap;gap:18px}
     }
     @media (prefers-reduced-motion: reduce){
       .glitch-dup, #glitch-overlay::before { animation:none !important; }
-      #sparks{ display:none !important; }
     }
   </style>
 </head>
@@ -219,7 +211,7 @@
   </nav>
 
   <div class="wrap">
-    <!-- HEADER: само бранд/заглавие -->
+    <!-- HEADER -->
     <header>
       <div class="brand">
         <h1 id="name" data-text="Martin Tsenkov">Martin Tsenkov</h1>
@@ -227,7 +219,7 @@
       </div>
     </header>
 
-    <!-- GRID: main + sidebar една до друга -->
+    <!-- GRID: main + sidebar -->
     <div class="grid">
       <main>
         <section id="about">
@@ -239,7 +231,7 @@
             Life taught me that nothing is truly impossible — you just need to find the right angle, the hidden door, the weakness in the system.
             I believe every problem has a workaround. You just have to look harder, try again, and press the right spot.
             Offensive security fascinates me because it's full of backdoors — both in code and in mindset.
-            Outside the lab, I lift heavy, study history, and keep pushing when most stop.
+            Outside the lab, I lift heavy, read books about Bulgarian history, and keep pushing when most stop.
           </p>
         </section>
 
@@ -295,12 +287,9 @@
         </footer>
       </main>
 
-      <!-- SIDEBAR: 2-ра колона -->
+      <!-- SIDEBAR -->
       <aside class="sidebar">
         <div class="card">
-          <!-- Terminal sparks canvas -->
-          <canvas id="sparks" width="400" height="300" aria-hidden="true"></canvas>
-
           <img class="photo" src="assets/pic.png" alt="Martin Tsenkov profile" />
           <div class="contact">
             <h3>Contact</h3>
@@ -417,94 +406,6 @@
           setTimeout(()=> overlay.remove(), 500);
         }, showTime);
       });
-    })();
-
-    /* --- Terminal sparks: lightweight particle system --- */
-    (function(){
-      const c = document.getElementById('sparks');
-      if(!c) return;
-      const ctx = c.getContext('2d', { alpha: true });
-
-      function fit() {
-        const rect = c.parentElement.getBoundingClientRect();
-        c.width = Math.max(200, Math.round(rect.width * devicePixelRatio));
-        c.height = Math.max(200, Math.round(rect.height * devicePixelRatio));
-        c.style.width = rect.width + 'px';
-        c.style.height = rect.height + 'px';
-        ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-      }
-
-      let particles = [];
-      function spawn(x, y){
-        const life = 650 + Math.random()*650; // ms
-        particles.push({
-          x, y,
-          vx: (Math.random()-0.5) * 1.8,
-          vy: - (1 + Math.random()*2.5),
-          r: 1 + Math.random()*2.2,
-          t: performance.now(),
-          life,
-          col: `hsl(${160 + Math.random()*30}, 90%, ${40 + Math.random()*25}%)`
-        });
-      }
-      function spawnBurst(){
-        const rect = c.getBoundingClientRect();
-        const baseX = rect.width * (0.5 + (Math.random()-0.5)*0.2);
-        const baseY = rect.height * (0.72); // малко над контакт секцията
-        const count = 5 + Math.floor(Math.random()*8);
-        for(let i=0;i<count;i++){
-          spawn(baseX + (Math.random()-0.5)*40, baseY + (Math.random()-0.5)*20);
-        }
-      }
-
-      let last = performance.now();
-      function frame(now){
-        const dt = now - last;
-        last = now;
-
-        ctx.clearRect(0,0,c.width, c.height);
-
-        const alive = [];
-        for(const p of particles){
-          const age = now - p.t;
-          if(age > p.life) continue;
-          p.vy += 0.025 * (dt/16);
-          p.x += p.vx * (dt/16) * 1.2;
-          p.y += p.vy * (dt/16) * 1.2;
-          const alpha = 1 - (age / p.life);
-
-          ctx.beginPath();
-          ctx.fillStyle = p.col;
-          ctx.globalAlpha = alpha * 0.95;
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-          ctx.fill();
-
-          ctx.globalAlpha = 0.12 * alpha;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r*4, 0, Math.PI*2);
-          ctx.fill();
-
-          ctx.globalAlpha = 1;
-          alive.push(p);
-        }
-        particles = alive;
-
-        requestAnimationFrame(frame);
-      }
-
-      fit();
-      window.addEventListener('resize', () => {
-        clearTimeout(window.__sparks_resize);
-        window.__sparks_resize = setTimeout(fit, 120);
-      });
-
-      (function loopBurst(){
-        spawnBurst();
-        const t = 1800 + Math.random()*2600; // 1.8 - 4.4s
-        setTimeout(loopBurst, t);
-      })();
-
-      requestAnimationFrame(frame);
     })();
   </script>
 </body>
