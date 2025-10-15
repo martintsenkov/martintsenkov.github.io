@@ -45,17 +45,17 @@
       --bg:#0b0b0c; --bg2:#0f0f11; --fg:#e8f1ef; --muted:#a8b3b0;
       --acc:#00f5c8; --acc2:#4df1b8; --line:#0e3d36; --shadow:0 10px 30px rgba(0,0,0,.35);
 
-      /* контрол за линии (по-видими по дефоут – после можеш да ги намалиш) */
-      --scan-gap: 4px;      /* период */
-      --scan-line: 2px;     /* дебелина на линията */
-      --scan-alpha: 0.18;   /* сила на линията */
-      --scan-noise: 0.03;   /* фин шум */
+      /* базови (тихи) статични линии в бекграунда */
+      --scan-gap: 4px;
+      --scan-line: 2px;
+      --scan-alpha: 0.08;   /* лек статичен grain (намали/увеличи при нужда) */
+      --scan-noise: 0.02;   /* фин шум */
     }
 
     html,body{height:100%;}
     html{scroll-behavior:smooth;}
 
-    /* ЛИНИИТЕ СА НАЙ-ГОРНИЯ СЛОЙ (първи в списъка) */
+    /* Бекграунд: много лек статичен CRT vibe (винаги включен) */
     body{
       margin:0;
       color:var(--fg);
@@ -64,7 +64,7 @@
       padding-top:58px;
 
       background-image:
-        /* 1) scanlines – най-отгоре */
+        /* 1) статични scanlines (леки) */
         repeating-linear-gradient(
           to bottom,
           rgba(255,255,255,var(--scan-alpha)) 0,
@@ -75,14 +75,14 @@
         /* 2) фин noise */
         radial-gradient(1px 1px at 25% 20%, rgba(255,255,255,var(--scan-noise)), transparent 60%),
         radial-gradient(1px 1px at 70% 70%, rgba(255,255,255,calc(var(--scan-noise)*0.8)), transparent 60%),
-        /* 3) base ambient gradient – най-отдолу */
+        /* 3) base ambient gradient */
         linear-gradient(-45deg,#0a0a0a,#0c0c0e,#0a0a0a,#0c0c0e);
 
       background-size:
-        100% var(--scan-gap), /* scanlines период */
-        220px 220px,          /* noise 1 */
-        260px 260px,          /* noise 2 */
-        400% 400%;            /* ambient */
+        100% var(--scan-gap),
+        220px 220px,
+        260px 260px,
+        400% 400%;
 
       background-attachment: fixed,fixed,fixed,fixed;
       animation: ambient 22s ease infinite;
@@ -92,6 +92,41 @@
       0%   { background-position: 0 0, 0 0, 0 0, 0% 50%; }
       50%  { background-position: 0 0, 0 0, 0 0, 100% 50%; }
       100% { background-position: 0 0, 0 0, 0 0, 0% 50%; }
+    }
+
+    /* ===== ДИНАМИЧЕН BURST ОВЪРЛЕЙ (мига/мести се само от време на време) ===== */
+    #scan-anim{
+      position:fixed; inset:0; z-index:95000;
+      pointer-events:none;
+      mix-blend-mode:soft-light;
+      opacity:0; /* изключен по дефоут (ще се включва на burst-ове) */
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.22) 0,
+          rgba(255,255,255,0.22) 2px,
+          transparent 2px,
+          transparent 4px
+        );
+      background-size:100% 4px;
+      animation:
+        scan-move 110ms steps(2,end) infinite,
+        scan-flicker 240ms steps(2,end) infinite;
+      animation-play-state: paused; /* пуска се само когато е .active */
+      transition: opacity .18s ease;
+    }
+    #scan-anim.active{
+      opacity:.18;              /* сила на burst-а; пипни при нужда */
+      animation-play-state: running;
+    }
+    @keyframes scan-move{
+      from{ background-position-y: 0; }
+      to  { background-position-y: 4px; } /* мърда с 1 период нагоре */
+    }
+    @keyframes scan-flicker{
+      0%{ filter: none; }
+      50%{ filter: brightness(1.06) contrast(1.02); }
+      100%{ filter: none; }
     }
 
     a{color:var(--acc);text-decoration:none}
@@ -164,7 +199,8 @@
       nav{flex-wrap:wrap;gap:18px}
     }
     @media (prefers-reduced-motion: reduce){
-      body{ animation:none !important; } /* оставяме линиите статични */
+      body{ animation:none !important; }       /* статичен фон */
+      #scan-anim{ display:none !important; }  /* без мигащи burst-ове */
       .glitch-dup { animation:none !important; }
     }
   </style>
@@ -178,6 +214,9 @@
       <span class="glitch-text glitch-dup">Martin Tsenkov</span>
     </div>
   </div>
+
+  <!-- DYNAMIC SCANLINES BURST OVERLAY -->
+  <div id="scan-anim" aria-hidden="true"></div>
 
   <!-- NAVIGATION -->
   <nav id="topnav">
@@ -360,6 +399,55 @@
         overlay.classList.add('hidden');
         setTimeout(()=>overlay.remove(), 500);
       }, showTime));
+    })();
+
+    // === DYNAMIC SCANLINES BURSTS (random on/off + flicker) ===
+    (function(){
+      const layer = document.getElementById('scan-anim');
+      if(!layer) return;
+
+      const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(reduced) return; // уважаваме настройката
+
+      function burst(){
+        // включи
+        layer.classList.add('active');
+
+        // micro-flicker на opacity (допълнение към CSS flicker)
+        const baseHi = 0.18, baseLo = 0.06;
+        let hi = true;
+        const flick = setInterval(()=>{
+          layer.style.opacity = hi ? baseLo : baseHi;
+          hi = !hi;
+        }, 110);
+
+        // продължителност на burst-а 0.9–2.2s
+        const duration = 900 + Math.random()*1300;
+        setTimeout(()=>{
+          clearInterval(flick);
+          layer.classList.remove('active');
+          layer.style.opacity = 0;
+
+          // следващ burst след 4–13s
+          schedule();
+        }, duration);
+      }
+
+      function schedule(){
+        const delay = 4000 + Math.random()*9000;
+        setTimeout(burst, delay);
+      }
+
+      // старт
+      schedule();
+
+      // пауза, докато табът е скрит (save battery)
+      document.addEventListener('visibilitychange', ()=>{
+        if(document.hidden){
+          layer.classList.remove('active');
+          layer.style.opacity = 0;
+        }
+      });
     })();
   </script>
 </body>
