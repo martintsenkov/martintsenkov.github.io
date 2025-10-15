@@ -6,22 +6,18 @@
   <title>Martin Tsenkov | Red Teaming & Pentest Portfolio</title>
   <meta name="description" content="Red Teamer & Penetration Tester – projects, labs, and contact information." />
 
-  <!-- Primary theme colors -->
   <meta name="theme-color" content="#0b0b0c">
   <meta name="color-scheme" content="dark">
 
-  <!-- Favicons / Icons -->
   <link rel="icon" href="assets/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
 
-  <!-- Metadata for crawlers -->
   <link rel="canonical" href="https://martintsenkov.github.io/">
   <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
   <meta name="robots" content="index, follow">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Martin Tsenkov — Red Teaming & Offensive Security">
   <meta property="og:description" content="Red Team / Pentest labs, IoT security, AD attacks, Wi-Fi, and custom ESP32 tooling.">
   <meta property="og:type" content="website">
@@ -31,13 +27,11 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Martin Tsenkov — Red Teaming & Offensive Security">
   <meta name="twitter:description" content="Red Team / Pentest labs, IoT security, AD attacks, Wi-Fi, and custom ESP32 tooling.">
   <meta name="twitter:image" content="https://martintsenkov.github.io/assets/og-image.jpg">
 
-  <!-- Preload profile image -->
   <link rel="preload" as="image" href="assets/pic.png">
 
   <style>
@@ -45,9 +39,8 @@
       --bg:#0b0b0c; --bg2:#0f0f11; --fg:#e8f1ef; --muted:#a8b3b0;
       --acc:#00f5c8; --acc2:#4df1b8; --line:#0e3d36; --shadow:0 10px 30px rgba(0,0,0,.35);
 
-      /* === Scanlines control === */
-      --scanlines-opacity: 0.22;        /* по-видим ефект */
-      --scanlines-blend: overlay;       /* по-агресивен, но чист CRT vibe */
+      /* Scanlines – по-видим дефолт */
+      --scanlines-opacity: 0.35;   /* ако е много, намали до 0.20–0.25 */
     }
     html,body{height:100%;}
     html{scroll-behavior:smooth;}
@@ -56,14 +49,13 @@
       background-size:400% 400%; animation:ambient 22s ease infinite;
       color:var(--fg); font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace;
       line-height:1.6; letter-spacing:.2px;
-      padding-top:58px; /* височина за fixed нав */
+      padding-top:58px;
     }
     @keyframes ambient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
     a{color:var(--acc);text-decoration:none}
     a:hover{color:var(--acc2);text-decoration:underline}
     .wrap{max-width:1150px;margin:0 auto;padding:40px 22px 80px;}
 
-    /* nav */
     nav#topnav{
       position:fixed; left:0; top:0; right:0; z-index:1000;
       display:flex; justify-content:center; gap:32px;
@@ -77,7 +69,6 @@
     nav a:hover{color:var(--acc)}
     nav a.active{color:var(--acc);text-shadow:0 0 5px var(--acc2)}
 
-    /* header */
     header{
       display:flex; align-items:flex-start; gap:32px;
       padding-top:0; margin-top:0;
@@ -89,54 +80,30 @@
     @keyframes blink{50%{opacity:0}}
     .subtitle{color:var(--muted);font-size:20px}
 
-    /* grid: main + sidebar */
     .grid{
       display:grid;
       grid-template-columns: 1fr 300px;
       gap:34px;
     }
     main{grid-column:1 / 2}
-    .sidebar{
-      align-self:start;
-      margin-top:-14px;
-      width:auto;
-      text-align:center;
-    }
-    .card{
-      background:var(--bg2);
-      border:1px solid #13161a;
-      border-radius:16px;
-      box-shadow:var(--shadow);
-      position:relative;
-    }
-    .photo{
-      width:100%;
-      display:block;
-      border-radius:16px 16px 0 0;
-      position:relative;
-      z-index:1;
-    }
+    .sidebar{align-self:start;margin-top:-14px;width:auto;text-align:center}
+    .card{background:var(--bg2);border:1px solid #13161a;border-radius:16px;box-shadow:var(--shadow);position:relative}
+    .photo{width:100%;display:block;border-radius:16px 16px 0 0;position:relative;z-index:1}
     .contact{padding:14px 16px 18px; position:relative; z-index:3;}
     .contact h3{margin:6px 0 10px;font-size:20px;color:var(--acc)}
     .icons{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;}
     .icons a{width:36px;height:36px;display:grid;place-items:center;background:#0e1416;border:1px solid #152022;border-radius:8px;transition:transform .12s ease;}
     .icons a:hover{transform:translateY(-2px)}
-    .icons svg{width:20px;height:20px;fill:var(--acc)}
-
-    section{
-      margin:34px 0; padding-bottom:16px; border-bottom:1px solid var(--line);
-      scroll-margin-top:70px;
-    }
+    section{margin:34px 0; padding-bottom:16px; border-bottom:1px solid var(--line); scroll-margin-top:70px;}
     section:last-child{border-bottom:none}
     h2{color:var(--acc);margin:0 0 12px;font-size:30px}
     ul{margin:8px 0 0 0;padding-left:20px}
     li{margin:8px 0}
-
     .btn{display:inline-block;margin-top:14px;padding:10px 16px;border-radius:8px;background:var(--acc);color:#0a0a0a;font-weight:700;text-decoration:none;border:1px solid #0df0c2}
     .btn:hover{background:var(--acc2);}
     footer{margin-top:40px;color:#829692;font-size:14px;text-align:center;}
 
-    /* ===== Glitch intro overlay ===== */
+    /* Glitch intro */
     #glitch-overlay{
       position:fixed; inset:0; z-index:99999;
       display:grid; place-items:center;
@@ -144,80 +111,48 @@
       backdrop-filter: blur(2px);
     }
     .glitch-wrap{ position:relative; overflow:visible; }
-    .glitch-text{
-      font-family: ui-monospace, Menlo, monospace;
-      font-size:56px; color:var(--acc);
-      letter-spacing:1px;
-      display:inline-block;
-      position:relative;
-      text-shadow:0 0 12px rgba(0,255,200,.06);
-      transform:translateZ(0);
-    }
-    .glitch-dup{
-      position:absolute; left:0; top:0; color:var(--acc);
-      mix-blend-mode:screen;
-      clip-path: inset(0 0 0 0);
-      animation:glitch-vert 420ms linear 0s 6, glitch-horiz 720ms linear 0s 3;
-      opacity:.92;
-      filter: drop-shadow(0 0 8px rgba(0,245,200,.04));
-    }
-    @keyframes glitch-vert{
-      0%{ transform:translate(0,0); clip-path: inset(0 0 0 0); }
-      20%{ transform:translate(0,-6px); clip-path: inset(4% 0 60% 0); }
-      40%{ transform:translate(0,4px); clip-path: inset(60% 0 6% 0); }
-      60%{ transform:translate(0,-3px); clip-path: inset(10% 0 50% 0); }
-      100%{ transform:translate(0,0); clip-path: inset(0 0 0 0); }
-    }
-    @keyframes glitch-horiz{
-      0%{ transform:translateX(0); }
-      25%{ transform:translateX(-6px) skewX(-2deg); }
-      50%{ transform:translateX(6px) skewX(2deg); }
-      75%{ transform:translateX(-3px) skewX(-1deg); }
-      100%{ transform:translateX(0); }
-    }
-    #glitch-overlay::before{
-      content:""; position:absolute; inset:0; pointer-events:none;
-      background-image: linear-gradient(rgba(255,255,255,.01) 1px, transparent 1px);
-      background-size:100% 4px; mix-blend-mode:overlay; opacity:.05;
-    }
-    #glitch-overlay.hidden{ opacity:0; pointer-events:none; transition:opacity .45s ease; }
+    .glitch-text{ font-family: ui-monospace, Menlo, monospace; font-size:56px; color:var(--acc); letter-spacing:1px; display:inline-block; position:relative; text-shadow:0 0 12px rgba(0,255,200,.06); transform:translateZ(0); }
+    .glitch-dup{ position:absolute; left:0; top:0; color:var(--acc); mix-blend-mode:screen; clip-path: inset(0 0 0 0); animation:glitch-vert 420ms linear 0s 6, glitch-horiz 720ms linear 0s 3; opacity:.92; filter: drop-shadow(0 0 8px rgba(0,245,200,.04)); }
+    @keyframes glitch-vert{0%{transform:translate(0,0);clip-path:inset(0 0 0 0)}20%{transform:translate(0,-6px);clip-path:inset(4% 0 60% 0)}40%{transform:translate(0,4px);clip-path:inset(60% 0 6% 0)}60%{transform:translate(0,-3px);clip-path:inset(10% 0 50% 0)}100%{transform:translate(0,0);clip-path:inset(0 0 0 0)}}
+    @keyframes glitch-horiz{0%{transform:translateX(0)}25%{transform:translateX(-6px) skewX(-2deg)}50%{transform:translateX(6px) skewX(2deg)}75%{transform:translateX(-3px) skewX(-1deg)}100%{transform:translateX(0)}}
+    #glitch-overlay::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.01) 1px, transparent 1px);background-size:100% 4px;mix-blend-mode:overlay;opacity:.05}
+    #glitch-overlay.hidden{opacity:0;pointer-events:none;transition:opacity .45s ease;}
 
-    /* ===== Neon Scanlines (CRT overlay) ===== */
+    /* Neon Scanlines — видими по дефолт, без blend трикове */
     #scanlines{
-      position:fixed; inset:0; z-index:90000; /* под glitch overlay-а, над съдържанието */
-      pointer-events:none; opacity:var(--scanlines-opacity, 0.22);
-      mix-blend-mode: var(--scanlines-blend, overlay);
-
-      /* Линии + фин шум (без изображения) */
+      position:fixed; inset:0; z-index:9998; /* под glitch-а */
+      pointer-events:none;
+      opacity:var(--scanlines-opacity, 0.35); /* чиста прозрачност */
+      /* линии (по-контрастни) + фина винетка и noise */
       background-image:
+        /* линии */
         repeating-linear-gradient(
           to bottom,
-          rgba(255,255,255,0.06) 0px,
-          rgba(255,255,255,0.06) 1px,
-          rgba(0,0,0,0.00) 2px,
-          rgba(0,0,0,0.00) 4px
+          rgba(255,255,255,0.12) 0px,
+          rgba(255,255,255,0.12) 1px,
+          rgba(0,0,0,0) 1px,
+          rgba(0,0,0,0) 3px
         ),
+        /* винетка */
+        radial-gradient(70% 60% at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.18) 100%),
+        /* лек „noise“ без изображения */
         radial-gradient(1px 1px at 25% 20%, rgba(255,255,255,0.05), transparent 60%),
         radial-gradient(1px 1px at 60% 60%, rgba(255,255,255,0.03), transparent 60%),
         radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.04), transparent 60%);
-
       background-size:
-        100% 4px,
+        100% 3px,
+        100% 100%,
         200px 200px,
         240px 240px,
         180px 180px;
-
       animation: scan-flicker 6s infinite steps(2, end);
     }
-    @keyframes scan-flicker {
-      0%   { opacity: calc(var(--scanlines-opacity, 0.22) * 1.00); }
-      50%  { opacity: calc(var(--scanlines-opacity, 0.22) * 0.92); }
-      100% { opacity: calc(var(--scanlines-opacity, 0.22) * 1.00); }
+    @keyframes scan-flicker{
+      0%{opacity:calc(var(--scanlines-opacity,0.35)*1.00)}
+      50%{opacity:calc(var(--scanlines-opacity,0.35)*0.92)}
+      100%{opacity:calc(var(--scanlines-opacity,0.35)*1.00)}
     }
 
-    .scanlines-off #scanlines{ display:none !important; }
-
-    /* Достъпност / мобилно */
     @media (max-width:980px){
       .grid{grid-template-columns:1fr}
       .sidebar{order:-1;width:auto;margin-top:0;}
@@ -226,13 +161,12 @@
     }
     @media (prefers-reduced-motion: reduce){
       .glitch-dup, #glitch-overlay::before { animation:none !important; }
-      #scanlines{ animation:none !important; } /* статични линии */
+      #scanlines{ animation:none !important; }
     }
   </style>
 </head>
-
 <body>
-  <!-- GLITCH INTRO OVERLAY -->
+  <!-- GLITCH INTRO -->
   <div id="glitch-overlay" aria-hidden="true">
     <div class="glitch-wrap">
       <span class="glitch-text">Martin Tsenkov</span>
@@ -240,10 +174,10 @@
     </div>
   </div>
 
-  <!-- NEON SCANLINES OVERLAY (включен по подразбиране) -->
+  <!-- SCANLINES (включен по подразбиране) -->
   <div id="scanlines" aria-hidden="true"></div>
 
-  <!-- NAVIGATION -->
+  <!-- NAV -->
   <nav id="topnav">
     <a href="#about" class="active">About me</a>
     <a href="#interests">Interests</a>
@@ -253,7 +187,6 @@
   </nav>
 
   <div class="wrap">
-    <!-- HEADER -->
     <header>
       <div class="brand">
         <h1 id="name" data-text="Martin Tsenkov">Martin Tsenkov</h1>
@@ -261,20 +194,17 @@
       </div>
     </header>
 
-    <!-- GRID: main + sidebar -->
     <div class="grid">
       <main>
         <section id="about">
           <h2>About Me</h2>
-          <p>
-            I'm from one of Bulgaria’s major cities and hold a degree in Cybersecurity from the Bulgarian Naval Academy.
-            I have a solid background in electronics – from microchips and SMD components to real-world circuit analysis.
-            I’m drawn to challenges most people avoid – the harder it gets, the more focused I become.
-            Life taught me that nothing is truly impossible — you just need to find the right angle, the hidden door, the weakness in the system.
-            I believe every problem has a workaround. You just have to look harder, try again, and press the right spot.
-            Offensive security fascinates me because it's full of backdoors — both in code and in mindset.
-            Outside the lab, I lift heavy, read books about Bulgarian history, and keep pushing when most stop.
-          </p>
+          <p>I'm from one of Bulgaria’s major cities and hold a degree in Cybersecurity from the Bulgarian Naval Academy.
+          I have a solid background in electronics – from microchips and SMD components to real-world circuit analysis.
+          I’m drawn to challenges most people avoid – the harder it gets, the more focused I become.
+          Life taught me that nothing is truly impossible — you just need to find the right angle, the hidden door, the weakness in the system.
+          I believe every problem has a workaround. You just have to look harder, try again, and press the right spot.
+          Offensive security fascinates me because it's full of backdoors — both in code and in mindset.
+          Outside the lab, I lift heavy, read books about Bulgarian history, and keep pushing when most stop.</p>
         </section>
 
         <section id="interests">
@@ -316,12 +246,10 @@
 
         <section id="contact">
           <h2>Contact</h2>
-          <p>
-            Best way to reach me: <a id="mail-link-inline" href="#">email</a> or Telegram
-            <a href="https://t.me/azsumbeee" target="_blank" rel="noopener">@azsumbeee</a>.
-            Also on <a href="https://github.com/martintsenkov" target="_blank" rel="noopener">GitHub</a> and
-            <a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" target="_blank" rel="noopener">LinkedIn</a>.
-          </p>
+          <p>Best way to reach me: <a id="mail-link-inline" href="#">email</a> or Telegram
+          <a href="https://t.me/azsumbeee" target="_blank" rel="noopener">@azsumbeee</a>.
+          Also on <a href="https://github.com/martintsenkov" target="_blank" rel="noopener">GitHub</a> and
+          <a href="https://www.linkedin.com/in/martin-tsenkov-18688123a" target="_blank" rel="noopener">LinkedIn</a>.</p>
         </section>
 
         <footer>
@@ -329,7 +257,6 @@
         </footer>
       </main>
 
-      <!-- SIDEBAR -->
       <aside class="sidebar">
         <div class="card">
           <img class="photo" src="assets/pic.png" alt="Martin Tsenkov profile" />
@@ -350,13 +277,7 @@
   </div>
 
   <script>
-    // year (guard)
-    (function(){
-      const y = document.getElementById('y');
-      if (y) y.textContent = new Date().getFullYear();
-    })();
-
-    // Email link
+    (function(){ const y=document.getElementById('y'); if(y) y.textContent=new Date().getFullYear(); })();
     (function(){
       const user="martintsennkov", domain="gmail.com";
       const mail="mailto:"+user+"@"+domain;
@@ -365,88 +286,45 @@
       if(a1) a1.setAttribute("href",mail);
       if(a2) a2.setAttribute("href",mail);
     })();
-
-    // Show/hide nav on scroll + active tab
     (function(){
       const nav=document.getElementById('topnav');
       const show=()=>nav.classList.remove('hide');
       const hide=()=>{if((window.pageYOffset||document.documentElement.scrollTop)>0)nav.classList.add('hide');};
-      const updateShadow=()=>nav.classList.toggle('scrolled',(window.pageYOffset||document.documentElement.scrollTop)>10);
-      let lastY=window.pageYOffset||document.documentElement.scrollTop, stopTimer=null;
-
+      const shadow=()=>nav.classList.toggle('scrolled',(window.pageYOffset||document.documentElement.scrollTop)>10);
+      let lastY=window.pageYOffset||document.documentElement.scrollTop, t=null;
       function onScroll(){
         const y=window.pageYOffset||document.documentElement.scrollTop, dy=y-lastY;
-        updateShadow();
-        if(dy<0)show(); else if(dy>0)hide();
-        if(stopTimer)clearTimeout(stopTimer);
-        stopTimer=setTimeout(show,120);
-        lastY=y;
+        shadow(); if(dy<0)show(); else if(dy>0)hide();
+        if(t)clearTimeout(t); t=setTimeout(show,120); lastY=y;
       }
-
-      window.addEventListener('scroll',onScroll,{passive:true});
-      window.addEventListener('wheel',e=>{if(e.deltaY<0)show(); else if(e.deltaY>0)hide();},{passive:true});
-      let ty=null;
-      window.addEventListener('touchstart',e=>{if(e.touches&&e.touches.length)ty=e.touches[0].clientY;},{passive:true});
-      window.addEventListener('touchmove',e=>{if(!e.touches||!e.touches.length||ty==null)return;const cy=e.touches[0].clientY;if(cy>ty)show(); else if(cy<ty)hide();ty=cy;},{passive:true});
-      window.addEventListener('touchend',()=>{ty=null;},{passive:true});
-      window.addEventListener('keydown',e=>{if(['ArrowUp','PageUp','Home'].includes(e.key))show(); if(['ArrowDown','PageDown','End',' '].includes(e.key))hide();});
-      window.addEventListener('pointermove',e=>{if(e.clientY<=80)show();},{passive:true});
-
-      // active tab by IntersectionObserver
+      addEventListener('scroll',onScroll,{passive:true});
+      addEventListener('wheel',e=>{if(e.deltaY<0)show(); else if(e.deltaY>0)hide();},{passive:true});
+      addEventListener('pointermove',e=>{if(e.clientY<=80)show();},{passive:true});
       const links=[...document.querySelectorAll('#topnav a')];
-      const setActive=(hash)=>links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===hash));
-      links.forEach(a=>a.addEventListener('click',()=>{show(); setActive(a.getAttribute('href'));}));
-
-      const io=new IntersectionObserver((entries)=>{
-        const v=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
-        if(!v) return; setActive('#'+v.target.id);
+      const setA=h=>links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===h));
+      links.forEach(a=>a.addEventListener('click',()=>{show(); setA(a.getAttribute('href'));}));
+      const io=new IntersectionObserver(es=>{
+        const v=es.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+        if(v) setA('#'+v.target.id);
       },{root:null, rootMargin:'-10% 0px -60% 0px', threshold:[0.25,0.5,0.75]});
-      document.querySelectorAll('main section[id]').forEach(sec=>io.observe(sec));
-
-      if(location.hash) setActive(location.hash);
-      updateShadow();
+      document.querySelectorAll('main section[id]').forEach(s=>io.observe(s));
+      if(location.hash) setA(location.hash); shadow();
     })();
-
-    // Typewriter за <h1 id="name"> — периодично
     (function(){
-      const el = document.getElementById('name');
-      if(!el) return;
-      const full = (el.dataset.text || el.textContent).trim();
-
+      const el=document.getElementById('name'); if(!el) return;
+      const full=(el.dataset.text||el.textContent).trim();
       function typeOnce(){
-        el.classList.add('typing');
-        el.textContent = '';
-        let i = 0;
-        const speed = 85; // ms между буквите
-        const timer = setInterval(()=>{
-          el.textContent += full[i++];
-          if(i >= full.length){
-            clearInterval(timer);
-            el.classList.remove('typing');
-            el.textContent = full;
-            schedule();
-          }
-        }, speed);
+        el.classList.add('typing'); el.textContent=''; let i=0; const speed=85;
+        const timer=setInterval(()=>{ el.textContent+=full[i++]; if(i>=full.length){ clearInterval(timer); el.classList.remove('typing'); el.textContent=full; schedule(); } }, speed);
       }
-      function schedule(){
-        const delay = 12000 + Math.random()*8000; // 12–20 сек пауза
-        setTimeout(typeOnce, delay);
-      }
+      function schedule(){ setTimeout(typeOnce, 12000 + Math.random()*8000); }
       schedule();
     })();
-
-    /* --- GLITCH INTRO controller --- */
     (function(){
-      const overlay = document.getElementById('glitch-overlay');
-      if(!overlay) return;
-      const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const showTime = reduced ? 600 : 1200; // ms total visible
-      requestAnimationFrame(()=>{
-        setTimeout(()=>{
-          overlay.classList.add('hidden');
-          setTimeout(()=> overlay.remove(), 500);
-        }, showTime);
-      });
+      const overlay=document.getElementById('glitch-overlay'); if(!overlay) return;
+      const reduced=matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const showTime=reduced?600:1200;
+      requestAnimationFrame(()=>{ setTimeout(()=>{ overlay.classList.add('hidden'); setTimeout(()=>overlay.remove(),500); }, showTime); });
     })();
   </script>
 </body>
