@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Martin Tsenkov | Red Teaming & Pentest Portfolio</title>
   <meta name="description" content="Red Teamer & Penetration Tester – projects, labs, and contact information." />
-
   <meta name="theme-color" content="#0b0b0c">
   <meta name="color-scheme" content="dark">
 
@@ -14,7 +13,6 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
-
   <link rel="preload" as="image" href="assets/pic.png">
 
   <style>
@@ -48,49 +46,30 @@
     .brandbar strong{font-weight:800;letter-spacing:.3px;white-space:nowrap}
     .logo{display:inline-block;vertical-align:middle;width:28px;height:28px;transition:transform var(--dur) var(--e),filter var(--dur) var(--e);filter:drop-shadow(var(--accent-glow))}
     .brandbar:hover .logo{transform:translateY(-1px)}
-
-    /* inline links (desktop) */
     .navlinks{display:flex;align-items:center;gap:22px}
     .navlinks a{display:inline-block;padding:.4rem .6rem;border-radius:8px;color:var(--subtle);font-weight:600;transition:background var(--dur) var(--e),color var(--dur) var(--e)}
     .navlinks a:hover{background:#16161a;color:#fff}
     .navlinks a.active{color:var(--accent)}
-
-    /* mobile: hamburger */
-    .menu-btn{
-      display:none;appearance:none;background:#16161a;border:1px solid #24262a;color:#cfd3d8;
-      width:38px;height:38px;border-radius:10px;align-items:center;justify-content:center;
-      transition:transform var(--dur) var(--e),box-shadow var(--dur) var(--e)
-    }
+    .menu-btn{display:none;appearance:none;background:#16161a;border:1px solid #24262a;color:#cfd3d8;width:38px;height:38px;border-radius:10px;align-items:center;justify-content:center;transition:transform var(--dur) var(--e),box-shadow var(--dur) var(--e)}
     .menu-btn:active{transform:scale(.98)}
     .menu-btn svg{width:20px;height:20px;display:block}
-
-    /* dropdown panel */
     .navpanel{
-      position:fixed;left:0;right:0;top:58px; /* височина на навбара ~ */
-      background:rgba(12,12,12,.96);backdrop-filter:blur(6px);
-      border-bottom:1px solid var(--line);
-      transform:translateY(-12px);opacity:0;pointer-events:none;
-      transition:opacity 160ms var(--e),transform 160ms var(--e);
-      z-index:999;
+      position:fixed;left:0;right:0;top:58px;z-index:1100; /* над навбара */
+      background:rgba(12,12,12,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);
+      transform:translateY(-12px);opacity:0;pointer-events:none;transition:opacity 160ms var(--e),transform 160ms var(--e);
     }
     .navpanel.open{transform:translateY(0);opacity:1;pointer-events:auto}
     .navpanel ul{list-style:none;margin:10px;padding:8px}
     .navpanel li{margin:6px 0}
     .navpanel a{display:block;padding:.9rem 1rem;border-radius:10px;background:#121216;border:1px solid #1f2024;color:#eaeaea;font-weight:700}
-    .navpanel a:active{transform:scale(.995)}
-
-    /* small-screen tweaks + fallback horizontal scroll if някой иска inline */
-    @media (max-width: 720px){
-      .navlinks{display:none}              /* скриваме десктоп линковете */
+    @media (max-width:720px){
+      .navlinks{display:none}
       .menu-btn{display:inline-flex}
       nav#topnav{padding:10px 10px}
       .brandbar strong{font-size:14px}
-      /* по желание: ако искаш все пак хор. скрол вместо бургер – махни горните два реда и разкоментирай: */
-      /* .navlinks{display:flex;overflow-x:auto;gap:14px;scrollbar-width:none;-ms-overflow-style:none}
-         .navlinks::-webkit-scrollbar{display:none} */
     }
 
-    /* ==== HEAD / GRID / CONTENT ==== */
+    /* ==== HEAD / GRID ==== */
     header{display:flex;align-items:flex-start;gap:32px}
     .brand{flex:1}
     h1{font-size:56px;margin:0 0 8px;color:var(--accent);position:relative;display:inline-block}
@@ -98,27 +77,22 @@
     h1.typing::after{animation:none;opacity:1}
     @keyframes blink{50%{opacity:0}}
     .subtitle{color:var(--muted);font-size:20px}
-
     .grid{display:grid;grid-template-columns:1fr 300px;gap:34px}
     main{grid-column:1/2}
     .sidebar{align-self:start;margin-top:-14px;width:auto;text-align:center}
     .card{background:linear-gradient(180deg,var(--surface),#0e0e10);border:1px solid #1f1f22;border-radius:var(--rad);box-shadow:var(--shadow);position:relative;transition:transform var(--dur) var(--e),box-shadow var(--dur) var(--e),border-color var(--dur) var(--e);will-change:transform}
     .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.35),var(--accent-glow);border-color:#2a2a2f}
-
     section{margin:34px 0;padding-bottom:16px;border-bottom:1px solid var(--line);scroll-margin-top:80px}
     section:last-child{border-bottom:none}
     h2{color:var(--accent);margin:0 0 12px;font-size:30px}
-
     ul{margin:8px 0 0 0;padding-left:20px}
     li{margin:8px 0}
-
     .h-accent{position:relative;display:inline-block}
     .h-accent::after{content:"";position:absolute;left:0;bottom:-6px;width:100%;height:2px;background:linear-gradient(90deg,var(--accent),transparent);transform:scaleX(.35);transform-origin:left;transition:transform var(--dur) var(--e)}
     .h-accent:hover::after{transform:scaleX(1)}
     .link{position:relative;padding-bottom:2px}
     .link::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform var(--dur) var(--e);opacity:.65}
     .link:hover::after{transform:scaleX(1)}
-
     .btn{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(180deg,var(--accent),var(--accent-600));color:#fff;border:none;border-radius:calc(var(--rad) - 8px);padding:.7rem 1rem;font-weight:700;letter-spacing:.2px;transition:transform var(--dur) var(--e),box-shadow var(--dur) var(--e),filter var(--dur) var(--e);box-shadow:var(--accent-glow);position:relative;overflow:hidden}
     .btn:hover{transform:translateY(-1px);filter:saturate(1.08)}
     .btn:active{transform:translateY(0) scale(.99)}
@@ -126,21 +100,20 @@
     .btn:hover::before{transform:translateX(250%) rotate(20deg)}
     .arrow{transition:transform var(--dur) var(--e)}
     .btn:hover .arrow{transform:translateX(3px)}
-
     footer{margin-top:40px;color:#8b9299;font-size:14px;text-align:center}
 
-    /* photo fix */
+    /* photo */
     .photo-wrap{position:relative;border-radius:16px 16px 0 0;overflow:visible}
     .photo{width:100%;height:auto;display:block;border-radius:16px 16px 0 0;box-shadow:0 0 0 1px #1f1f22 inset,0 18px 40px rgba(0,0,0,.45)}
 
-    /* social icons */
+    /* social */
     .icons{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
     .icons a{width:36px;height:36px;display:grid;place-items:center;background:#0e1416;border:1px solid #152022;border-radius:8px;transition:transform var(--dur) var(--e),box-shadow var(--dur) var(--e),border-color var(--dur) var(--e);color:#cfd3d8}
     .icons a:hover{transform:translateY(-2px);box-shadow:var(--accent-glow);border-color:#273036;color:#fff}
     .icons a svg{width:18px;height:18px;display:block}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    /* scanlines + crt (оставам) */
+    /* Scanlines + CRT */
     #scanlines{position:fixed;inset:0;z-index:90000;pointer-events:none;opacity:var(--scanlines-opacity,.12);mix-blend-mode:var(--scanlines-blend,soft-light);background-image:
       repeating-linear-gradient(to bottom, rgba(255,255,255,0.08) 0 1px, rgba(0,0,0,0) 1px 4px),
       radial-gradient(1px 1px at 25% 20%, rgba(255,255,255,0.06), transparent 60%),
@@ -153,7 +126,20 @@
       conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.12), rgba(0,0,0,0) 22%, rgba(255,255,255,0.09) 45%, rgba(0,0,0,0) 65%, rgba(255,255,255,0.08) 82%, rgba(0,0,0,0) 100%);
       background-size:100% 3px,140% 140%;background-position:0 var(--burst-y),50% 50%;filter:contrast(130%) saturate(135%);box-shadow:inset 0 0 140px rgba(0,0,0,.28);transition:opacity .06s linear}
 
-    /* mobile fine-tune */
+    /* === Glitch intro (върнато) === */
+    #glitch-overlay{
+      position:fixed; inset:0; z-index:1200; /* над всичко, включ. меню панела */
+      display:grid; place-items:center;
+      background:linear-gradient(180deg,#050505 0%, rgba(0,0,0,.6) 70%);
+      backdrop-filter: blur(2px)
+    }
+    .glitch-wrap{ position:relative; overflow:visible }
+    .glitch-text{font-family:ui-monospace,Menlo,monospace; font-size:56px; color:var(--accent); letter-spacing:1px; display:inline-block; position:relative; text-shadow:0 0 12px rgba(225,29,72,.15)}
+    .glitch-dup{position:absolute; left:0; top:0; color:var(--accent); mix-blend-mode:screen; clip-path: inset(0 0 0 0); animation:glitch-vert 420ms linear 0s 6, glitch-horiz 720ms linear 0s 3; opacity:.92; filter: drop-shadow(0 0 8px rgba(225,29,72,.2))}
+    @keyframes glitch-vert{0%{transform:translate(0,0);clip-path:inset(0 0 0 0)}20%{transform:translate(0,-6px);clip-path:inset(4% 0 60% 0)}40%{transform:translate(0,4px);clip-path:inset(60% 0 6% 0)}60%{transform:translate(0,-3px);clip-path:inset(10% 0 50% 0)}100%{transform:translate(0,0);clip-path:inset(0 0 0 0)}}
+    @keyframes glitch-horiz{0%{transform:translateX(0)}25%{transform:translateX(-6px) skewX(-2deg)}50%{transform:translateX(6px) skewX(2deg)}75%{transform:translateX(-3px) skewX(-1deg)}100%{transform:translateX(0)}}
+    #glitch-overlay.hidden{opacity:0; pointer-events:none; transition:opacity .45s ease}
+
     @media (max-width:640px){
       .grid{grid-template-columns:1fr}
       .sidebar{order:-1;margin-top:0}
@@ -164,6 +150,14 @@
   </style>
 </head>
 <body>
+  <!-- Glitch intro (върнато) -->
+  <div id="glitch-overlay" aria-hidden="true">
+    <div class="glitch-wrap">
+      <span class="glitch-text">Martin Tsenkov</span>
+      <span class="glitch-text glitch-dup">Martin Tsenkov</span>
+    </div>
+  </div>
+
   <!-- Overlays -->
   <div id="scanlines" aria-hidden="true"></div>
   <div id="crt-burst" aria-hidden="true"></div>
@@ -174,8 +168,6 @@
       <img class="logo" src="assets/favicon.svg" onerror="this.onerror=null;this.src='assets/favicon-32.png';" alt="Martin Tsenkov logo">
       <strong>martintsenkov</strong>
     </a>
-
-    <!-- desktop inline links -->
     <div class="navlinks">
       <a href="#about" class="active">About me</a>
       <a href="#interests">Interests</a>
@@ -183,14 +175,12 @@
       <a href="#labs">Labs</a>
       <a class="btn" href="#contact">Contact <span class="arrow">→</span></a>
     </div>
-
-    <!-- mobile hamburger -->
     <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </button>
   </nav>
 
-  <!-- dropdown panel (mobile) -->
+  <!-- Mobile dropdown -->
   <div class="navpanel" id="navPanel" aria-hidden="true">
     <ul>
       <li><a href="#about">About me</a></li>
@@ -361,18 +351,15 @@
       const btn=document.getElementById('menuBtn');
       const panel=document.getElementById('navPanel');
       if(!btn||!panel) return;
-
       function openMenu(){ panel.classList.add('open'); btn.setAttribute('aria-expanded','true'); panel.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
       function closeMenu(){ panel.classList.remove('open'); btn.setAttribute('aria-expanded','false'); panel.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
-      window.closeMenu = closeMenu; // used by nav links above
-
+      window.closeMenu = closeMenu;
       btn.addEventListener('click', ()=> panel.classList.contains('open') ? closeMenu() : openMenu());
       document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeMenu(); });
-      // close when clicking outside panel area
       document.addEventListener('click', (e)=>{ if(panel.classList.contains('open')){ const inNav = e.target.closest('#topnav') || e.target.closest('#navPanel'); if(!inNav) closeMenu(); }});
     })();
 
-    // typewriter
+    // Typewriter
     (function(){
       const el=document.getElementById('name'); if(!el) return;
       const full=(el.dataset.text||el.textContent).trim();
@@ -383,7 +370,15 @@
       schedule();
     })();
 
-    // CRT burst (оставям)
+    // Glitch hide (върнато)
+    (function(){
+      const overlay=document.getElementById('glitch-overlay'); if(!overlay) return;
+      const reduced=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const showTime=reduced?600:1200;
+      requestAnimationFrame(()=>{ setTimeout(()=>{ overlay.classList.add('hidden'); setTimeout(()=> overlay.remove(), 500); }, showTime); });
+    })();
+
+    // CRT burst
     (function(){
       const el=document.getElementById('crt-burst'); if(!el) return;
       const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
