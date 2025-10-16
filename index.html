@@ -310,10 +310,14 @@
           </ul>
         </section>
 
+        <!-- CONTACT — terminal style + typewriter -->
         <section id="contact">
           <h2 class="h-accent">Contact</h2>
-          <p>
-            Best way to reach me: <a id="mail-link-inline" class="link" href="#">email</a> or Telegram
+
+          <pre id="contact-terminal" style="background:#0f0f11;border:1px solid #1f1f22;border-radius:12px;padding:18px;line-height:1.55;font-size:14px;color:#e6e6e6;box-shadow:0 10px 30px rgba(0,0,0,.25);overflow:auto;white-space:pre-wrap;"></pre>
+
+          <p style="margin-top:12px">
+            Reach out via <a id="mail-link-inline" class="link" href="#">email</a> or
             <a class="link" href="https://t.me/azsumbeee" target="_blank" rel="noopener">@azsumbeee</a>.
             Also on <a class="link" href="https://github.com/martintsenkov" target="_blank" rel="noopener">GitHub</a> and
             <a class="link" href="https://www.linkedin.com/in/martin-tsenkov-18688123a" target="_blank" rel="noopener">LinkedIn</a>.
@@ -449,7 +453,7 @@
       document.addEventListener('click', (e)=>{ if(panel.classList.contains('open')){ const inNav = e.target.closest('#topnav') || e.target.closest('#navPanel'); if(!inNav) closeMenu(); }});
     })();
 
-    // Typewriter
+    // Typewriter (site title)
     (function(){
       const el=document.getElementById('name'); if(!el) return;
       const full=(el.dataset.text||el.textContent).trim();
@@ -503,6 +507,52 @@
           if(s) s.style.display=document.body.classList.contains('scanlines-off')?'none':'block';
         }
       });
+    })();
+
+    /* === Contact terminal typewriter === */
+    (function(){
+      const pre = document.getElementById('contact-terminal');
+      if(!pre) return;
+
+      const lines = [
+        "martin@tsenkov:~$ whoami",
+        "Red Teamer / Penetration Tester",
+        "",
+        "martin@tsenkov:~$ echo \"Let's break something.\"",
+        "Let's break something."
+      ];
+
+      const speed = 24; // ms per char
+      const gapBetweenLines = 300; // ms
+
+      let lineIdx = 0, charIdx = 0, typing = null;
+      const cursor = "█";
+
+      function typeNextChar(){
+        // remove old cursor
+        if(pre.textContent.endsWith(cursor)){
+          pre.textContent = pre.textContent.slice(0, -1);
+        }
+        const line = lines[lineIdx];
+        pre.textContent += (charIdx === 0 && lineIdx>0 ? "\n" : "");
+        pre.textContent += line[charIdx++] || "";
+
+        if(charIdx <= line.length){
+          pre.textContent += cursor;
+          typing = setTimeout(typeNextChar, speed);
+        } else {
+          // line finished
+          charIdx = 0;
+          pre.textContent = pre.textContent.replace(new RegExp(cursor+"$"), "");
+          lineIdx++;
+          if(lineIdx < lines.length){
+            setTimeout(typeNextChar, gapBetweenLines);
+          }
+        }
+      }
+
+      // kick off
+      typeNextChar();
     })();
   </script>
 </body>
