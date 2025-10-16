@@ -509,10 +509,11 @@
       });
     })();
 
-    /* === Contact terminal typewriter === */
-    (function(){
+    /* === Contact terminal typewriter (стартира при виждане) === */
+    (function () {
       const pre = document.getElementById('contact-terminal');
-      if(!pre) return;
+      const section = document.getElementById('contact');
+      if (!pre || !section) return;
 
       const lines = [
         "martin@tsenkov:~$ whoami",
@@ -522,37 +523,62 @@
         "Let's break something."
       ];
 
-      const speed = 24; // ms per char
-      const gapBetweenLines = 300; // ms
-
-      let lineIdx = 0, charIdx = 0, typing = null;
+      const speed = 24;               // ms на символ
+      const gapBetweenLines = 300;    // ms между редове
       const cursor = "█";
+      let started = false;            // стартира само веднъж
 
-      function typeNextChar(){
-        // remove old cursor
-        if(pre.textContent.endsWith(cursor)){
-          pre.textContent = pre.textContent.slice(0, -1);
-        }
-        const line = lines[lineIdx];
-        pre.textContent += (charIdx === 0 && lineIdx>0 ? "\n" : "");
-        pre.textContent += line[charIdx++] || "";
+      function runTypewriter() {
+        if (started) return;
+        started = true;
+        let lineIdx = 0, charIdx = 0;
+        pre.textContent = "";         // изчисти преди старт
 
-        if(charIdx <= line.length){
-          pre.textContent += cursor;
-          typing = setTimeout(typeNextChar, speed);
-        } else {
-          // line finished
-          charIdx = 0;
-          pre.textContent = pre.textContent.replace(new RegExp(cursor+"$"), "");
-          lineIdx++;
-          if(lineIdx < lines.length){
-            setTimeout(typeNextChar, gapBetweenLines);
+        function typeNextChar() {
+          // махни стар курсор
+          if (pre.textContent.endsWith(cursor)) {
+            pre.textContent = pre.textContent.slice(0, -1);
+          }
+          const line = lines[lineIdx];
+
+          if (charIdx === 0 && lineIdx > 0) pre.textContent += "\n";
+          pre.textContent += line[charIdx++] || "";
+
+          if (charIdx <= line.length) {
+            pre.textContent += cursor;
+            setTimeout(typeNextChar, speed);
+          } else {
+            charIdx = 0;
+            pre.textContent = pre.textContent.replace(new RegExp(cursor + "$"), "");
+            lineIdx++;
+            if (lineIdx < lines.length) {
+              setTimeout(typeNextChar, gapBetweenLines);
+            }
           }
         }
+
+        typeNextChar();
       }
 
-      // kick off
-      typeNextChar();
+      // Стартирай, когато ~40% от секцията е видима
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting && e.intersectionRatio >= 0.4) {
+              runTypewriter();
+              io.disconnect(); // само веднъж
+            }
+          });
+        },
+        { threshold: [0, 0.4, 1] }
+      );
+      io.observe(section);
+
+      // Ако потребителят стигне директно чрез #contact в URL
+      if (location.hash === '#contact') {
+        // малък delay, за да се скролне секцията
+        setTimeout(runTypewriter, 120);
+      }
     })();
   </script>
 </body>
