@@ -20,13 +20,13 @@
 </head>
 <body>
   <aside id="sidebar">
-    <header><strong>Writeups</strong><div class="meta">Анонимизирани CTF/ред тийм бележки</div></header>
-    <input id="search" placeholder="Търси заглавие или tag...">
+    <header><strong>Writeups</strong><div class="meta">CTF & Lab Whiteups/div></header>
+    <input id="search" placeholder="Search title or tag…">
     <ul id="list"></ul>
   </aside>
 
   <section id="main">
-    <div id="viewer"><div style="padding:24px;color:#9aa6b2">Избери writeup от списъка вляво…</div></div>
+    <div id="viewer"><div style="padding:24px;color:#9aa6b2">Pick a writeup from the list on the left...</div></div>
     <div id="graph"></div>
   </section>
 
@@ -115,3 +115,20 @@
   </script>
 </body>
 </html>
+ 
+<!--Как добавяш нов writeup (след като скелетът е онлайн)
+
+Създаваш файл: writeups/notes/2025-11-01-htb-frobnicator.md
+
+В началото добавяш front-matter (title/date/tags/links).
+
+Добавяш записи в writeups/manifest.json:
+
+[
+  { "slug": "template-start-here", "title": "TEMPLATE — Как пиша writeup (прочети първо)", "date": "2025-10-30", "tags": ["template","guidelines"], "links": [] },
+  { "slug": "2025-11-01-htb-frobnicator", "title": "HTB — Frobnicator (Medium)", "date": "2025-11-01", "tags": ["htb","linux","web"], "links": [] }
+]
+
+
+(по желание) Сложи скрийншотове в writeups/assets/ и ги викай в markdown:
+![pwn](/writeups/assets/frobnicator-root.png) -->
