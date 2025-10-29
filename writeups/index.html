@@ -91,7 +91,7 @@
       const r = await fetch(`/writeups/notes/${slug}.md`);
       if(!r.ok) throw new Error('note not found');
       const txt = await r.text();
-      const body = txt.replace(/^---[\\s\\S]*?---\\n/,''); // strip front-matter
+      const body = txt.replace(/^---[\s\S]*?---\n/,''); // strip front-matter
       viewer.innerHTML = md.render(body);
       focusNode(slug);
       location.hash = slug;
@@ -118,15 +118,24 @@
       container: document.getElementById('graph'),
       elements:{ nodes, edges },
       style:[
-        /* White nodes + labels */
+        /* White nodes + label BELOW node with readable background/outline */
         { selector:'node', style:{
             'label':'data(label)',
             'font-size':10,
+            'min-zoomed-font-size':6,        // hide labels when zoomed far out
             'text-wrap':'wrap',
-            'text-max-width':140,
+            'text-max-width':160,
             'text-halign':'center',
-            'text-valign':'center',
+            'text-valign':'bottom',          // label under the node
+            'text-margin-y':12,
             'color':'#e6eef6',
+            'text-outline-width':2,
+            'text-outline-color':'#1a1a1e',
+            'text-background-opacity':0.6,
+            'text-background-color':'#1a1a1e',
+            'text-background-shape':'roundrectangle',
+            'text-background-padding':2,
+
             'background-color':'#ffffff',
             'border-color':'#ffffff',
             'border-width':0.5,
@@ -146,7 +155,8 @@
             'background-color':'#7fd1ff',
             'border-color':'#7fd1ff',
             'line-color':'#7fd1ff',
-            'shadow-color':'rgba(127,209,255,0.8)'
+            'text-outline-color':'#0f1417',
+            'text-background-color':'#0f1417'
         }},
         /* Dim non-neighborhood when focusing */
         { selector:'.faded', style:{
@@ -170,7 +180,7 @@
     cy.on('mouseover','node',ev=>ev.target.addClass('hovered'));
     cy.on('mouseout','node',ev=>ev.target.removeClass('hovered'));
 
-    // let users drag nodes / pan / zoom (defaults are enabled)
+    // Drag / pan / zoom
     cy.userPanningEnabled(true);
     cy.zoomingEnabled(true);
     cy.boxSelectionEnabled(false);
