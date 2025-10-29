@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Writeups — Martin Tsenkov</title>
+  <style>
+    body{font-family:Inter,Arial;background:#0b0c0d;color:#e6eef6;margin:0;display:flex;height:100vh}
+    #sidebar{width:320px;border-right:1px solid #1a1a1a;padding:12px;overflow:auto;background:#0f1113}
+    #main{flex:1;display:flex;flex-direction:column}
+    #viewer{padding:20px;overflow:auto;height:calc(100vh - 240px);background:#0a0b0c}
+    #graph{height:240px;border-top:1px solid #1a1a1a}
+    a{color:#7fd1ff;text-decoration:none}
+    input{width:100%;padding:8px;margin-bottom:10px;border-radius:4px;border:1px solid #222;background:#0b0d0f;color:#ddd}
+    ul{list-style:none;padding:0;margin:0}
+    li{padding:6px 0;border-bottom:1px dashed #151515}
+    header{padding:12px;border-bottom:1px solid #111;background:#070809}
+    .meta{font-size:13px;color:#9aa6b2}
+  </style>
+</head>
+<body>
+  <aside id="sidebar">
+    <header><strong>Writeups</strong><div class="meta">Анонимизирани CTF/ред тийм бележки</div></header>
+    <input id="search" placeholder="Търси заглавие или tag...">
+    <ul id="list"></ul>
+  </aside>
+
+  <section id="main">
+    <div id="viewer"><div style="padding:24px;color:#9aa6b2">Избери writeup от списъка вляво…</div></div>
+    <div id="graph"></div>
+  </section>
+
+  <script src="https://unpkg.com/markdown-it/dist/markdown-it.min.js"></script>
+  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+
+  <script>
+  const md = window.markdownit();
+  const manifestUrl = '/writeups/manifest.json';
+  const listEl = document.getElementById('list');
+  const viewer = document.getElementById('viewer');
+  const search = document.getElementById('search');
+  let manifest = [], cy;
+
+  async function loadManifest(){
+    try{
+      const r = await fetch(manifestUrl);
+      if(!r.ok) throw new Error('manifest not found');
+      manifest = await r.json();
+      renderList(manifest); renderGraph(manifest);
+      const hash = location.hash.replace('#',''); if(hash) openNote(hash);
+    }catch(e){
+      listEl.innerHTML = '<li style="color:tomato">Липсва writeups/manifest.json</li>';
+    }
+  }
+
+  function renderList(items){
+    listEl.innerHTML = '';
+    items.forEach(it=>{
+      const li=document.createElement('li');
+      const a=document.createElement('a');
+      a.href='#'; a.textContent=it.title;
+      a.onclick=(ev)=>{ev.preventDefault();openNote(it.slug)};
+      const m=document.createElement('div');
+      m.style.fontSize='12px'; m.style.color='#9aa6b2';
+      m.textContent=(it.date?it.date+' · ':'')+(it.tags||[]).join(', ');
+      li.appendChild(a); li.appendChild(m); listEl.appendChild(li);
+    });
+  }
+
+  async function openNote(slug){
+    viewer.innerHTML = '<div style="padding:24px;color:#9aa6b2">Зареждане…</div>';
+    try{
+      const r = await fetch(`/writeups/notes/${slug}.md`);
+      if(!r.ok) throw new Error('note not found');
+      const txt = await r.text();
+      const body = txt.replace(/^---[\s\S]*?---\n/,''); // strip front-matter
+      viewer.innerHTML = md.render(body);
+      highlight(slug);
+      location.hash = slug;
+    }catch(e){
+      viewer.innerHTML = `<div style="padding:24px;color:tomato">Грешка: ${e.message}</div>`;
+    }
+  }
+
+  search.addEventListener('input',()=>{
+    const q=search.value.toLowerCase();
+    renderList(manifest.filter(m =>
+      m.title.toLowerCase().includes(q) ||
+      (m.tags||[]).join(' ').toLowerCase().includes(q)
+    ));
+  });
+
+  function renderGraph(items){
+    const nodes=items.map(i=>({data:{id:i.slug,label:i.title}}));
+    const edges=[];
+    items.forEach(i => (i.links||[]).forEach(l => edges.push({data:{id:i.slug+'->'+l,source:i.slug,target:l}})));
+    cy = cytoscape({
+      container: document.getElementById('graph'),
+      elements:{nodes,edges},
+      style:[
+        {selector:'node',style:{'label':'data(label)','font-size':10,'background-color':'#111','color':'#e6eef6'}},
+        {selector:'edge',style:{'width':1,'line-color':'#222'}},
+        {selector:'.active',style:{'background-color':'#7fd1ff','line-color':'#7fd1ff'}}
+      ],
+      layout:{name:'cose',animate:true}
+    });
+    cy.on('tap','node',ev=>openNote(ev.target.id()));
+  }
+  function highlight(slug){
+    if(!cy) return;
+    cy.elements().removeClass('active');
+    const n=cy.getElementById(slug); if(n){ n.addClass('active'); cy.center(n); cy.fit(n,80); }
+  }
+  loadManifest();
+  </script>
+</body>
+</html>
