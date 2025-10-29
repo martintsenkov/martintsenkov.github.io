@@ -12,5 +12,12 @@
     "date": "2025-10-30",
     "tags": ["lab","active-directory","priv-esc"],
     "links": []
+  },
+  {
+    "slug": "template-start-here",
+    "title": "TEMPLATE — How I write a writeup (read first)",
+    "date": "2025-10-30",
+    "tags": ["template","guidelines"],
+    "links": []
   }
 ]
