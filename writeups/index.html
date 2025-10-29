@@ -1,32 +1,43 @@
 <!doctype html>
-<html lang="bg">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Writeups — Martin Tsenkov</title>
   <style>
-    body{font-family:Inter,Arial;background:#0b0c0d;color:#e6eef6;margin:0;display:flex;height:100vh}
-    #sidebar{width:320px;border-right:1px solid #1a1a1a;padding:12px;overflow:auto;background:#0f1113}
-    #main{flex:1;display:flex;flex-direction:column}
-    #viewer{padding:20px;overflow:auto;height:calc(100vh - 240px);background:#0a0b0c}
-    #graph{height:240px;border-top:1px solid #1a1a1a}
+    /* Base layout */
+    body{font-family:Inter,Arial;background:#1e1e22;color:#e6eef6;margin:0;display:flex;height:100vh}
+    #sidebar{width:320px;border-right:1px solid #2d2d31;padding:12px;overflow:auto;background:#252529}
+    #main{flex:1;display:flex;flex-direction:column;background:#1f1f23}
+    #viewer{padding:20px;overflow:auto;height:calc(100vh - 240px);background:#1a1a1e}
+    #graph{height:240px;border-top:1px solid #2d2d31}
     a{color:#7fd1ff;text-decoration:none}
-    input{width:100%;padding:8px;margin-bottom:10px;border-radius:4px;border:1px solid #222;background:#0b0d0f;color:#ddd}
+    input{width:100%;padding:8px;margin-bottom:10px;border-radius:4px;border:1px solid #34363a;background:#1b1d21;color:#ddd}
     ul{list-style:none;padding:0;margin:0}
-    li{padding:6px 0;border-bottom:1px dashed #151515}
-    header{padding:12px;border-bottom:1px solid #111;background:#070809}
+    li{padding:6px 0;border-bottom:1px dashed #2a2a2e}
+    header{padding:12px;border-bottom:1px solid #2d2d31;background:#2a2a2e}
     .meta{font-size:13px;color:#9aa6b2}
+
+    /* Graph styling (Obsidian-like) */
+    .cytoscape-container{height:100%}
+    /* nodes/edges colors are set in Cytoscape styles below; this is for canvas tweaks if any libs use canvas */
+    #graph canvas { filter: contrast(1.05); }
+
+    /* Optional node hover glow via CSS (applies when class added by cy styles) */
   </style>
 </head>
 <body>
   <aside id="sidebar">
-    <header><strong>Writeups</strong><div class="meta">CTF & Lab Whiteups</header>
+    <header>
+      <strong>CTF &amp; Lab Writeups</strong>
+      <div class="meta">Anonymized offensive security case notes</div>
+    </header>
     <input id="search" placeholder="Search title or tag…">
     <ul id="list"></ul>
   </aside>
 
   <section id="main">
-    <div id="viewer"><div style="padding:24px;color:#9aa6b2">Pick a writeup from the list on the left...</div></div>
+    <div id="viewer"><div style="padding:24px;color:#9aa6b2">Select a writeup from the list on the left.</div></div>
     <div id="graph"></div>
   </section>
 
@@ -46,10 +57,11 @@
       const r = await fetch(manifestUrl);
       if(!r.ok) throw new Error('manifest not found');
       manifest = await r.json();
-      renderList(manifest); renderGraph(manifest);
+      renderList(manifest);
+      renderGraph(manifest);
       const hash = location.hash.replace('#',''); if(hash) openNote(hash);
     }catch(e){
-      listEl.innerHTML = '<li style="color:tomato">Липсва writeups/manifest.json</li>';
+      listEl.innerHTML = '<li style="color:tomato">Missing writeups/manifest.json</li>';
     }
   }
 
@@ -68,7 +80,7 @@
   }
 
   async function openNote(slug){
-    viewer.innerHTML = '<div style="padding:24px;color:#9aa6b2">Зареждане…</div>';
+    viewer.innerHTML = '<div style="padding:24px;color:#9aa6b2">Loading…</div>';
     try{
       const r = await fetch(`/writeups/notes/${slug}.md`);
       if(!r.ok) throw new Error('note not found');
@@ -78,7 +90,7 @@
       highlight(slug);
       location.hash = slug;
     }catch(e){
-      viewer.innerHTML = `<div style="padding:24px;color:tomato">Грешка: ${e.message}</div>`;
+      viewer.innerHTML = `<div style="padding:24px;color:tomato">Error: ${e.message}</div>`;
     }
   }
 
@@ -94,23 +106,58 @@
     const nodes=items.map(i=>({data:{id:i.slug,label:i.title}}));
     const edges=[];
     items.forEach(i => (i.links||[]).forEach(l => edges.push({data:{id:i.slug+'->'+l,source:i.slug,target:l}})));
+
     cy = cytoscape({
       container: document.getElementById('graph'),
       elements:{nodes,edges},
       style:[
-        {selector:'node',style:{'label':'data(label)','font-size':10,'background-color':'#111','color':'#e6eef6'}},
-        {selector:'edge',style:{'width':1,'line-color':'#222'}},
-        {selector:'.active',style:{'background-color':'#7fd1ff','line-color':'#7fd1ff'}}
+        /* WHITE nodes with label; thin, white edges */
+        { selector:'node', style:{
+            'label':'data(label)',
+            'font-size':10,
+            'text-wrap':'wrap',
+            'text-max-width':120,
+            'color':'#e6eef6',
+            'background-color':'#ffffff',
+            'border-color':'#ffffff',
+            'border-width':0.5
+        }},
+        { selector:'edge', style:{
+            'width':1,
+            'line-color':'rgba(255,255,255,0.55)'
+        }},
+        /* Active focus */
+        { selector:'.active', style:{
+            'background-color':'#7fd1ff',
+            'border-color':'#7fd1ff',
+            'line-color':'#7fd1ff'
+        }},
+        /* Dim everything else when focusing */
+        { selector:'.faded', style:{
+            'opacity':0.25,
+            'text-opacity':0.25,
+            'line-opacity':0.25
+        }}
       ],
-      layout:{name:'cose',animate:true}
+      layout:{ name:'cose', animate:true }
     });
+
     cy.on('tap','node',ev=>openNote(ev.target.id()));
   }
+
   function highlight(slug){
     if(!cy) return;
-    cy.elements().removeClass('active');
-    const n=cy.getElementById(slug); if(n){ n.addClass('active'); cy.center(n); cy.fit(n,80); }
+    cy.elements().removeClass('active faded');
+    const node = cy.getElementById(slug);
+    if(node && node.length){
+      node.addClass('active');
+      const neighborhood = node.closedNeighborhood(); // node + connected edges + neighbors
+      cy.elements().difference(neighborhood).addClass('faded');
+      cy.center(node);
+      cy.fit(node, 80);
+    }
   }
+
   loadManifest();
   </script>
 </body>
