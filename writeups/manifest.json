@@ -1,9 +1,16 @@
 [
   {
-    "slug": "template-start-here",
-    "title": "TEMPLATE — Как пиша writeup (прочети първо)",
+    "slug": "2025-11-01-htb-frobnicator",
+    "title": "HTB — Frobnicator (Medium)",
+    "date": "2025-11-01",
+    "tags": ["htb","linux","web"],
+    "links": ["2025-10-30-lab-ad-escalation"]
+  },
+  {
+    "slug": "2025-10-30-lab-ad-escalation",
+    "title": "Home Lab — AD Privilege Escalation",
     "date": "2025-10-30",
-    "tags": ["template", "guidelines"],
+    "tags": ["lab","active-directory","priv-esc"],
     "links": []
   }
 ]
