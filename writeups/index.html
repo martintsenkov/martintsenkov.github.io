@@ -6,11 +6,30 @@
   <title>Writeups — Martin Tsenkov</title>
   <style>
     /* Base layout (Obsidian-like) */
-    body{font-family:Inter,Arial;background:#1e1e22;color:#e6eef6;margin:0;display:flex;height:100vh}ано
+    :root{ --splitterH:10px; --graphMin:200px; --graphDefault:38vh; --viewerRow:auto; --graphRow:var(--graphDefault); }
+    body{font-family:Inter,Arial;background:#1e1e22;color:#e6eef6;margin:0;display:flex;height:100vh}
     #sidebar{width:320px;border-right:1px solid #2d2d31;padding:12px;overflow:auto;background:#252529}
-    #main{flex:1;display:flex;flex-direction:column;background:#1f1f23}
-    #viewer{padding:20px;overflow:auto;height:calc(100vh - 260px);background:#1a1a1e}
-    #graph{height:260px;border-top:1px solid #2d2d31}
+    #main{
+      flex:1;display:grid;background:#1f1f23;
+      grid-template-rows: var(--viewerRow) var(--splitterH) minmax(var(--graphMin), var(--graphRow));
+    }
+    #viewer{padding:20px;overflow:auto;background:#1a1a1e}
+    #splitter{
+      position:relative;background:#2d2d31;cursor:row-resize;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.04), inset 0 -1px 0 rgba(0,0,0,.35);
+    }
+    #splitter:before{
+      content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      width:56px;height:4px;border-radius:999px;background:#3a3a3f;
+    }
+    #graph{position:relative;border-top:1px solid #2d2d31}
+    /* Fullscreen button */
+    .graph-actions{position:absolute;right:10px;top:8px;z-index:10;display:flex;gap:6px}
+    .gbtn{
+      background:#2a2a2e;border:1px solid #3a3a40;color:#cfd3d8;font-size:12px;
+      padding:6px 10px;border-radius:8px;cursor:pointer
+    }
+    .gbtn:hover{filter:brightness(1.08)}
     a{color:#7fd1ff;text-decoration:none}
     input{width:100%;padding:8px;margin-bottom:10px;border-radius:4px;border:1px solid #34363a;background:#1b1d21;color:#ddd}
     ul{list-style:none;padding:0;margin:0}
@@ -18,12 +37,11 @@
     header{padding:12px;border-bottom:1px solid #2d2d31;background:#2a2a2e}
     .meta{font-size:13px;color:#9aa6b2}
 
-    /* Mobile tweak: stack sidebar on top */
+    /* Mobile tweak: stack sidebar on top; graph gets 42vh by default */
     @media (max-width: 720px){
       body{flex-direction:column}
       #sidebar{width:auto;border-right:none;border-bottom:1px solid #2d2d31}
-      #viewer{height:auto;min-height:42vh}
-      #graph{height:42vh}
+      :root{ --graphDefault:42vh; }
     }
   </style>
 </head>
@@ -31,7 +49,7 @@
   <aside id="sidebar">
     <header>
       <strong>CTF &amp; Lab Writeups</strong>
-      <div class="meta"> Martin's offensive security whiteups</div>
+      <div class="meta">Martin's offensive security whiteups</div>
     </header>
     <input id="search" placeholder="Search title or tag…">
     <ul id="list"></ul>
@@ -39,7 +57,12 @@
 
   <section id="main">
     <div id="viewer"><div style="padding:24px;color:#9aa6b2">Select a writeup from the list on the left.</div></div>
-    <div id="graph"></div>
+    <div id="splitter" title="Drag to resize. Double-click to maximize/minimize graph."></div>
+    <div id="graph">
+      <div class="graph-actions">
+        <button class="gbtn" id="toggleGraph">Toggle full graph</button>
+      </div>
+    </div>
   </section>
 
   <script src="https://unpkg.com/markdown-it/dist/markdown-it.min.js"></script>
@@ -51,14 +74,14 @@
   const listEl = document.getElementById('list');
   const viewer = document.getElementById('viewer');
   const search = document.getElementById('search');
-  let manifest = [], cy;
+  const rootStyle = document.documentElement.style;
+  let manifest = [], cy, graphMax = false;
 
   async function loadManifest(){
     try{
       const r = await fetch(manifestUrl);
       if(!r.ok) throw new Error('manifest not found');
       manifest = await r.json();
-
       if(!Array.isArray(manifest) || manifest.length === 0){
         listEl.innerHTML = '<li style="color:#9aa6b2">No notes yet. Add entries to <code>writeups/manifest.json</code>.</li>';
       } else {
@@ -122,11 +145,11 @@
         { selector:'node', style:{
             'label':'data(label)',
             'font-size':10,
-            'min-zoomed-font-size':6,        // hide labels when zoomed far out
+            'min-zoomed-font-size':6,
             'text-wrap':'wrap',
             'text-max-width':160,
             'text-halign':'center',
-            'text-valign':'bottom',          // label under the node
+            'text-valign':'bottom',
             'text-margin-y':12,
             'color':'#e6eef6',
             'text-outline-width':2,
@@ -145,42 +168,22 @@
             'shadow-offset-x':0,
             'shadow-offset-y':0
         }},
-        /* White edges */
-        { selector:'edge', style:{
-            'width':1,
-            'line-color':'rgba(255,255,255,0.55)'
-        }},
-        /* Active/hover highlight */
+        { selector:'edge', style:{ 'width':1, 'line-color':'rgba(255,255,255,0.55)' }},
         { selector:'.active', style:{
-            'background-color':'#7fd1ff',
-            'border-color':'#7fd1ff',
-            'line-color':'#7fd1ff',
-            'text-outline-color':'#0f1417',
-            'text-background-color':'#0f1417'
+            'background-color':'#7fd1ff','border-color':'#7fd1ff','line-color':'#7fd1ff',
+            'text-outline-color':'#0f1417','text-background-color':'#0f1417'
         }},
-        /* Dim non-neighborhood when focusing */
-        { selector:'.faded', style:{
-            'opacity':0.2,
-            'text-opacity':0.2,
-            'line-opacity':0.2
-        }},
-        /* Hover outline */
-        { selector:'.hovered', style:{
-            'border-width':2,
-            'border-color':'#ffffff',
-            'background-color':'#ffffff'
-        }}
+        { selector:'.faded', style:{ 'opacity':0.2,'text-opacity':0.2,'line-opacity':0.2 }},
+        { selector:'.hovered', style:{ 'border-width':2, 'border-color':'#ffffff','background-color':'#ffffff' }}
       ],
       layout:{ name:'cose', animate:true },
       wheelSensitivity: 0.2
     });
 
-    // Interactions: click to open, hover effect
     cy.on('tap','node',ev=>openNote(ev.target.id()));
     cy.on('mouseover','node',ev=>ev.target.addClass('hovered'));
     cy.on('mouseout','node',ev=>ev.target.removeClass('hovered'));
 
-    // Drag / pan / zoom
     cy.userPanningEnabled(true);
     cy.zoomingEnabled(true);
     cy.boxSelectionEnabled(false);
@@ -198,6 +201,55 @@
       cy.fit(node, 90);
     }
   }
+
+  // --- Resizable splitter / Fullscreen toggle ---
+  (function(){
+    const splitter = document.getElementById('splitter');
+    const btn = document.getElementById('toggleGraph');
+    let dragging=false, startY=0, startViewerH=0, startGraphH=0;
+
+    const setRows = (viewerPx, graphPx)=>{
+      rootStyle.setProperty('--viewerRow', viewerPx+'px');
+      rootStyle.setProperty('--graphRow', graphPx+'px');
+      if(cy) cy.resize();
+    };
+
+    splitter.addEventListener('pointerdown', (e)=>{
+      dragging=true; splitter.setPointerCapture(e.pointerId);
+      const mainRect = document.getElementById('main').getBoundingClientRect();
+      startY = e.clientY;
+      startViewerH = document.getElementById('viewer').getBoundingClientRect().height;
+      startGraphH = document.getElementById('graph').getBoundingClientRect().height;
+      e.preventDefault();
+    });
+
+    window.addEventListener('pointermove', (e)=>{
+      if(!dragging) return;
+      const dy = e.clientY - startY;
+      let newViewer = Math.max(0, startViewerH + dy);
+      let newGraph = Math.max(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--graphMin'))||200, startGraphH - dy);
+      setRows(newViewer, newGraph);
+    });
+
+    window.addEventListener('pointerup', ()=>{ dragging=false; });
+
+    // Double click on splitter toggles maximize graph
+    splitter.addEventListener('dblclick', toggleGraph);
+    btn.addEventListener('click', toggleGraph);
+
+    function toggleGraph(){
+      graphMax = !graphMax;
+      if(graphMax){
+        // viewer -> 0px, graph -> 1fr
+        rootStyle.setProperty('--viewerRow','0px');
+        rootStyle.setProperty('--graphRow','1fr');
+      }else{
+        rootStyle.setProperty('--viewerRow','auto');
+        rootStyle.setProperty('--graphRow', getComputedStyle(document.documentElement).getPropertyValue('--graphDefault') || '38vh');
+      }
+      if(cy) cy.resize();
+    }
+  })();
 
   loadManifest();
   </script>
