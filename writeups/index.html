@@ -4,15 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Writeups — Martin Tsenkov</title>
-<link rel="icon" href="/assets/favicon.ico?v=2" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
-<link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#1e1e22">
+
+  <!-- Favicons (from /assets) -->
+  <link rel="icon" href="/assets/favicon.ico?v=2" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#1e1e22">
+
   <style>
-  /* Base layout (Obsidian-like) */
-  :root {
+  /* ===== Base layout (Obsidian-like) ===== */
+  :root{
+    --topbarH: 38px;
     --splitterH: 10px;
     --graphMin: 200px;
     --graphDefault: 38vh;
@@ -20,149 +24,92 @@
     --graphRow: var(--graphDefault);
   }
 
-  body {
-    font-family: Inter, Arial;
-    background: #1e1e22;
-    color: #e6eef6;
-    margin: 0;
-    display: flex;
-    height: 100vh;
+  body{
+    font-family: Inter, Arial, sans-serif;
+    background:#1e1e22; color:#dfe3e8;
+    margin:0; display:flex; height:100vh;
   }
 
-  #sidebar {
-    width: 320px;
-    border-right: 1px solid #2d2d31;
-    padding: 12px;
-    overflow: auto;
-    background: #252529;
+  /* Sidebar (left) */
+  #sidebar{
+    width:320px; background:#252529;
+    border-right:1px solid #2d2d31; padding:12px; overflow:auto;
+    box-shadow: inset -1px 0 0 rgba(255,255,255,.04), inset -3px 0 12px rgba(0,0,0,.4);
   }
 
-  #main {
-    flex: 1;
-    display: grid;
-    background: #1f1f23;
-    grid-template-rows: var(--viewerRow) var(--splitterH) minmax(var(--graphMin), var(--graphRow));
+  /* Main area uses grid: topbar / viewer / splitter / graph */
+  #main{
+    flex:1; display:grid; background:#1f1f23;
+    grid-template-rows: var(--topbarH) var(--viewerRow) var(--splitterH) minmax(var(--graphMin), var(--graphRow));
   }
 
-  #viewer {
-    padding: 20px;
-    overflow: auto;
-    background: #1a1a1e;
+  /* Fake Obsidian topbar (only over main area) */
+  #topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 10px; height:var(--topbarH);
+    background:#2a2a2e; border-bottom:1px solid #2d2d31; color:#cfd3d8;
+  }
+  #topbar .title{ font-size:14px; letter-spacing:.15px; }
+  .icon-btn{
+    background:none; border:1px solid #3a3a40; color:#9aa6b2;
+    padding:4px 8px; border-radius:8px; cursor:pointer; margin-left:6px;
+  }
+  .icon-btn:hover{ color:#7fd1ff; filter:brightness(1.08); }
+
+  #viewer{
+    padding:20px; overflow:auto; background:#1a1a1e;
+    transition:opacity .2s ease;
+  }
+  #viewer.loading{ opacity:.4; }
+
+  #splitter{
+    position:relative; background:#2d2d31; cursor:row-resize;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.04), inset 0 -1px 0 rgba(0,0,0,.35);
+  }
+  #splitter:before{
+    content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:56px; height:4px; border-radius:999px; background:#3a3a3f;
   }
 
-  #splitter {
-    position: relative;
-    background: #2d2d31;
-    cursor: row-resize;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04),
-                inset 0 -1px 0 rgba(0, 0, 0, .35);
+  #graph{ position:relative; border-top:1px solid #2d2d31; }
+
+  /* Graph action buttons */
+  .graph-actions{ position:absolute; right:10px; top:8px; z-index:10; display:flex; gap:6px }
+  .gbtn{
+    background:#2a2a2e; border:1px solid #3a3a40; color:#cfd3d8;
+    font-size:12px; padding:6px 10px; border-radius:8px; cursor:pointer;
+  }
+  .gbtn:hover{ filter:brightness(1.08); }
+  .gbtn.active{ border-color:#7fd1ff; color:#7fd1ff; }
+
+  a{ color:#89c9ff; text-decoration:none }
+  a:hover{ color:#b8e3ff }
+
+  /* ===== Search box aligned with header panel ===== */
+  #sidebar header{ margin-bottom:10px; }
+  #search{
+    display:block; box-sizing:border-box;
+    width:calc(100% + 24px); margin-left:-12px; margin-right:-12px;
+    border:1px solid #34363a; border-top:none; border-radius:0;
+    background:#1b1d21; color:#ddd; padding:10px 12px; font-size:14px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.5);
+  }
+  #search:focus{
+    outline:none; border-color:#4fa3ff;
+    box-shadow:0 0 0 1px #4fa3ff, inset 0 1px 3px rgba(0,0,0,.6);
   }
 
-  #splitter:before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 56px;
-    height: 4px;
-    border-radius: 999px;
-    background: #3a3a3f;
-  }
+  /* Sidebar list */
+  ul{ list-style:none; padding:0; margin:0 }
+  li{ padding:6px 0; border-bottom:1px dashed #2a2a2e }
+  header{ padding:12px; border-bottom:1px solid #2d2d31; background:#2a2a2e }
+  .meta{ font-size:13px; color:#9aa6b2 }
 
-  #graph {
-    position: relative;
-    border-top: 1px solid #2d2d31;
-  }
-
-  /* Fullscreen button */
-  .graph-actions {
-    position: absolute;
-    right: 10px;
-    top: 8px;
-    z-index: 10;
-    display: flex;
-    gap: 6px;
-  }
-
-  .gbtn {
-    background: #2a2a2e;
-    border: 1px solid #3a3a40;
-    color: #cfd3d8;
-    font-size: 12px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-
-  .gbtn:hover {
-    filter: brightness(1.08);
-  }
-
-  a {
-    color: #7fd1ff;
-    text-decoration: none;
-  }
-
-  /* ===== Search box alignment fix ===== */
-  #sidebar header {
-    margin-bottom: 10px;
-  }
-
-  #search {
-    display: block;
-    box-sizing: border-box;
-    width: calc(100% + 24px);   /* компенсира 2x padding от sidebar */
-    margin-left: -12px;
-    margin-right: -12px;
-    border: 1px solid #34363a;
-    border-top: none;
-    border-radius: 0;
-    background: #1b1d21;
-    color: #ddd;
-    padding: 10px 12px;
-    font-size: 14px;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); /* лек inset ефект */
-  }
-
-  #search:focus {
-    outline: none;
-    border-color: #4fa3ff;
-    box-shadow: 0 0 0 1px #4fa3ff, inset 0 1px 3px rgba(0,0,0,0.6);
-  }
-
-  /* ===== Sidebar content ===== */
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  li {
-    padding: 6px 0;
-    border-bottom: 1px dashed #2a2a2e;
-  }
-
-  header {
-    padding: 12px;
-    border-bottom: 1px solid #2d2d31;
-    background: #2a2a2e;
-  }
-
-  .meta {
-    font-size: 13px;
-    color: #9aa6b2;
-  }
-
-  /* ===== Mobile tweaks ===== */
-  @media (max-width: 720px) {
-    body { flex-direction: column; }
-    #sidebar {
-      width: auto;
-      border-right: none;
-      border-bottom: 1px solid #2d2d31;
-    }
-    :root { --graphDefault: 42vh; }
+  /* Mobile tweaks */
+  @media (max-width:720px){
+    body{ flex-direction:column }
+    #sidebar{ width:auto; border-right:none; border-bottom:1px solid #2d2d31 }
+    :root{ --graphDefault:42vh }
   }
   </style>
 </head>
@@ -170,18 +117,29 @@
   <aside id="sidebar">
     <header>
       <strong>CTF &amp; Lab Writeups</strong>
-      <div class="meta">Martin's offensive security whiteups</div>
+      <div class="meta">Martin's offensive security writeups</div>
     </header>
     <input id="search" placeholder="Search title or tag…">
     <ul id="list"></ul>
   </aside>
 
   <section id="main">
+    <!-- Obsidian-like top bar -->
+    <div id="topbar">
+      <span class="title">📘 CTF &amp; Lab Notes</span>
+      <div>
+        <button class="icon-btn" id="btnLocalToggle" title="Toggle Local/Global graph">Local graph</button>
+      </div>
+    </div>
+
     <div id="viewer"><div style="padding:24px;color:#9aa6b2">Select a writeup from the list on the left.</div></div>
+
     <div id="splitter" title="Drag to resize. Double-click to maximize/minimize graph."></div>
+
     <div id="graph">
       <div class="graph-actions">
         <button class="gbtn" id="toggleGraph">Toggle full graph</button>
+        <button class="gbtn" id="btnLocal" title="Show only neighborhood of selected note">Local</button>
       </div>
     </div>
   </section>
@@ -193,10 +151,11 @@
   const md = window.markdownit();
   const manifestUrl = '/writeups/manifest.json';
   const listEl = document.getElementById('list');
-  const viewer = document.getElementById('viewer');
-  const search = document.getElementById('search');
+  const viewer  = document.getElementById('viewer');
+  const search  = document.getElementById('search');
   const rootStyle = document.documentElement.style;
-  let manifest = [], cy, graphMax = false;
+  const btnLocal = document.getElementById('btnLocal');
+  let manifest = [], cy, graphMax = false, localMode = false, lastSlug = null;
 
   async function loadManifest(){
     try{
@@ -230,6 +189,7 @@
   }
 
   async function openNote(slug){
+    viewer.classList.add('loading');
     viewer.innerHTML = '<div style="padding:24px;color:#9aa6b2">Loading…</div>';
     try{
       const r = await fetch(`/writeups/notes/${slug}.md`);
@@ -237,10 +197,14 @@
       const txt = await r.text();
       const body = txt.replace(/^---[\s\S]*?---\n/,''); // strip front-matter
       viewer.innerHTML = md.render(body);
+      lastSlug = slug;
       focusNode(slug);
+      if(localMode) applyLocalFilter(slug);  // keep local filter in sync
       location.hash = slug;
     }catch(e){
       viewer.innerHTML = `<div style="padding:24px;color:tomato">Error: ${e.message}</div>`;
+    }finally{
+      setTimeout(()=>viewer.classList.remove('loading'), 120);
     }
   }
 
@@ -262,52 +226,36 @@
       container: document.getElementById('graph'),
       elements:{ nodes, edges },
       style:[
-        /* White nodes + label BELOW node with readable background/outline */
+        /* Nodes with label below + readable background/outline */
         { selector:'node', style:{
-            'label':'data(label)',
-            'font-size':10,
-            'min-zoomed-font-size':6,
-            'text-wrap':'wrap',
-            'text-max-width':160,
-            'text-halign':'center',
-            'text-valign':'bottom',
-            'text-margin-y':12,
-            'color':'#e6eef6',
-            'text-outline-width':2,
-            'text-outline-color':'#1a1a1e',
-            'text-background-opacity':0.6,
-            'text-background-color':'#1a1a1e',
-            'text-background-shape':'roundrectangle',
-            'text-background-padding':2,
-
-            'background-color':'#ffffff',
-            'border-color':'#ffffff',
-            'border-width':0.5,
-            'shadow-blur':8,
-            'shadow-color':'rgba(255,255,255,0.25)',
-            'shadow-opacity':0.8,
-            'shadow-offset-x':0,
-            'shadow-offset-y':0
+            'label':'data(label)', 'font-size':10, 'min-zoomed-font-size':6,
+            'text-wrap':'wrap', 'text-max-width':160,
+            'text-halign':'center', 'text-valign':'bottom', 'text-margin-y':12,
+            'color':'#e6eef6', 'text-outline-width':2, 'text-outline-color':'#1a1a1e',
+            'text-background-opacity':0.6, 'text-background-color':'#1a1a1e',
+            'text-background-shape':'roundrectangle', 'text-background-padding':2,
+            'background-color':'#ffffff', 'border-color':'#ffffff', 'border-width':0.5,
+            'shadow-blur':8, 'shadow-color':'rgba(255,255,255,0.25)',
+            'shadow-opacity':0.8, 'shadow-offset-x':0, 'shadow-offset-y':0
         }},
         { selector:'edge', style:{ 'width':1, 'line-color':'rgba(255,255,255,0.55)' }},
         { selector:'.active', style:{
             'background-color':'#7fd1ff','border-color':'#7fd1ff','line-color':'#7fd1ff',
             'text-outline-color':'#0f1417','text-background-color':'#0f1417'
         }},
-        { selector:'.faded', style:{ 'opacity':0.2,'text-opacity':0.2,'line-opacity':0.2 }},
-        { selector:'.hovered', style:{ 'border-width':2, 'border-color':'#ffffff','background-color':'#ffffff' }}
+        { selector:'.faded', style:{ 'opacity':0.2, 'text-opacity':0.2, 'line-opacity':0.2 }},
+        { selector:'.hovered', style:{ 'border-width':2, 'border-color':'#ffffff', 'background-color':'#ffffff' }}
       ],
       layout:{ name:'cose', animate:true },
       wheelSensitivity: 0.2
     });
 
+    // Interactions
     cy.on('tap','node',ev=>openNote(ev.target.id()));
     cy.on('mouseover','node',ev=>ev.target.addClass('hovered'));
     cy.on('mouseout','node',ev=>ev.target.removeClass('hovered'));
 
-    cy.userPanningEnabled(true);
-    cy.zoomingEnabled(true);
-    cy.boxSelectionEnabled(false);
+    cy.userPanningEnabled(true); cy.zoomingEnabled(true); cy.boxSelectionEnabled(false);
   }
 
   function focusNode(slug){
@@ -323,7 +271,29 @@
     }
   }
 
-  // --- Resizable splitter / Fullscreen toggle ---
+  /* ---- Local / Global graph filter ---- */
+  function setLocalMode(on){
+    localMode = on;
+    btnLocal.classList.toggle('active', localMode);
+    if(!cy) return;
+    if(localMode && lastSlug){ applyLocalFilter(lastSlug); }
+    else { cy.elements().style('display','element'); if(lastSlug) focusNode(lastSlug); }
+  }
+
+  function applyLocalFilter(slug){
+    if(!cy) return;
+    const n = cy.getElementById(slug);
+    if(!n || !n.length){ cy.elements().style('display','element'); return; }
+    const hood = n.closedNeighborhood().union(n);
+    cy.elements().style('display','none');
+    hood.style('display','element');
+    cy.center(n); cy.fit(n, 100);
+  }
+
+  btnLocal.addEventListener('click', ()=> setLocalMode(!localMode));
+  document.getElementById('btnLocalToggle').addEventListener('click', ()=> setLocalMode(!localMode));
+
+  /* --- Resizable splitter / Fullscreen toggle --- */
   (function(){
     const splitter = document.getElementById('splitter');
     const btn = document.getElementById('toggleGraph');
@@ -337,7 +307,6 @@
 
     splitter.addEventListener('pointerdown', (e)=>{
       dragging=true; splitter.setPointerCapture(e.pointerId);
-      const mainRect = document.getElementById('main').getBoundingClientRect();
       startY = e.clientY;
       startViewerH = document.getElementById('viewer').getBoundingClientRect().height;
       startGraphH = document.getElementById('graph').getBoundingClientRect().height;
@@ -348,7 +317,7 @@
       if(!dragging) return;
       const dy = e.clientY - startY;
       let newViewer = Math.max(0, startViewerH + dy);
-      let newGraph = Math.max(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--graphMin'))||200, startGraphH - dy);
+      let newGraph  = Math.max(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--graphMin'))||200, startGraphH - dy);
       setRows(newViewer, newGraph);
     });
 
@@ -361,7 +330,6 @@
     function toggleGraph(){
       graphMax = !graphMax;
       if(graphMax){
-        // viewer -> 0px, graph -> 1fr
         rootStyle.setProperty('--viewerRow','0px');
         rootStyle.setProperty('--graphRow','1fr');
       }else{
