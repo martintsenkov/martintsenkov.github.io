@@ -5,44 +5,159 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Writeups — Martin Tsenkov</title>
   <style>
-    /* Base layout (Obsidian-like) */
-    :root{ --splitterH:10px; --graphMin:200px; --graphDefault:38vh; --viewerRow:auto; --graphRow:var(--graphDefault); }
-    body{font-family:Inter,Arial;background:#1e1e22;color:#e6eef6;margin:0;display:flex;height:100vh}
-    #sidebar{width:320px;border-right:1px solid #2d2d31;padding:12px;overflow:auto;background:#252529}
-    #main{
-      flex:1;display:grid;background:#1f1f23;
-      grid-template-rows: var(--viewerRow) var(--splitterH) minmax(var(--graphMin), var(--graphRow));
-    }
-    #viewer{padding:20px;overflow:auto;background:#1a1a1e}
-    #splitter{
-      position:relative;background:#2d2d31;cursor:row-resize;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.04), inset 0 -1px 0 rgba(0,0,0,.35);
-    }
-    #splitter:before{
-      content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-      width:56px;height:4px;border-radius:999px;background:#3a3a3f;
-    }
-    #graph{position:relative;border-top:1px solid #2d2d31}
-    /* Fullscreen button */
-    .graph-actions{position:absolute;right:10px;top:8px;z-index:10;display:flex;gap:6px}
-    .gbtn{
-      background:#2a2a2e;border:1px solid #3a3a40;color:#cfd3d8;font-size:12px;
-      padding:6px 10px;border-radius:8px;cursor:pointer
-    }
-    .gbtn:hover{filter:brightness(1.08)}
-    a{color:#7fd1ff;text-decoration:none}
-    input{width:100%;padding:8px;margin-bottom:10px;border-radius:4px;border:1px solid #34363a;background:#1b1d21;color:#ddd}
-    ul{list-style:none;padding:0;margin:0}
-    li{padding:6px 0;border-bottom:1px dashed #2a2a2e}
-    header{padding:12px;border-bottom:1px solid #2d2d31;background:#2a2a2e}
-    .meta{font-size:13px;color:#9aa6b2}
+  /* Base layout (Obsidian-like) */
+  :root {
+    --splitterH: 10px;
+    --graphMin: 200px;
+    --graphDefault: 38vh;
+    --viewerRow: auto;
+    --graphRow: var(--graphDefault);
+  }
 
-    /* Mobile tweak: stack sidebar on top; graph gets 42vh by default */
-    @media (max-width: 720px){
-      body{flex-direction:column}
-      #sidebar{width:auto;border-right:none;border-bottom:1px solid #2d2d31}
-      :root{ --graphDefault:42vh; }
+  body {
+    font-family: Inter, Arial;
+    background: #1e1e22;
+    color: #e6eef6;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+  }
+
+  #sidebar {
+    width: 320px;
+    border-right: 1px solid #2d2d31;
+    padding: 12px;
+    overflow: auto;
+    background: #252529;
+  }
+
+  #main {
+    flex: 1;
+    display: grid;
+    background: #1f1f23;
+    grid-template-rows: var(--viewerRow) var(--splitterH) minmax(var(--graphMin), var(--graphRow));
+  }
+
+  #viewer {
+    padding: 20px;
+    overflow: auto;
+    background: #1a1a1e;
+  }
+
+  #splitter {
+    position: relative;
+    background: #2d2d31;
+    cursor: row-resize;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04),
+                inset 0 -1px 0 rgba(0, 0, 0, .35);
+  }
+
+  #splitter:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 4px;
+    border-radius: 999px;
+    background: #3a3a3f;
+  }
+
+  #graph {
+    position: relative;
+    border-top: 1px solid #2d2d31;
+  }
+
+  /* Fullscreen button */
+  .graph-actions {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    z-index: 10;
+    display: flex;
+    gap: 6px;
+  }
+
+  .gbtn {
+    background: #2a2a2e;
+    border: 1px solid #3a3a40;
+    color: #cfd3d8;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .gbtn:hover {
+    filter: brightness(1.08);
+  }
+
+  a {
+    color: #7fd1ff;
+    text-decoration: none;
+  }
+
+  /* ===== Search box alignment fix ===== */
+  #sidebar header {
+    margin-bottom: 10px;
+  }
+
+  #search {
+    display: block;
+    box-sizing: border-box;
+    width: calc(100% + 24px);   /* компенсира 2x padding от sidebar */
+    margin-left: -12px;
+    margin-right: -12px;
+    border: 1px solid #34363a;
+    border-top: none;
+    border-radius: 0;
+    background: #1b1d21;
+    color: #ddd;
+    padding: 10px 12px;
+    font-size: 14px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); /* лек inset ефект */
+  }
+
+  #search:focus {
+    outline: none;
+    border-color: #4fa3ff;
+    box-shadow: 0 0 0 1px #4fa3ff, inset 0 1px 3px rgba(0,0,0,0.6);
+  }
+
+  /* ===== Sidebar content ===== */
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    padding: 6px 0;
+    border-bottom: 1px dashed #2a2a2e;
+  }
+
+  header {
+    padding: 12px;
+    border-bottom: 1px solid #2d2d31;
+    background: #2a2a2e;
+  }
+
+  .meta {
+    font-size: 13px;
+    color: #9aa6b2;
+  }
+
+  /* ===== Mobile tweaks ===== */
+  @media (max-width: 720px) {
+    body { flex-direction: column; }
+    #sidebar {
+      width: auto;
+      border-right: none;
+      border-bottom: 1px solid #2d2d31;
     }
+    :root { --graphDefault: 42vh; }
+  }
   </style>
 </head>
 <body>
