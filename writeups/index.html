@@ -85,20 +85,6 @@
   a{ color:#89c9ff; text-decoration:none }
   a:hover{ color:#b8e3ff }
 
-  /* ===== Search box aligned with header panel ===== */
-  #sidebar header{ margin-bottom:10px; }
-  #search{
-    display:block; box-sizing:border-box;
-    width:calc(100% + 24px); margin-left:-12px; margin-right:-12px;
-    border:1px solid #34363a; border-top:none; border-radius:0;
-    background:#1b1d21; color:#ddd; padding:10px 12px; font-size:14px;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,.5);
-  }
-  #search:focus{
-    outline:none; border-color:#4fa3ff;
-    box-shadow:0 0 0 1px #4fa3ff, inset 0 1px 3px rgba(0,0,0,.6);
-  }
-
   /* Sidebar list */
   ul{ list-style:none; padding:0; margin:0 }
   li{ padding:6px 0; border-bottom:1px dashed #2a2a2e }
@@ -119,7 +105,6 @@
       <strong>CTF &amp; Lab Writeups</strong>
       <div class="meta">Martin's offensive security writeups(developing yet)</div>
     </header>
-    <input id="search" placeholder="Search title or tag…">
     <ul id="list"></ul>
   </aside>
 
@@ -152,7 +137,6 @@
   const manifestUrl = '/writeups/manifest.json';
   const listEl = document.getElementById('list');
   const viewer  = document.getElementById('viewer');
-  const search  = document.getElementById('search');
   const rootStyle = document.documentElement.style;
   const btnLocal = document.getElementById('btnLocal');
   let manifest = [], cy, graphMax = false, localMode = false, lastSlug = null;
@@ -207,15 +191,6 @@
       setTimeout(()=>viewer.classList.remove('loading'), 120);
     }
   }
-
-  search.addEventListener('input',()=>{
-    const q=search.value.toLowerCase();
-    const filtered = manifest.filter(m =>
-      (m.title||'').toLowerCase().includes(q) ||
-      (m.tags||[]).join(' ').toLowerCase().includes(q)
-    );
-    renderList(filtered);
-  });
 
   function renderGraph(items){
     const nodes=items.map(i=>({ data:{ id:i.slug, label:i.title }}));
