@@ -24,7 +24,7 @@ Target Identification
 
 After identifying the target access point, traffic was filtered to monitor only the selected network.
 This made it easier to observe client activity and capture a WPA handshake when a client connects or reconnects.
-
+![](wpa2-psk/img/01.png)
 airodump-ng --bssid <TARGET_BSSID> --channel <CH> -w capture wlan1mon
 
 
@@ -34,7 +34,7 @@ Handshake Capture
 
 To accelerate the process, a deauthentication attack was launched against a connected client.
 This forces the client to disconnect and immediately reconnect, generating a WPA handshake in the process.
-
+![](wpa2-psk/img/02.png)
 aireplay-ng --deauth 3 -a <TARGET_BSSID> -c <CLIENT_MAC> wlan1mon
 
 
@@ -44,7 +44,7 @@ Offline Password Cracking
 
 With a valid handshake captured, the attack moved to the offline phase.
 The captured .cap file was tested against a custom wordlist using aircrack-ng.
-
+![](wpa2-psk/img/03.png)
 aircrack-ng capture.cap -w custom_wordlist.txt
 
 
