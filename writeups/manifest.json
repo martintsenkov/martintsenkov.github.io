@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "slug": "wpa2-psk",
+    "title": "WPA2-PSK Handshake Capture",
+    "date": "2025-01-01",
+    "tags": ["wifi", "wpa2", "lab"],
+    "links": []
+  }
+]
