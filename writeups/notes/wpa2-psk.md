@@ -65,8 +65,9 @@ The captured .cap file was tested against a custom wordlist using aircrack-ng.
 
 ![](/writeups/notes/wpa2-psk/img/03.png)
 
+```bash
 aircrack-ng capture.cap -w custom_wordlist.txt
-
+```
 
 The correct WPA2-PSK passphrase was successfully recovered.
 
