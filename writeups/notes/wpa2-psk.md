@@ -1,50 +1,70 @@
-WPA2-PSK Wireless Network Compromise
+# WPA2-PSK Wireless Network Compromise
 
-Host: Kali Linux
-Target: WPA2-PSK wireless network
-Attack Type: Offline password cracking
-Tools: airodump-ng, aireplay-ng, aircrack-ng
-Wordlist: Custom
+**Host:** Kali Linux  
+**Target:** WPA2-PSK wireless network  
+**Attack Type:** Offline password cracking  
+**Tools:** airodump-ng, aireplay-ng, aircrack-ng  
+**Wordlist:** Custom  
 
-Overview
+---
+
+## Overview
 
 This write-up documents a basic but realistic attack against a WPA2-PSK protected wireless network.
 The goal was to capture a valid WPA handshake and perform an offline password attack using a custom wordlist.
 
-This scenario reflects a common real-world weakness: strong encryption rendered ineffective by weak passwords.
+This scenario reflects a common real-world weakness:
 
-Reconnaissance & Preparation
+**strong encryption rendered ineffective by weak passwords.**
+
+---
+
+## Reconnaissance & Preparation
 
 The wireless interface was placed into monitor mode to allow passive monitoring of nearby wireless networks.
 To reduce traceability, the MAC address of the wireless adapter was randomized before starting the attack.
 
 Once prepared, the surrounding wireless environment was scanned to identify potential targets.
 
-Target Identification
+---
+
+## Target Identification
 
 After identifying the target access point, traffic was filtered to monitor only the selected network.
 This made it easier to observe client activity and capture a WPA handshake when a client connects or reconnects.
-![](wpa2-psk/img/01.png)
+
+![](/writeups/notes/wpa2-psk/img/01.png)
+
+```bash
 airodump-ng --bssid <TARGET_BSSID> --channel <CH> -w capture wlan1mon
 
 
 This command was used to monitor the target network and write captured traffic to a file for later analysis.
 
-Handshake Capture
+---
+
+## Handshake Capture
 
 To accelerate the process, a deauthentication attack was launched against a connected client.
 This forces the client to disconnect and immediately reconnect, generating a WPA handshake in the process.
-![](wpa2-psk/img/02.png)
+
+![](/writeups/notes/wpa2-psk/img/02.png)
+
+```bash
 aireplay-ng --deauth 3 -a <TARGET_BSSID> -c <CLIENT_MAC> wlan1mon
 
 
 Shortly after executing the deauthentication attack, a valid WPA handshake was successfully captured.
 
-Offline Password Cracking
+---
+
+## Offline Password Cracking
 
 With a valid handshake captured, the attack moved to the offline phase.
 The captured .cap file was tested against a custom wordlist using aircrack-ng.
-![](wpa2-psk/img/03.png)
+
+![](/writeups/notes/wpa2-psk/img/03.png)
+
 aircrack-ng capture.cap -w custom_wordlist.txt
 
 
