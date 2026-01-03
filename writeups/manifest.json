@@ -14,5 +14,13 @@
     "tags": ["forensics", "offensive"],
     "category": "HTB Machines",
     "links": []
+  },
+  {
+    "slug": "gurmej",
+    "title": "red team simulation",
+    "date": "2025-01-05",
+    "tags": ["forensics", "offensive"],
+    "category": "Red Team",
+    "links": []
   }
 ]
