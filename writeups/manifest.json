@@ -1,16 +1,18 @@
-{
-  "slug": "wpa2-psk",
-  "title": "WPA2-PSK Handshake Capture",
-  "date": "2025-01-01",
-  "tags": ["wifi", "wpa2", "offensive"],
-  "category": "Wireless Ops",
-  "links": []
-},
-{
-  "slug": "youctfone-forgottenkey",
-  "title": "Youctfone Forgotten Key Extraction",
-  "date": "2025-01-05",
-  "tags": ["forensics", "offensive"],
-  "category": "Mobile / Device",
-  "links": []
-}
+[
+  {
+    "slug": "wpa2-psk",
+    "title": "WPA2-PSK Handshake Capture",
+    "date": "2025-01-01",
+    "tags": ["wifi", "wpa2", "offensive"],
+    "category": "Wireless Ops",
+    "links": []
+  },
+  {
+    "slug": "youctfone-forgottenkey",
+    "title": "Youctfone Forgotten Key Extraction",
+    "date": "2025-01-05",
+    "tags": ["forensics", "offensive"],
+    "category": "Mobile / Device",
+    "links": []
+  }
+]
