@@ -14,7 +14,6 @@
   <meta name="theme-color" content="#1e1e22">
 
   <style>
-  /* ===== Base layout (Obsidian-like) ===== */
   :root{
     --topbarH: 38px;
     --splitterH: 10px;
@@ -30,26 +29,24 @@
     margin:0; display:flex; height:100vh;
   }
 
-  /* Sidebar (left) */
   #sidebar{
     width:320px; background:#252529;
     border-right:1px solid #2d2d31; padding:12px; overflow:auto;
     box-shadow: inset -1px 0 0 rgba(255,255,255,.04), inset -3px 0 12px rgba(0,0,0,.4);
   }
 
-  /* Main area uses grid: topbar / viewer / splitter / graph */
   #main{
     flex:1; display:grid; background:#1f1f23;
     grid-template-rows: var(--topbarH) var(--viewerRow) var(--splitterH) minmax(var(--graphMin), var(--graphRow));
   }
 
-  /* Fake Obsidian topbar (only over main area) */
   #topbar{
     display:flex; align-items:center; justify-content:space-between;
     padding:0 10px; height:var(--topbarH);
     background:#2a2a2e; border-bottom:1px solid #2d2d31; color:#cfd3d8;
   }
   #topbar .title{ font-size:14px; letter-spacing:.15px; }
+
   .icon-btn{
     background:none; border:1px solid #3a3a40; color:#9aa6b2;
     padding:4px 8px; border-radius:8px; cursor:pointer; margin-left:6px;
@@ -73,7 +70,6 @@
 
   #graph{ position:relative; border-top:1px solid #2d2d31; }
 
-  /* Graph action buttons */
   .graph-actions{ position:absolute; right:10px; top:8px; z-index:10; display:flex; gap:6px }
   .gbtn{
     background:#2a2a2e; border:1px solid #3a3a40; color:#cfd3d8;
@@ -85,13 +81,11 @@
   a{ color:#89c9ff; text-decoration:none }
   a:hover{ color:#b8e3ff }
 
-  /* Sidebar list */
   ul{ list-style:none; padding:0; margin:0 }
   li{ padding:6px 0; border-bottom:1px dashed #2a2a2e }
   header{ padding:12px; border-bottom:1px solid #2d2d31; background:#2a2a2e }
   .meta{ font-size:13px; color:#9aa6b2 }
 
-  /* Mobile tweaks */
   @media (max-width:720px){
     body{ flex-direction:column }
     #sidebar{ width:auto; border-right:none; border-bottom:1px solid #2d2d31 }
@@ -99,6 +93,7 @@
   }
   </style>
 </head>
+
 <body>
   <aside id="sidebar">
     <header>
@@ -109,7 +104,6 @@
   </aside>
 
   <section id="main">
-    <!-- Obsidian-like top bar -->
     <div id="topbar">
       <span class="title">📘 CTF &amp; Lab Notes</span>
       <div>
@@ -134,7 +128,8 @@
 
   <script>
   const md = window.markdownit();
-  const manifestUrl = './manifest.json';
+  const manifestUrl = './manifest.json?v=' + Date.now(); // kill cache issues
+
   const listEl = document.getElementById('list');
   const viewer  = document.getElementById('viewer');
   const rootStyle = document.documentElement.style;
@@ -146,7 +141,7 @@
   async function loadManifest(){
     try{
       const r = await fetch(manifestUrl);
-      if(!r.ok) throw new Error('manifest not found');
+      if(!r.ok) throw new Error(`manifest fetch failed (${r.status})`);
       manifest = await r.json();
 
       if(!Array.isArray(manifest) || manifest.length === 0){
@@ -160,8 +155,12 @@
       const hash = location.hash.replace('#','');
       if(hash) openNote(hash);
     }catch(e){
-      listEl.innerHTML = '<li style="color:tomato">Missing writeups/manifest.json</li>';
+      listEl.innerHTML = `<li style="color:tomato">Manifest error: ${escapeHtml(String(e.message || e))}</li>`;
     }
+  }
+
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
   }
 
   function renderList(items){
@@ -176,8 +175,7 @@
       m.style.fontSize='12px'; m.style.color='#9aa6b2';
       m.textContent=(it.date?it.date+' · ':'')+(it.tags||[]).join(', ');
 
-      li.appendChild(a);
-      li.appendChild(m);
+      li.appendChild(a); li.appendChild(m);
       listEl.appendChild(li);
     });
   }
@@ -206,12 +204,11 @@
       const item = findItemBySlug(slug);
       if(item){
         const catId = slugifyCategory(getCategoryNameForItem(item));
-        // Ensure the note is visible in graph (switch to its category)
         if(activeCategoryId !== catId) showCategory(catId);
       }
 
       const r = await fetch(`/writeups/notes/${slug}.md`);
-      if(!r.ok) throw new Error('note not found');
+      if(!r.ok) throw new Error(`note fetch failed (${r.status})`);
 
       const txt = await r.text();
       const body = txt.replace(/^---[\s\S]*?---\n/,''); // strip front-matter
@@ -224,18 +221,16 @@
       if(localMode) applyLocalFilter(slug);
 
     }catch(e){
-      viewer.innerHTML = `<div style="padding:24px;color:tomato">Error: ${e.message}</div>`;
+      viewer.innerHTML = `<div style="padding:24px;color:tomato">Error: ${escapeHtml(String(e.message || e))}</div>`;
     }finally{
       setTimeout(()=>viewer.classList.remove('loading'), 120);
     }
   }
 
   function renderGraph(items){
-    // Categories
     const catNameSet = new Set(items.map(getCategoryNameForItem));
     const catNames = Array.from(catNameSet).sort((a,b)=>a.localeCompare(b));
 
-    // Nodes
     const categoryNodes = catNames.map(name => ({
       data:{ id: slugifyCategory(name), label: name, type: 'category' }
     }));
@@ -249,7 +244,6 @@
       }
     }));
 
-    // Edges
     const catEdges = items.map(i => ({
       data:{
         id: `${slugifyCategory(getCategoryNameForItem(i))}=>${i.slug}`,
@@ -261,17 +255,12 @@
 
     const linkEdges = [];
     items.forEach(i => (i.links||[]).forEach(l => {
-      linkEdges.push({
-        data:{ id: i.slug+'->'+l, source: i.slug, target: l, type: 'note' }
-      });
+      linkEdges.push({ data:{ id: i.slug+'->'+l, source: i.slug, target: l, type: 'note' } });
     }));
-
-    const nodes = [...categoryNodes, ...noteNodes];
-    const edges = [...catEdges, ...linkEdges];
 
     cy = cytoscape({
       container: document.getElementById('graph'),
-      elements:{ nodes, edges },
+      elements:{ nodes:[...categoryNodes, ...noteNodes], edges:[...catEdges, ...linkEdges] },
       style:[
         { selector:'node', style:{
           'label':'data(label)', 'font-size':10, 'min-zoomed-font-size':6,
@@ -301,22 +290,17 @@
           'background-color':'#7fd1ff','border-color':'#7fd1ff','line-color':'#7fd1ff',
           'text-outline-color':'#0f1417','text-background-color':'#0f1417'
         }},
-        { selector:'.faded', style:{ 'opacity':0.15, 'text-opacity':0.15, 'line-opacity':0.15 }},
         { selector:'.hovered', style:{ 'border-width':2, 'border-color':'#ffffff', 'background-color':'#ffffff' }}
       ],
       layout:{ name:'cose', animate:true },
       wheelSensitivity: 0.2
     });
 
-    // Interactions
     cy.on('tap','node',ev=>{
       const n = ev.target;
       const t = n.data('type');
-      if(t === 'category'){
-        toggleCategory(n.id());
-      } else {
-        openNote(n.id());
-      }
+      if(t === 'category') toggleCategory(n.id());
+      else openNote(n.id());
     });
 
     cy.on('mouseover','node',ev=>ev.target.addClass('hovered'));
@@ -326,18 +310,20 @@
     cy.zoomingEnabled(true);
     cy.boxSelectionEnabled(false);
 
-    // Default: show only categories
     showCategoriesOnly();
+  }
+
+  // ---- IMPORTANT: no setLocalMode(false) here (prevents recursion) ----
+  function quietDisableLocalMode(){
+    localMode = false;
+    btnLocal.classList.remove('active');
   }
 
   function showCategoriesOnly(){
     if(!cy) return;
 
-    // local mode doesn't make sense here
-    setLocalMode(false);
-
+    quietDisableLocalMode();
     activeCategoryId = null;
-    cy.elements().removeClass('active faded');
 
     cy.nodes('[type="note"]').style('display','none');
     cy.edges().style('display','none');
@@ -350,37 +336,28 @@
   function showCategory(catId){
     if(!cy) return;
 
-    // local mode is per-note; disable when switching category view
-    setLocalMode(false);
-
+    quietDisableLocalMode();
     activeCategoryId = catId;
 
     const notes = cy.nodes(`[type="note"][categoryId="${catId}"]`);
     const catNode = cy.getElementById(catId);
 
-    // Hide all first
     cy.nodes('[type="category"]').style('display','none');
     cy.nodes('[type="note"]').style('display','none');
     cy.edges().style('display','none');
 
-    // Show only this category + its notes
     catNode.style('display','element');
     notes.style('display','element');
 
-    // Show edges: category->notes
     cy.edges(`[type="cat"][source="${catId}"]`).style('display','element');
 
-    // Show note-to-note edges only if both endpoints are visible notes
+    // show note-to-note edges only if both ends are visible notes
     cy.edges('[type="note"]').forEach(e=>{
-      const s = e.source();
-      const t = e.target();
-      if(notes.contains(s) && notes.contains(t)){
-        e.style('display','element');
-      }
+      const s=e.source(), t=e.target();
+      if(notes.contains(s) && notes.contains(t)) e.style('display','element');
     });
 
-    // Highlight category
-    cy.elements().removeClass('active faded');
+    cy.elements().removeClass('active');
     catNode.addClass('active');
 
     const visibleSet = notes.union(catNode);
@@ -396,8 +373,6 @@
 
   function focusNode(slug){
     if(!cy) return;
-
-    cy.elements().removeClass('active');
     const node = cy.getElementById(slug);
     if(node && node.length){
       node.addClass('active');
@@ -406,35 +381,35 @@
     }
   }
 
-  /* ---- Local / Global graph filter (notes only) ---- */
+  // Local mode: only when inside category view + note selected
   function setLocalMode(on){
-    // local mode only works when a note is selected inside a category view
+    if(!activeCategoryId){
+      // categories-only view: ignore local mode
+      localMode = false;
+      btnLocal.classList.remove('active');
+      return;
+    }
+
     localMode = on;
     btnLocal.classList.toggle('active', localMode);
 
     if(!cy) return;
 
-    if(localMode && lastSlug){
-      applyLocalFilter(lastSlug);
-    } else {
-      // restore category view
+    if(localMode && lastSlug) applyLocalFilter(lastSlug);
+    else {
+      // restore current category view
       if(activeCategoryId) showCategory(activeCategoryId);
-      else showCategoriesOnly();
-      // keep highlight
       if(lastSlug) focusNode(lastSlug);
     }
   }
 
   function applyLocalFilter(slug){
-    if(!cy) return;
-    if(!activeCategoryId) return; // no local filter on categories-only view
+    if(!cy || !activeCategoryId) return;
 
     const n = cy.getElementById(slug);
     if(!n || !n.length) return;
 
     const hood = n.closedNeighborhood().union(n);
-    // Only within current visible category view:
-    // hide all visible elements, show only hood
     cy.elements().style('display','none');
     hood.style('display','element');
     cy.center(n);
@@ -444,7 +419,7 @@
   btnLocal.addEventListener('click', ()=> setLocalMode(!localMode));
   document.getElementById('btnLocalToggle').addEventListener('click', ()=> setLocalMode(!localMode));
 
-  /* --- Resizable splitter / Fullscreen toggle --- */
+  // --- Resizable splitter / Fullscreen toggle ---
   (function(){
     const splitter = document.getElementById('splitter');
     const btn = document.getElementById('toggleGraph');
