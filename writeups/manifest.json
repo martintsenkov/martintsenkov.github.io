@@ -22,5 +22,13 @@
     "tags": ["forensics", "offensive"],
     "category": "Red Team",
     "links": []
+  },
+  {
+    "slug": "gurmej",
+    "title": "Kerberoasting",
+    "date": "2025-01-05",
+    "tags": ["forensics", "offensive"],
+    "category": "Active Directory Attacks",
+    "links": []
   }
 ]
