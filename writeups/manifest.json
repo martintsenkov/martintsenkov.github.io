@@ -12,7 +12,7 @@
     "title": "Youctfone Forgotten Key Extraction",
     "date": "2025-01-05",
     "tags": ["forensics", "offensive"],
-    "category": "HTB Machines",
+    "category": "Platform Machines",
     "links": []
   },
   {
@@ -36,7 +36,7 @@
     "title": "Hack The Box — Conversor",
     "date": "2025-01-05",
     "tags": ["forensics", "offensive"],
-    "category": "HTB Machines",
+    "category": "Platform Machines",
     "links": []
   }
 ]
