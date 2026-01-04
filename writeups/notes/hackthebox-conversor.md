@@ -137,4 +137,5 @@ persistent sudo access
 immediate root shell
 
 The root flag was successfully obtained.
+
 ![](/writeups/notes/HackTheBox–Conversor/img/01.png)
