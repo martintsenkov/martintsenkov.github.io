@@ -108,6 +108,8 @@ stored using MD5 hashing (cryptographically broken)
 
 After cracking the hashes, valid SSH credentials were recovered, allowing login as a real system user and retrieval of the user flag.
 
+![](/writeups/notes/HackTheBox–Conversor/img/02.png)
+
 ---
 
 ## Root Privilege Escalation (CVE Abuse)
@@ -135,3 +137,4 @@ persistent sudo access
 immediate root shell
 
 The root flag was successfully obtained.
+![](/writeups/notes/HackTheBox–Conversor/img/01.png)
