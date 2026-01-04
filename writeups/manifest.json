@@ -30,5 +30,13 @@
     "tags": ["forensics", "offensive"],
     "category": "Active Directory Attacks",
     "links": []
+  },
+  {
+    "slug": "HackTheBox-Conversor",
+    "title": "Hack The Box — Conversor",
+    "date": "2025-01-05",
+    "tags": ["forensics", "offensive"],
+    "category": "HTB Machines",
+    "links": []
   }
 ]
