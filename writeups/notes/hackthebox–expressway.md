@@ -197,3 +197,5 @@ sudo -h offramp.expressway.htb /bin/bash
 
 
 Root access was obtained immediately, and the root flag was retrieved.
+
+![](/writeups/notes/hackthebox–expressway/img/01.png)
