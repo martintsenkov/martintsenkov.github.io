@@ -45,6 +45,8 @@ This immediately became the primary attack surface.
 
 The student portal login page included a Help / Guide section explicitly stating:
 
+![](/writeups/notes/HackTheBox–Guardian/img/01.png)
+
 ```bash
 Default password: GU1234
 ```
@@ -103,6 +105,8 @@ DHsNnk3V503
 
 Login succeeded.
 
+![](/writeups/notes/HackTheBox–Guardian/img/02.png)
+
 While no public Gitea vulnerability existed, source code access revealed:
 
 database credentials
@@ -126,6 +130,8 @@ Reviewing dependencies revealed a known XSS issue:
 worksheet titles are rendered without htmlspecialchars()
 
 By crafting an XLSX file with a malicious worksheet name and uploading it, a stored XSS was triggered when staff viewed the document.
+
+![](/writeups/notes/HackTheBox–Guardian/img/03.png)
 
 This allowed theft of a lecturer session token.
 
@@ -176,6 +182,8 @@ php://filter/convert.base64-decode/resource=...
 
 This led to remote code execution and a reverse shell as www-data.
 
+![](/writeups/notes/HackTheBox–Guardian/img/05.png)
+
 ---
 
 ## Database Access & Password Cracking
@@ -211,6 +219,8 @@ su jamil
 
 
 User flag obtained.
+
+![](/writeups/notes/HackTheBox–Guardian/img/06.png)
 
 ---
 
@@ -269,5 +279,7 @@ sudo safeapache2ctl -f /home/mark/confs/exploit.conf
 
 
 The malicious module executed as root.
+
+![](/writeups/notes/HackTheBox–Guardian/img/08.png)
 
 Root shell obtained.
