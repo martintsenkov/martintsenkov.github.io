@@ -46,5 +46,13 @@
     "tags": ["forensics", "offensive"],
     "category": "Platform Machines",
     "links": []
+  },
+  {
+    "slug": "hackthebox–expressway",
+    "title": "Hack The Box — Expressway",
+    "date": "2025-01-05",
+    "tags": ["forensics", "offensive"],
+    "category": "Platform Machines",
+    "links": []
   }
 ]
