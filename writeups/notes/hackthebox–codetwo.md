@@ -105,6 +105,8 @@ id
 
 At this point, full remote code execution was achieved.
 
+![](/writeups/notes/HackTheBox–Conversor/img/01.png)
+
 ---
 
 ## Local Enumeration & Credential Recovery
@@ -115,6 +117,7 @@ Local enumeration revealed the SQLite database:
 /home/app/app/instance/users.db
 ```
 
+![](/writeups/notes/HackTheBox–Conversor/img/02.png)
 
 Extracting user hashes showed MD5 password storage.
 
@@ -128,6 +131,8 @@ su marco
 
 
 User access was obtained and user.txt retrieved.
+
+![](/writeups/notes/HackTheBox–Conversor/img/03.png)
 
 ---
 
@@ -181,5 +186,7 @@ The backup operation successfully included /root, allowing direct access to:
 Root Access
 
 Although no interactive root shell was spawned, full root file access was achieved, which is sufficient to compromise the system.
+
+![](/writeups/notes/HackTheBox–Conversor/img/04.png)
 
 The root flag was read successfully.
