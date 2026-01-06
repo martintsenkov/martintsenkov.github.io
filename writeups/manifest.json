@@ -12,7 +12,7 @@
     "title": "Youctfone Forgotten Key Extraction",
     "date": "2025-01-05",
     "tags": ["forensics", "offensive"],
-    "category": "Platform Machines",
+    "category": "Red Team",
     "links": []
   },
   {
@@ -36,7 +36,7 @@
     "title": "Hack The Box — Conversor",
     "date": "2025-01-05",
     "tags": ["forensics", "offensive"],
-    "category": "Platform Machines",
+    "category": "HTB Machines",
     "links": []
   },
   {
@@ -44,7 +44,7 @@
     "title": "Hack The Box — Imagery",
     "date": "2025-01-05",
     "tags": ["forensics", "offensive"],
-    "category": "Platform Machines",
+    "category": "HTB Machines",
     "links": []
   },
   {
@@ -52,7 +52,7 @@
     "title": "Hack The Box — Expressway",
     "date": "2025-01-05",
     "tags": ["forensics", "offensive"],
-    "category": "Platform Machines",
+    "category": "HTB Machines",
     "links": []
   },
   {
@@ -60,7 +60,7 @@
     "title": "Hack The Box — Guardian",
     "date": "2025-01-05",
     "tags": ["forensics", "offensive"],
-    "category": "Platform Machines",
+    "category": "HTB Machines",
     "links": []
   },
   {
@@ -68,7 +68,7 @@
     "title": "Hack The Box — Previous",
     "date": "2025-01-05",
     "tags": ["forensics", "offensive"],
-    "category": "Platform Machines",
+    "category": "HTB Machines",
     "links": []
   }
 ]
