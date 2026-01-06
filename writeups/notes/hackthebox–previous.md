@@ -309,4 +309,6 @@ ls -al /bin/bash
 
 Confirmed SUID bit set.
 
+![](/writeups/notes/HackTheBox–Previous/img/01.png)
+
 Root shell obtained and root flag retrieved.
