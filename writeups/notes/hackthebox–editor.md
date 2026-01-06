@@ -74,6 +74,8 @@ nc -lnvp 4444
 ```
 
 
+![](/writeups/notes/HackTheBox–Editor/img/01.png)
+
 
 Exploit execution:
 
@@ -124,6 +126,8 @@ su oliver
 
 
 This provided a stable shell and access to the user flag.
+
+![](/writeups/notes/HackTheBox–Editor/img/02.png)
 
 Credential reuse between services significantly amplified the impact of the initial compromise.
 
@@ -182,6 +186,8 @@ id
 uid=0(root) gid=0(root)
 ```
 
+
+![](/writeups/notes/HackTheBox–Editor/img/03.png)
 
 
 The root flag was successfully retrieved.
