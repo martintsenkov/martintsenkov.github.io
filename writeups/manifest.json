@@ -62,5 +62,13 @@
     "tags": ["forensics", "offensive"],
     "category": "HTB Machines",
     "links": []
+  },
+  {
+    "slug": "hackthebox–codetwo",
+    "title": "Hack The Box — CodeTwo",
+    "date": "2025-01-05",
+    "tags": ["forensics", "offensive"],
+    "category": "HTB Machines",
+    "links": []
   }
 ]
