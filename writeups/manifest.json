@@ -62,5 +62,13 @@
     "tags": ["forensics", "offensive"],
     "category": "Platform Machines",
     "links": []
+  },
+  {
+    "slug": "hackthebox–previous",
+    "title": "Hack The Box — Previous",
+    "date": "2025-01-05",
+    "tags": ["forensics", "offensive"],
+    "category": "Platform Machines",
+    "links": []
   }
 ]
