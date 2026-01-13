@@ -78,5 +78,13 @@
     "tags": ["forensics", "offensive"],
     "category": "HTB Machines",
     "links": []
+  },
+  {
+    "slug": "dev",
+    "title": "dev",
+    "date": "2025-01-05",
+    "tags": ["forensics", "offensive"],
+    "category": "ICS / SCADA Offensive Labs",
+    "links": []
   }
 ]
