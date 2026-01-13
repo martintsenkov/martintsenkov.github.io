@@ -86,5 +86,13 @@
     "tags": ["forensics", "offensive"],
     "category": "ICS / SCADA Offensive Labs",
     "links": []
+  },
+  {
+    "slug": "presentation",
+    "title": "presentation",
+    "date": "2025-01-05",
+    "tags": ["forensics", "offensive"],
+    "category": "ICS / SCADA Access Control & Governance",
+    "links": []
   }
 ]
