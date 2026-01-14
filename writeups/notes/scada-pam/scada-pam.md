@@ -24,6 +24,6 @@ It is a practical access control model tailored for real-world SCADA / OT constr
 ---
 
 ## Presentation (in-browser)
-👉 **[View the full presentation](./scada-pam/view.html)**
+👉 **[View the full presentation](./view.html)**
 
 *(The presentation opens directly in the browser. No download required.)*
