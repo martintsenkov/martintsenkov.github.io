@@ -88,11 +88,11 @@
     "links": []
   },
   {
-    "slug": "presentation",
-    "title": "presentation",
-    "date": "2025-01-05",
-    "tags": ["forensics", "offensive"],
-    "category": "ICS / SCADA Access Control & Governance",
-    "links": []
-  }
+  "slug": "scada-pam",
+  "title": "Privileged Access Management in SCADA Systems",
+  "date": "2025-01-14",
+  "tags": ["ics", "scada", "ot", "access-control", "governance"],
+  "category": "ICS / SCADA Access Control & Governance",
+  "links": []
+}}
 ]
