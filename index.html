@@ -100,7 +100,6 @@
     main{grid-column:1/2}
     .sidebar{align-self:start;margin-top:-14px;width:auto;text-align:center}
 
-    /* повдигане на картата със снимката при десктоп */
     @media (min-width:981px){
       .sidebar{ margin-top:-110px; }
     }
@@ -129,20 +128,6 @@
     .arrow{transition:transform var(--dur) var(--e)}
     .btn:hover .arrow{transform:translateX(3px)}
 
-    /* --- NEW: secondary button for Writeups CTA --- */
-    .btn.secondary{
-      background:linear-gradient(180deg,#17171a,#0f0f11);
-      border:1px solid #26262a;
-      color:#e6e6e6;
-      box-shadow:0 10px 30px rgba(0,0,0,.25);
-    }
-    .btn.secondary:hover{
-      border-color:#2f2f35;
-      filter:brightness(1.08);
-    }
-    .btn.secondary::before{opacity:.35}
-
-    /* нова секция за футъра */
     .site-footer{
       margin-top:40px;
       padding:16px 0;
@@ -152,7 +137,6 @@
       border-top:1px solid var(--line);
     }
 
-    /* focus styles */
     a:focus-visible, button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
 
     /* photo */
@@ -165,7 +149,6 @@
     .icons a:hover{transform:translateY(-2px);box-shadow:var(--accent-glow);border-color:#273036;color:#fff}
     .icons a svg{width:18px;height:18px;display:block}
 
-    /* разстояние между иконките и бутона в картата за контакти */
     .contact{
       display:flex;
       flex-direction:column;
@@ -174,6 +157,70 @@
     }
 
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* ==== TERMINAL WRITEUPS CTA ==== */
+    .terminal-teaser{
+      margin-top:14px;
+      background:#0f0f11;
+      border:1px solid #1f1f22;
+      border-radius:12px;
+      padding:14px;
+      font-size:13px;
+      color:#e6e6e6;
+      box-shadow:0 10px 30px rgba(0,0,0,.18);
+      overflow:auto;
+      font-family:ui-monospace,Menlo,Consolas,"Courier New",monospace;
+      line-height:1.7;
+    }
+    .terminal-line{
+      display:block;
+      white-space:pre-wrap;
+      min-height:1.7em;
+    }
+    .terminal-line + .terminal-line{
+      margin-top:4px;
+    }
+    .terminal-cta{
+      display:inline-block;
+      width:fit-content;
+      margin-top:6px;
+      padding:2px 0;
+      cursor:pointer;
+      color:#e6e6e6;
+      text-decoration:none;
+      transition:color var(--dur) var(--e), text-shadow var(--dur) var(--e), transform var(--dur) var(--e);
+    }
+    .terminal-command{
+      display:inline-block;
+      animation:terminalPulse 2.1s ease-in-out infinite;
+    }
+    .terminal-cta.pending{
+      pointer-events:none;
+    }
+    .terminal-cta.pending .terminal-command{
+      animation:none;
+    }
+    .terminal-cta:hover{
+      color:#ffffff;
+      text-shadow:0 0 .45rem rgba(230,230,230,.18), 0 0 .9rem rgba(225,29,72,.08);
+      transform:translateX(2px);
+    }
+    .terminal-cta:focus-visible{
+      outline:2px solid var(--accent);
+      outline-offset:4px;
+      border-radius:6px;
+    }
+    .terminal-caret{
+      display:inline-block;
+      animation:terminalCaretBlink 1.15s steps(1) infinite;
+    }
+    @keyframes terminalPulse{
+      0%,100%{opacity:.72;text-shadow:0 0 0 rgba(230,230,230,0)}
+      50%{opacity:1;text-shadow:0 0 .35rem rgba(230,230,230,.16)}
+    }
+    @keyframes terminalCaretBlink{
+      50%{opacity:0}
+    }
 
     /* Scanlines + CRT */
     #scanlines{position:fixed;inset:0;z-index:90000;pointer-events:none;opacity:var(--scanlines-opacity,.12);mix-blend-mode:var(--scanlines-blend,soft-light);background-image:
@@ -194,6 +241,11 @@
       display:grid; place-items:center;
       background:linear-gradient(180deg,#050505 0%, rgba(0,0,0,.6) 70%);
       backdrop-filter: blur(2px)
+    }
+    #glitch-overlay.hidden{
+      opacity:0;
+      pointer-events:none;
+      transition:opacity 500ms ease;
     }
     .glitch-wrap{ position:relative; overflow:visible }
     .glitch-text{font-family:ui-monospace,Menlo,monospace; font-size:56px; color:var(--accent); letter-spacing:1px; display:inline-block; position:relative; text-shadow:0 0 12px rgba(225,29,72,.15)}
@@ -314,15 +366,11 @@
           </ul>
 
           <!-- Writeups terminal teaser -->
-          <pre style="background:#0f0f11;border:1px solid #1f1f22;border-radius:12px;padding:14px;font-size:13px;color:#e6e6e6;box-shadow:0 10px 30px rgba(0,0,0,.18);white-space:pre-wrap;margin-top:14px;overflow:auto;">
-martin@lab:~$ ls writeups/
-HTB/  ActiveDirectory/  ICS/  notes.md
-martin@lab:~$ open /writeups/  →
-          </pre>
-
-          <p style="margin-top:10px">
-            <a class="btn" href="/writeups/">Browse Writeups <span class="arrow">→</span></a>
-          </p>
+          <div class="terminal-teaser" id="writeups-terminal" aria-label="Writeups terminal preview">
+            <div class="terminal-line" id="writeups-line-1"></div>
+            <div class="terminal-line" id="writeups-line-2"></div>
+            <a class="terminal-line terminal-cta pending" id="writeups-line-3" href="/writeups/" aria-label="Open writeups page"></a>
+          </div>
         </section>
 
         <section id="skills">
@@ -387,22 +435,21 @@ martin@lab:~$ open /writeups/  →
               </a>
             </div>
           </div>
-        <a class="btn" href="Martin_Tsenkov_CV.pdf" download>Download CV <span class="arrow">→</span></a>
+          <a class="btn" href="Martin_Tsenkov_CV.pdf" download>Download CV <span class="arrow">→</span></a>
 
-<!-- Hack The Box Badge -->
-<div style="text-align: center; margin-top: 16px;">
-  <a href="https://app.hackthebox.com/users/418060" target="_blank" rel="noopener noreferrer">
-    <img src="https://www.hackthebox.eu/badge/image/418060"
-         alt="Hack The Box badge — KmetaNaBrestovec"
-         style="border-radius: 8px; width: 90%; max-width: 280px; border: 1px solid #2a2a2a;">
-  </a>
-</div>
+          <!-- Hack The Box Badge -->
+          <div style="text-align: center; margin-top: 16px;">
+            <a href="https://app.hackthebox.com/users/418060" target="_blank" rel="noopener noreferrer">
+              <img src="https://www.hackthebox.eu/badge/image/418060"
+                   alt="Hack The Box badge — KmetaNaBrestovec"
+                   style="border-radius: 8px; width: 90%; max-width: 280px; border: 1px solid #2a2a2a;">
+            </a>
+          </div>
 
         </div>
       </aside>
     </div>
 
-    <!-- нова секция: футър по средата -->
     <footer class="site-footer">
       <div>© <span id="y"></span> Martin Tsenkov. No frameworks. No trackers. No excuses.</div>
     </footer>
@@ -546,6 +593,83 @@ martin@lab:~$ open /writeups/  →
       });
     })();
 
+    /* === Writeups terminal typewriter === */
+    (function () {
+      const terminal = document.getElementById('writeups-terminal');
+      const line1 = document.getElementById('writeups-line-1');
+      const line2 = document.getElementById('writeups-line-2');
+      const line3 = document.getElementById('writeups-line-3');
+      if (!terminal || !line1 || !line2 || !line3) return;
+
+      const lines = [
+        'martin@lab:~$ ls writeups/',
+        'HTB/  ActiveDirectory/  ICS/  notes.md',
+        'martin@lab:~$ ./click_here.sh'
+      ];
+
+      const targets = [line1, line2, line3];
+      const speed = 24;
+      const gapBetweenLines = 320;
+      const cursor = '█';
+      let started = false;
+
+      function setText(el, text, withCursor) {
+        el.textContent = text + (withCursor ? cursor : '');
+      }
+
+      function finishCommandLine() {
+        line3.innerHTML = '<span class="terminal-prompt">martin@lab:~$ </span><span class="terminal-command">./click_here.sh</span><span class="terminal-caret" aria-hidden="true">█</span>';
+        line3.classList.remove('pending');
+      }
+
+      function runTypewriter() {
+        if (started) return;
+        started = true;
+
+        let lineIdx = 0;
+        let charIdx = 0;
+        targets.forEach(el => el.textContent = '');
+        line3.classList.add('pending');
+
+        function typeNextChar() {
+          const currentEl = targets[lineIdx];
+          const currentLine = lines[lineIdx];
+          setText(currentEl, currentLine.slice(0, charIdx), true);
+          charIdx += 1;
+
+          if (charIdx <= currentLine.length) {
+            setTimeout(typeNextChar, speed);
+          } else {
+            setText(currentEl, currentLine, false);
+            lineIdx += 1;
+            charIdx = 0;
+
+            if (lineIdx < lines.length) {
+              setTimeout(typeNextChar, gapBetweenLines);
+            } else {
+              finishCommandLine();
+            }
+          }
+        }
+
+        typeNextChar();
+      }
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+              runTypewriter();
+              io.disconnect();
+            }
+          });
+        },
+        { threshold: [0, 0.35, 1] }
+      );
+
+      io.observe(terminal);
+    })();
+
     /* === Contact terminal typewriter (стартира при виждане) === */
     (function () {
       const pre = document.getElementById('contact-terminal');
@@ -560,19 +684,18 @@ martin@lab:~$ open /writeups/  →
         "Let's break something."
       ];
 
-      const speed = 24;               // ms на символ
-      const gapBetweenLines = 300;    // ms между редове
+      const speed = 24;
+      const gapBetweenLines = 300;
       const cursor = "█";
-      let started = false;            // стартира само веднъж
+      let started = false;
 
       function runTypewriter() {
         if (started) return;
         started = true;
         let lineIdx = 0, charIdx = 0;
-        pre.textContent = "";         // изчисти преди старт
+        pre.textContent = "";
 
         function typeNextChar() {
-          // махни стар курсор
           if (pre.textContent.endsWith(cursor)) {
             pre.textContent = pre.textContent.slice(0, -1);
           }
@@ -597,13 +720,12 @@ martin@lab:~$ open /writeups/  →
         typeNextChar();
       }
 
-      // Стартирай, когато ~40% от секцията е видима
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
             if (e.isIntersecting && e.intersectionRatio >= 0.4) {
               runTypewriter();
-              io.disconnect(); // само веднъж
+              io.disconnect();
             }
           });
         },
@@ -611,9 +733,7 @@ martin@lab:~$ open /writeups/  →
       );
       io.observe(section);
 
-      // Ако потребителят стигне директно чрез #contact в URL
       if (location.hash === '#contact') {
-        // малък delay, за да се скролне секцията
         setTimeout(runTypewriter, 120);
       }
     })();
