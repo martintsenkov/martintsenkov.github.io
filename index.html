@@ -500,40 +500,99 @@ Outside the lab, I lift heavy and read books about Bulgarian history.
     // nav show/hide + active
     (function(){
       const nav=document.getElementById('topnav');
+      const getScrollY=()=>window.pageYOffset||document.documentElement.scrollTop||0;
       const show=()=>nav.classList.remove('hide');
-      const hide=()=>{if((window.pageYOffset||document.documentElement.scrollTop)>0)nav.classList.add('hide');};
-      const updateShadow=()=>nav.classList.toggle('scrolled',(window.pageYOffset||document.documentElement.scrollTop)>10);
-      let lastY=window.pageYOffset||document.documentElement.scrollTop, stopTimer=null;
+      const hide=()=>{if(getScrollY()>0)nav.classList.add('hide');};
+      const updateShadow=()=>nav.classList.toggle('scrolled',getScrollY()>10);
 
-      function onScroll(){
-        const y=window.pageYOffset||document.documentElement.scrollTop, dy=y-lastY;
-        updateShadow(); if(dy<0)show(); else if(dy>0)hide();
-        if(stopTimer)clearTimeout(stopTimer); stopTimer=setTimeout(show,120); lastY=y;
-      }
-      window.addEventListener('scroll',onScroll,{passive:true});
-      window.addEventListener('wheel',e=>{if(e.deltaY<0)show(); else if(e.deltaY>0)hide();},{passive:true});
-      window.addEventListener('pointermove',e=>{if(e.clientY<=80)show();},{passive:true});
+      let lastY=getScrollY(), stopTimer=null, activeTicking=false;
 
-      const links=[...document.querySelectorAll('.navlinks a[href^="#"], .navpanel a[href^="#"]')];
-      const setActive=(hash)=>{
-        links.forEach(a=>{
-          const on=a.getAttribute('href')===hash;
+      // Contact is intentionally excluded from active highlighting.
+      // The red Contact button should stay a CTA, not behave like a normal active nav item.
+      const activeLinks=[...document.querySelectorAll('.navlinks a[href^="#"]:not(.btn), .navpanel a[href^="#"]')]
+        .filter(a=>a.getAttribute('href')!=='#contact');
+
+      const clickableHashLinks=[...document.querySelectorAll('.navlinks a[href^="#"], .navpanel a[href^="#"]')];
+      const sections=[...document.querySelectorAll('main section[id]')];
+
+      function setActive(hash){
+        activeLinks.forEach(a=>{
+          const on=a.getAttribute('href')===hash && hash!=='#contact';
           a.classList.toggle('active',on);
           if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
         });
-      };
-      links.forEach(a=>a.addEventListener('click',()=>{
-        show(); setActive(a.getAttribute('href'));
+      }
+
+      function getActiveHash(){
+        if(!sections.length) return '#about';
+
+        const y=getScrollY();
+        const navOffset=(nav?nav.offsetHeight:66)+24;
+        const probeY=y+navOffset+Math.min(window.innerHeight*0.25,180);
+
+        let current='#'+sections[0].id;
+        for(const section of sections){
+          if(probeY>=section.offsetTop){
+            current='#'+section.id;
+          }else{
+            break;
+          }
+        }
+
+        return current;
+      }
+
+      function updateActiveFromScroll(){
+        setActive(getActiveHash());
+      }
+
+      function requestActiveUpdate(){
+        if(activeTicking) return;
+        activeTicking=true;
+        requestAnimationFrame(()=>{
+          updateActiveFromScroll();
+          activeTicking=false;
+        });
+      }
+
+      function onScroll(){
+        const y=getScrollY(), dy=y-lastY;
+        updateShadow();
+
+        if(dy<0) show();
+        else if(dy>0) hide();
+
+        if(stopTimer) clearTimeout(stopTimer);
+        stopTimer=setTimeout(show,120);
+
+        lastY=y;
+        requestActiveUpdate();
+      }
+
+      window.addEventListener('scroll',onScroll,{passive:true});
+      window.addEventListener('resize',requestActiveUpdate,{passive:true});
+      window.addEventListener('wheel',e=>{if(e.deltaY<0)show(); else if(e.deltaY>0)hide();},{passive:true});
+      window.addEventListener('pointermove',e=>{if(e.clientY<=80)show();},{passive:true});
+
+      clickableHashLinks.forEach(a=>a.addEventListener('click',()=>{
+        show();
+
+        const hash=a.getAttribute('href');
+        if(hash==='#contact'){
+          setActive('#contact'); // clears other active links; Contact button remains unhighlighted
+        }else{
+          setActive(hash);
+        }
+
         if(window.closeMenu) window.closeMenu();
       }));
 
-      const io=new IntersectionObserver((entries)=>{
-        const v=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
-        if(!v) return; setActive('#'+v.target.id);
-      },{root:null, rootMargin:'-10% 0px -60% 0px', threshold:[0.25,0.5,0.75]});
-      document.querySelectorAll('main section[id]').forEach(sec=>io.observe(sec));
+      if(location.hash){
+        setActive(location.hash);
+      }else{
+        updateActiveFromScroll();
+      }
 
-      if(location.hash) setActive(location.hash);
       updateShadow();
     })();
 
