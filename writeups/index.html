@@ -124,7 +124,7 @@
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
-  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+  <script src="https://unpkg.com/cytoscape@3.34.3/dist/cytoscape.min.js"></script>
 
   <script>
   const md = window.markdownit();
@@ -270,8 +270,7 @@
           'text-background-opacity':0.6, 'text-background-color':'#1a1a1e',
           'text-background-shape':'roundrectangle', 'text-background-padding':2,
           'background-color':'#ffffff', 'border-color':'#ffffff', 'border-width':0.5,
-          'shadow-blur':8, 'shadow-color':'rgba(255,255,255,0.25)',
-          'shadow-opacity':0.8, 'shadow-offset-x':0, 'shadow-offset-y':0
+          
         }},
         { selector:'node[type="category"]', style:{
           'width': 30, 'height': 30,
@@ -292,8 +291,7 @@
         }},
         { selector:'.hovered', style:{ 'border-width':2, 'border-color':'#ffffff', 'background-color':'#ffffff' }}
       ],
-      layout:{ name:'cose', animate:true },
-      wheelSensitivity: 0.2
+      layout:{ name:'cose', animate:true }
     });
 
     cy.on('tap','node',ev=>{
