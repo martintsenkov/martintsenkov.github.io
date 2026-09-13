@@ -65,8 +65,8 @@
     .brandbar strong{font-weight:800;letter-spacing:.3px;white-space:nowrap}
     .logo{display:inline-block;vertical-align:middle;width:28px;height:28px;transition:transform var(--dur) var(--e),filter var(--dur) var(--e);filter:drop-shadow(var(--accent-glow))}
     .brandbar:hover .logo{transform:translateY(-1px)}
-    .navlinks{display:flex;align-items:center;gap:22px}
-    .navlinks a{display:inline-block;padding:.4rem .6rem;border-radius:8px;color:var(--subtle);font-weight:600;transition:background var(--dur) var(--e),color var(--dur) var(--e)}
+    .navlinks{display:flex;align-items:center;justify-content:flex-end;gap:10px;white-space:nowrap}
+    .navlinks a{display:inline-block;padding:.4rem .45rem;border-radius:8px;color:var(--subtle);font-weight:600;font-size:15px;white-space:nowrap;transition:background var(--dur) var(--e),color var(--dur) var(--e)}
     .navlinks a:hover{background:#16161a;color:#fff}
     .navlinks a.active{color:var(--accent)}
     .menu-btn{display:none;appearance:none;background:#16161a;border:1px solid #24262a;color:#cfd3d8;width:38px;height:38px;border-radius:10px;align-items:center;justify-content:center;transition:transform var(--dur) var(--e),box-shadow var(--dur) var(--e)}
@@ -81,7 +81,7 @@
     .navpanel ul{list-style:none;margin:10px;padding:8px}
     .navpanel li{margin:6px 0}
     .navpanel a{display:block;padding:.9rem 1rem;border-radius:10px;background:#121216;border:1px solid #1f2024;color:#eaeaea;font-weight:700}
-    @media (max-width:720px){
+    @media (max-width:900px){
       .navlinks{display:none}
       .menu-btn{display:inline-flex}
       nav#topnav{padding:10px 10px}
@@ -461,15 +461,6 @@ Outside the lab, I lift heavy and read books about Bulgarian history.
             </div>
           </div>
           <a class="btn" href="Martin_Tsenkov_CV.pdf" download>Download CV <span class="arrow">→</span></a>
-
-          <!-- Hack The Box Badge -->
-          <div style="text-align: center; margin-top: 16px;">
-            <a href="https://app.hackthebox.com/users/418060" target="_blank" rel="noopener noreferrer">
-              <img src="https://www.hackthebox.eu/badge/image/418060"
-                   alt="Hack The Box badge — KmetaNaBrestovec"
-                   style="border-radius: 8px; width: 90%; max-width: 280px; border: 1px solid #2a2a2a;">
-            </a>
-          </div>
 
         </div>
       </aside>
